@@ -1,0 +1,33 @@
+{
+    "name": "kltn",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no tests installed\" && exit 1",
+        "build": "tsc && webpack app/app.js -o app/app.bundle.js --mode=production",
+        "build:dev": "tsc && webpack app/app.js -o app/app.bundle.js --mode=development",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/huynhthanhnhan/KLTN.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/huynhthanhnhan/KLTN/issues"
+    },
+    "homepage": "https://github.com/huynhthanhnhan/KLTN#readme",
+    "devDependencies": {
+        "@types/node": "^12.7.9",
+        "awesome-typescript-loader": "^5.2.1",
+        "typescript": "^3.6.3",
+        "webpack": "^4.41.0",
+        "webpack-cli": "^3.3.9"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "preact": "^10.0.0"
+    }
+}

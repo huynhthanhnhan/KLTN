@@ -1,0 +1,47 @@
+{
+  // "compilerOptions": {
+  //   "target": "es6",
+  //   "moduleResolution": "node",
+  //   "module": "commonjs",
+  //   "declaration": false,
+  //   "noLib": false,
+  //   "emitDecoratorMetadata": true,
+  //   "experimentalDecorators": true,
+  //   "sourceMap": true,
+  //   "pretty": true,
+  //   "allowUnreachableCode": true,
+  //   "allowUnusedLabels": true,
+  //   "noImplicitAny": true,
+  //   "noImplicitReturns": false,
+  //   "noImplicitUseStrict": false,
+  //   "outDir": "dist/",
+  //   "baseUrl": "src/",
+  //   "listFiles": false,
+  //   "noEmitHelpers": true
+  // },
+  "compilerOptions": {
+    "target": "es5",            // Compatible with older browsers
+    "module": "umd",            // Compatible with both Node.js and browser
+    "moduleResolution": "node", // Tell tsc to look in node_modules for modules
+    "sourceMap": true,          // Whether to create *.js.map files
+    "jsx": "react",             // Causes inline XML (JSX code) to be expanded
+    "strict": true,             // Strict types, eg. prohibits `var x=0; x=null`
+    "alwaysStrict": true,       // Enable JavaScript's "use strict" mode
+    "esModuleInterop": true     // CommonJS import behavior similar to Babel/mjs
+  },
+  "include": [
+    "src/**/*",
+    "src/app/shared/**/*",
+    "typings/*.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "jspm_packages",
+    "application",
+    "system",
+    "dist"
+  ],
+  "compileOnSave": false
+}
