@@ -1,4 +1,4 @@
-// import { CreateLine, Line } from './AddLine';
+import { CreateLine } from './AddLine.js';
 
 var canvas = document.getElementById("renderCanvas");
 var engine = new BABYLON.Engine(canvas, true);
@@ -127,42 +127,6 @@ var createScene = function() {
         }
     }
 
-
-
-    function CreateLine(point1, point2) {
-        var distance = BABYLON.Vector3.Distance(point1, point2);
-        if (distance > 0) {
-
-            var parentLine = BABYLON.MeshBuilder.CreateBox("parentLine", { size: 0.02 }, scene);
-            parentLine.lookAt(point2.subtract(BABYLON.Vector3.Center(point1, point2)));
-            parentLine.position = new BABYLON.Vector3.Center(point1, point2);
-
-            var newLine = BABYLON.MeshBuilder.CreateCylinder("line", { height: distance, diameter: 0.05 }, scene);
-            newLine.parent = parentLine;
-            newLine.rotation.x = Math.PI / 2;
-
-            newLine.actionManager = new BABYLON.ActionManager(scene);
-            newLine.actionManager.registerAction(
-                new BABYLON.ExecuteCodeAction(
-                    BABYLON.ActionManager.OnPointerOverTrigger,
-                    function() {
-                        if (isCreatePointMode)
-                            hl.addMesh(newLine, BABYLON.Color3.Yellow());
-                    }
-                )
-            );
-            newLine.actionManager.registerAction(
-                new BABYLON.ExecuteCodeAction(
-                    BABYLON.ActionManager.OnPointerOutTrigger,
-                    function() {
-                        if (isCreatePointMode)
-                            hl.removeMesh(newLine);
-                    }
-                )
-            );
-        }
-    }
-
     function CreatePoint(position) {
         const p = point.clone("point");
         // p.isVisible = true;
@@ -205,7 +169,7 @@ var createScene = function() {
                         isStartCreateLine = false;
                     } else {
                         if (startPoint) {
-                            CreateLine(startPoint.position, pt.position);
+                            CreateLine(startPoint.position, pt.position,scene);
                             console.log("create with line");
                             hl.removeMesh(startPoint);
                             if (isCreateLineMode)
@@ -223,7 +187,7 @@ var createScene = function() {
                         isStartCreateLine = false;
                     } else {
                         if (startPoint) {
-                            CreateLine(startPoint.position, pickResult.pickedMesh.position);
+                            CreateLine(startPoint.position, pickResult.pickedMesh.position,scene);
                             console.log("create with point")
                             isStartCreateLine = true;
                             hl.removeMesh(startPoint);
@@ -303,7 +267,7 @@ var createScene = function() {
     return scene;
 
 };
-__createScene = createScene;
+// __createScene = createScene;
 
 var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
 var scene = createScene();
