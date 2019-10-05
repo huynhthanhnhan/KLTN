@@ -1,11 +1,8 @@
-import { CreateLine } from './AddLine.js';
+import { CreateLine } from './Line.js';
+import { CreatePoint } from './Point.js';
 
 var canvas = document.getElementById("renderCanvas");
 var engine = new BABYLON.Engine(canvas, true);
-
-// class Cube {
-
-// }
 
 var createScene = function() {
 
@@ -40,12 +37,12 @@ var createScene = function() {
     var line = BABYLON.MeshBuilder.CreateCylinder("line", { height: 10, diameter: 0.05 }, scene);
     line.position.y = 1000;
     var groundTexture = new BABYLON.DynamicTexture("dynamic texture", 512, scene, true);
-    var point = BABYLON.MeshBuilder.CreateSphere("point", { diameter: 0.2 }, scene);
-    gizmoManager.attachableMeshes.push(point);
-    point.position.y = 1000;
+    var pointMaster = BABYLON.MeshBuilder.CreateSphere("point", { diameter: 0.2 }, scene);
+    gizmoManager.attachableMeshes.push(pointMaster);
+    pointMaster.position.y = 1000;
     var pointMat = new BABYLON.StandardMaterial("pointMat", scene);
     pointMat.diffuseColor = new BABYLON.Color3.Red();
-    point.material = pointMat;
+    pointMaster.material = pointMat;
     // Our built-in 'ground' shape.
 
     var groundMaterial = new BABYLON.GridMaterial("groundMaterial", scene);
@@ -157,116 +154,31 @@ var createScene = function() {
         }
     }
 
-
-
-    function CreatePoint(position) {
-        const p = point.clone("point");
-        gizmoManager.attachableMeshes.push(p);
-        // p.isVisible = true;
-        p.position = position;
-        p.actionManager = new BABYLON.ActionManager(scene);
-        p.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                BABYLON.ActionManager.OnPointerOverTrigger,
-                function() {
-                    if (isSelectMode && !checkInSelectedMeshes(p)) {
-                        if (hl.hasMesh(p)) hl.removeMesh(p);
-                        hl.addMesh(p, BABYLON.Color3.Yellow());
-                    }
-                }
-            )
-        );
-        p.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                BABYLON.ActionManager.OnPointerOutTrigger,
-                function() {
-                    if (isSelectMode && hl.hasMesh(p)) {
-                        if (!checkInSelectedMeshes(p))
-                            hl.removeMesh(p);
-                        // else
-                        //     setTimeout(function() {
-                        //         hl.removeMesh(p);
-                        //         removeFromSelectedMeshes(p);
-                        //     }, 20000);
-
-                    }
-                }
-            )
-        );
-        return p;
-    }
-
-    // function CreateLine(point1, point2) {
-    //     var distance = BABYLON.Vector3.Distance(point1, point2);
-    //     if (distance > 0) {
-
-    //         var parentLine = BABYLON.MeshBuilder.CreateBox("parentLine", { size: 0.02 }, scene);
-    //         parentLine.lookAt(point2.subtract(BABYLON.Vector3.Center(point1, point2)));
-    //         parentLine.position = new BABYLON.Vector3.Center(point1, point2);
-
-    //         var newLine = BABYLON.MeshBuilder.CreateCylinder("line", { height: distance, diameter: 0.05 }, scene);
-    //         newLine.parent = parentLine;
-    //         newLine.rotation.x = Math.PI / 2;
-
-    //         gizmoManager.attachableMeshes.push(newLine);
-
-    //         newLine.actionManager = new BABYLON.ActionManager(scene);
-    //         newLine.actionManager.registerAction(
-    //             new BABYLON.ExecuteCodeAction(
-    //                 BABYLON.ActionManager.OnPointerOverTrigger,
-    //                 function() {
-    //                     if (isCreatePointMode && !checkInSelectedMeshes(p)) {
-    //                         if (hl.hasMesh(newLine)) hl.removeMesh(newLine);
-    //                         hl.addMesh(newLine, BABYLON.Color3.Yellow());
-    //                     }
-
-    //                 }
-    //             )
-    //         );
-    //         newLine.actionManager.registerAction(
-    //             new BABYLON.ExecuteCodeAction(
-    //                 BABYLON.ActionManager.OnPointerOutTrigger,
-    //                 function() {
-    //                     if (isSelectMode) {
-    //                         if (!checkInSelectedMeshes(newLine))
-    //                             hl.removeMesh(newLine);
-    //                         // else
-    //                         //     setTimeout(function() {
-    //                         //         hl.removeMesh(newLine);
-    //                         //         removeFromSelectedMeshes(newLine);
-    //                         //     }, 20000);
-    //                     }
-    //                 }
-    //             )
-    //         );
-    //     }
-    // }
-
     function CreateCubeWithCenterSize(center, size) {
-        var p1 = CreatePoint(new BABYLON.Vector3(center.x - size / 2, center.y - size / 2, center.z - size / 2));
-        var p2 = CreatePoint(new BABYLON.Vector3(center.x + size / 2, center.y - size / 2, center.z - size / 2));
-        var p3 = CreatePoint(new BABYLON.Vector3(center.x + size / 2, center.y + size / 2, center.z - size / 2));
-        var p4 = CreatePoint(new BABYLON.Vector3(center.x - size / 2, center.y + size / 2, center.z - size / 2));
-        var p5 = CreatePoint(new BABYLON.Vector3(center.x - size / 2, center.y - size / 2, center.z + size / 2));
-        var p6 = CreatePoint(new BABYLON.Vector3(center.x + size / 2, center.y - size / 2, center.z + size / 2));
-        var p7 = CreatePoint(new BABYLON.Vector3(center.x + size / 2, center.y + size / 2, center.z + size / 2));
-        var p8 = CreatePoint(new BABYLON.Vector3(center.x - size / 2, center.y + size / 2, center.z + size / 2));
+        // var p1 = CreatePoint(new BABYLON.Vector3(center.x - size / 2, center.y - size / 2, center.z - size / 2),pointMaster,gizmoManager,hl,scene);
+        // var p2 = CreatePoint(new BABYLON.Vector3(center.x + size / 2, center.y - size / 2, center.z - size / 2),pointMaster,gizmoManager,hl,scene);
+        // var p3 = CreatePoint(new BABYLON.Vector3(center.x + size / 2, center.y + size / 2, center.z - size / 2),pointMaster,gizmoManager,hl,scene);
+        // var p4 = CreatePoint(new BABYLON.Vector3(center.x - size / 2, center.y + size / 2, center.z - size / 2),pointMaster,gizmoManager,hl,scene);
+        // var p5 = CreatePoint(new BABYLON.Vector3(center.x - size / 2, center.y - size / 2, center.z + size / 2),pointMaster,gizmoManager,hl,scene);
+        // var p6 = CreatePoint(new BABYLON.Vector3(center.x + size / 2, center.y - size / 2, center.z + size / 2),pointMaster,gizmoManager,hl,scene);
+        // var p7 = CreatePoint(new BABYLON.Vector3(center.x + size / 2, center.y + size / 2, center.z + size / 2),pointMaster,gizmoManager,hl,scene);
+        // var p8 = CreatePoint(new BABYLON.Vector3(center.x - size / 2, center.y + size / 2, center.z + size / 2),pointMaster,gizmoManager,hl,scene);
 
-        var l1 = CreateLine(p1.position, p2.position,scene);
-        var l2 = CreateLine(p2.position, p3.position,scene);
-        var l3 = CreateLine(p3.position, p4.position,scene);
-        var l4 = CreateLine(p4.position, p1.position,scene);
-        var l5 = CreateLine(p1.position, p5.position,scene);
-        var l6 = CreateLine(p2.position, p6.position,scene);
-        var l7 = CreateLine(p3.position, p7.position,scene);
-        var l8 = CreateLine(p4.position, p8.position,scene);
-        var l9 = CreateLine(p5.position, p6.position,scene);
-        var l10 = CreateLine(p6.position, p7.position,scene);
-        var l11 = CreateLine(p7.position, p8.position,scene);
-        var l12 = CreateLine(p8.position, p5.position,scene);
+        // var l1 = CreateLine(p1.position, p2.position,scene);
+        // var l2 = CreateLine(p2.position, p3.position,scene);
+        // var l3 = CreateLine(p3.position, p4.position,scene);
+        // var l4 = CreateLine(p4.position, p1.position,scene);
+        // var l5 = CreateLine(p1.position, p5.position,scene);
+        // var l6 = CreateLine(p2.position, p6.position,scene);
+        // var l7 = CreateLine(p3.position, p7.position,scene);
+        // var l8 = CreateLine(p4.position, p8.position,scene);
+        // var l9 = CreateLine(p5.position, p6.position,scene);
+        // var l10 = CreateLine(p6.position, p7.position,scene);
+        // var l11 = CreateLine(p7.position, p8.position,scene);
+        // var l12 = CreateLine(p8.position, p5.position,scene);
     }
 
-    CreateCubeWithCenterSize({ x: 5, y: 5, z: 5 }, 4);
+    // CreateCubeWithCenterSize({ x: 5, y: 5, z: 5 }, 4);
 
     function CreateCubeMesh(center, size) {
         var cube = new BABYLON.MeshBuilder.CreateBox("cube", { size: size }, scene);
@@ -342,21 +254,23 @@ var createScene = function() {
         if (pickResult.hit) {
             if ((isCreateLineMode || isCreateMultiLineMode)) {
                 if (pickResult.pickedMesh.name != "point") {
-                    const pt = CreatePoint(pickResult.pickedPoint);
+                    const pt = CreatePoint(pickResult.pickedPoint,pointMaster,gizmoManager,hl,scene,isSelectMode,checkInSelectedMeshes);
+                    listPoint.push(pt);
                     if (isStartCreateLine) {
-                        startPoint = pt;
+                        startPoint = pt.mesh;
                         if (hl.hasMesh(startPoint)) hl.removeMesh(startPoint);
                         hl.addMesh(startPoint, BABYLON.Color3.Green());
                         isStartCreateLine = false;
                     } else {
                         if (startPoint) {
-                            CreateLine(startPoint.position, pt.position,scene,isCreatePointMode);
+                            var s= CreateLine(startPoint.position, pt.mesh.position,scene,isCreatePointMode);
+                            listLine.push(s);
                             console.log("create with line");
                             hl.removeMesh(startPoint);
                             if (isCreateLineMode)
                                 isStartCreateLine = true;
                             else {
-                                startPoint = pt;
+                                startPoint = pt.mesh;
                                 if (hl.hasMesh(startPoint)) hl.removeMesh(startPoint);
                                 hl.addMesh(startPoint, BABYLON.Color3.Green());
                             }
@@ -370,7 +284,8 @@ var createScene = function() {
                         isStartCreateLine = false;
                     } else {
                         if (startPoint) {
-                            CreateLine(startPoint.position, pickResult.pickedMesh.position,scene,isCreatePointMode);
+                            var s=CreateLine(startPoint.position, pickResult.pickedMesh.position,scene,isCreatePointMode);
+                            listLine.push(s);
                             console.log("create with point")
                             isStartCreateLine = true;
                             hl.removeMesh(startPoint);
@@ -378,7 +293,8 @@ var createScene = function() {
                     }
                 }
             } else if (isCreatePointMode) {
-                const pt = CreatePoint(pickResult.pickedPoint);
+                const pt = CreatePoint(pickResult.pickedPoint,pointMaster,gizmoManager,hl,scene,isSelectMode,checkInSelectedMeshes);
+                listPoint.push(pt);
             } else if (isSelectMode || isEditMode) {
                 var target = pickResult.pickedMesh;
                 if (hl.hasMesh(target)) hl.removeMesh(target);
@@ -453,7 +369,7 @@ var createScene = function() {
                                     if (mesh.parent)
                                         mesh.parent.dispose();
                                     removeFromGizmoManagerList(mesh);
-                                    gizmoManager.attachToMesh(point);
+                                    gizmoManager.attachToMesh(pointMaster);
                                     mesh.dispose();
                                 })
                             }
@@ -613,7 +529,7 @@ var createScene = function() {
     };
 
     showAxis(10);
-
+    window['scene']=scene;
     return scene;
 
 };
