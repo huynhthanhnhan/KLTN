@@ -1,5 +1,5 @@
 // import * as BABYLON from "./Lib/Babylon/babylon"
-export class Line {
+class Line {
     id;
     name;
     mesh;
@@ -9,8 +9,10 @@ export class Line {
         this.mesh = mesh;
     }
 }
+// var a= new BABYLON.MeshBuilder.cre
+// var s=new Line(1,"tseet",a);
 
-export function CreateLine(point1, point2) {
+export function CreateLine(point1, point2,scene,isCreatePointMode) {
     var distance = BABYLON.Vector3.Distance(point1, point2);
     if (distance > 0) {
 
