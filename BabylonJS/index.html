@@ -2,25 +2,53 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Local Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>KTLN</title>
 
     <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
 
     <style>
         html,
         body {
+            overflow: hidden;
             width: 100%;
             height: 100%;
-            padding: 0;
             margin: 0;
-            overflow: hidden;
+            padding: 0;
         }
         
         #renderCanvas {
+            position: relative;
             width: 100%;
             height: 100%;
-            display: block;
-            font-size: 0;
+            touch-action: none;
+        }
+        
+        .menu {
+            position: relative;
+            float: right;
+            text-align: left;
+            font-size: 120%;
+        }
+        
+        .main {
+            width: 80%;
+            height: 100%;
+            float: left;
+        }
+        
+        .checkBox {
+            width: 20px;
+            height: 20px;
+        }
+        
+        #fpsLabel {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #999;
+            cursor: default;
         }
     </style>
 </head>

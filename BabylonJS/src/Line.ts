@@ -1,19 +1,23 @@
 import * as BABYLON from "@babylonjs/core"
 
-export function Line() {
-    var name: any;
-    var length: number;
-    var pointA: BABYLON.Vector3;
-    var pointB: BABYLON.Vector3;
-    var mesh: BABYLON.Mesh;
-    var rotation: BABYLON.Vector3;
+import {scene, hl} from './Enviroment'
+
+export class Line{
+    name: string;
+    length: number;
+    pointA: BABYLON.Vector3;
+    pointB: BABYLON.Vector3;
+    mesh: BABYLON.Mesh;
+    rotation: BABYLON.Vector3;
+    constructor(name, pointA, pointB){
+        this.name = name;
+        this.pointA =pointA;
+        this.pointB = pointB;
+    }
 }
 
-export function CreateLine(point1, point2, scene, isCreatePointMode, hl) {
-    var line = new Line();
-    line.name = "Line";
-    line.pointA = point1;
-    line.pointB = point2;
+export function CreateLine(point1, point2, isCreatePointMode) {
+    var line = new Line("Line", point1, point2);
 
     var distance = BABYLON.Vector3.Distance(point1, point2);
 
