@@ -1,7 +1,7 @@
 
 import * as BABYLON from '@babylonjs/core'
 import { scene, gizmoManager } from './Enviroment'
-import { setMultiSelect, getEditMode } from './index'
+import { setMultiSelect, getEditMode, eventDelete } from './index'
 
 export function KeyControl() {
     /**************************** Key Control ******************************************************/
@@ -11,7 +11,7 @@ export function KeyControl() {
                 if (!getEditMode()) {
                     switch (keyInfo.event.key) {
                         case "x" || "X":
-
+                            eventDelete();
                             break;
                         case "Control":
                             setMultiSelect(true);

@@ -8,6 +8,7 @@ import {InitGround, showAxis} from './BasicScreen'
 import {formBinding} from './FormBinding'
 import {KeyControl} from './Control'
 import {CreateBoxMesh, CreateCubeMesh} from './BoxObject'
+import {CreatePlaneFrom3Point, CreatePlaneFromPointAndVector} from './Plane'
 
 //////////////////// Global Variable ////////////////////
 
@@ -53,10 +54,12 @@ var createScene = function() {
     
 
     // CreateCubeWithCenterSize({ x: 5, y: 5, z: 5 }, 4);
+    ////////// TEST OBJECT ///////////////
 
     CreateCubeMesh({ x: 0, y: 2, z: 0 }, 1);
     CreateBoxMesh({ x: 5, y: 2, z: 0 }, 2, 3, 4);
-
+    CreatePlaneFrom3Point(new BABYLON.Vector3(5,0,0), new BABYLON.Vector3(5,5,0), new BABYLON.Vector3(5,5,5));
+    CreatePlaneFromPointAndVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,1,0));
 
     function checkInSelectedMeshes(object) {
         if (selectedMeshes) {
