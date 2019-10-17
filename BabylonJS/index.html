@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Local Development</title>
+
+    <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            font-size: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        function onlyOne(checkbox) {
+            var checkboxes = document.getElementsByName('Mode')
+            checkboxes.forEach((item) => {
+                if (item !== checkbox) item.checked = false;
+            })
+        }
+    </script>
+    <div class="menu">
+        <div id="fpsLabel">Fps </div>
+        <label>Menu</label> <br>
+        <input type="checkbox" id="cbSelectMode" class="checkBox" name="Mode" checked> <u>S</u>elect Mode<br>
+        <input type="checkbox" id="cbPointMode" class="checkBox" name="Mode"> Create <u>P</u>oint Mode<br>
+        <input type="checkbox" id="cbSingleLineMode" class="checkBox" name="Mode"> Create Single <u>L</u>ine Mode<br>
+        <input type="checkbox" id="cbMultiLineMode" class="checkBox" name="Mode"> Create <u>M</u>ulti Line Mode<br>
+        <label>In Select mode, pick object</label><br>
+        <label>and press key "X" to remove</label> <br><br>
+        <input type="checkbox" id="cbEditMode" class="checkBox" name="Mode"> <u>E</u>dit Mode<br>
+        <label>Right click to attach camera</label><br>
+    </div>
+    <div class="main">
+        <canvas id="renderCanvas"></canvas>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
