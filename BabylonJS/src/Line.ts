@@ -9,14 +9,14 @@ export class Line{
     pointB: BABYLON.Vector3;
     mesh: BABYLON.Mesh;
     rotation: BABYLON.Vector3;
-    constructor(name, pointA, pointB){
+    constructor(name: string, pointA: BABYLON.Vector3, pointB: BABYLON.Vector3){
         this.name = name;
         this.pointA =pointA;
         this.pointB = pointB;
     }
 }
 
-export function CreateLine(point1, point2, isCreatePointMode) {
+export function CreateLine(point1: BABYLON.Vector3, point2: BABYLON.Vector3, isCreatePointMode) {
     var line = new Line("Line", point1, point2);
 
     var distance = BABYLON.Vector3.Distance(point1, point2);
@@ -27,10 +27,13 @@ export function CreateLine(point1, point2, isCreatePointMode) {
         parentLine.lookAt(point2.subtract(BABYLON.Vector3.Center(point1, point2)));
         parentLine.position = BABYLON.Vector3.Center(point1, point2);
 
-        var newLine = BABYLON.MeshBuilder.CreateCylinder("line", { height: distance, diameter: 0.05 }, scene);
-        newLine.parent = parentLine;
-        newLine.rotation.x = Math.PI / 2;
+        // var newLine = BABYLON.MeshBuilder.CreateCylinder("line", { height: distance, diameter: 0.05 }, scene);
+        var newLine = BABYLON.MeshBuilder.CreateLines("Line",{points: [point1, point2]},scene);
+        // newLine.parent = parentLine;
+        // newLine.rotation.x = Math.PI / 2;
+        // console.log(newLine)
         line.mesh = newLine;
+        line.rotation = newLine.rotation;
 
         newLine.actionManager = new BABYLON.ActionManager(scene);
         newLine.actionManager.registerAction(

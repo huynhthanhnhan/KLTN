@@ -43,7 +43,6 @@ export function CreatePlaneFromPointAndVector(point: BABYLON.Vector3, vector: BA
 }
 
 
-
 // var newSize = maxDistance([p1.position, p2.position, p3.position]);
 // plane.scaling = new BABYLON.Vector3(newSize / (plane.getBoundingInfo().boundingBox.extendSize.x), newSize / (plane.getBoundingInfo().boundingBox.extendSize.y), 0);
 function maxDistance(list: Array<BABYLON.Vector3>) {

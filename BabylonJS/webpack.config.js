@@ -7,5 +7,8 @@ module.exports = {
             test: /\.tsx?$/,
             loader: 'ts-loader'
         }]
+    },
+    devServer: {
+        port: 9000
     }
 }

@@ -26,10 +26,11 @@
         }
         
         .menu {
-            position: relative;
-            float: right;
+            position: fixed;
+            /* float: right; */
             text-align: left;
             font-size: 120%;
+            display: inline;
         }
         
         .main {
@@ -69,8 +70,7 @@
         <input type="checkbox" id="cbPointMode" class="checkBox" name="Mode"> Create <u>P</u>oint Mode<br>
         <input type="checkbox" id="cbSingleLineMode" class="checkBox" name="Mode"> Create Single <u>L</u>ine Mode<br>
         <input type="checkbox" id="cbMultiLineMode" class="checkBox" name="Mode"> Create <u>M</u>ulti Line Mode<br>
-        <label>In Select mode, pick object</label><br>
-        <label>and press key "X" to remove</label> <br><br>
+        <label style="display: inline;">In Select mode, pick object and press key "X" to remove</label> <br><br>
         <input type="checkbox" id="cbEditMode" class="checkBox" name="Mode"> <u>E</u>dit Mode<br>
         <label>Right click to attach camera</label><br>
     </div>
