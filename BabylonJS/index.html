@@ -7,6 +7,8 @@
     <title>KTLN</title>
 
     <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 
     <style>
         html,
@@ -26,11 +28,9 @@
         }
         
         .menu {
-            position: fixed;
-            /* float: right; */
+            float: right;
             text-align: left;
             font-size: 120%;
-            display: inline;
         }
         
         .main {
@@ -70,9 +70,27 @@
         <input type="checkbox" id="cbPointMode" class="checkBox" name="Mode"> Create <u>P</u>oint Mode<br>
         <input type="checkbox" id="cbSingleLineMode" class="checkBox" name="Mode"> Create Single <u>L</u>ine Mode<br>
         <input type="checkbox" id="cbMultiLineMode" class="checkBox" name="Mode"> Create <u>M</u>ulti Line Mode<br>
-        <label style="display: inline;">In Select mode, pick object and press key "X" to remove</label> <br><br>
+        <label style="display: inline; position: fixed;">In Select mode, pick object and press key "X" to remove</label> <br><br>
         <input type="checkbox" id="cbEditMode" class="checkBox" name="Mode"> <u>E</u>dit Mode<br>
         <label>Right click to attach camera</label><br>
+
+
+        <select id="menus">
+            <option value="select" selected="selected">Chọn mode</option>
+            <option name="Mode" value="point">Point Mode</option>
+            <option name="Mode" value="single">Single Line Mode</option>
+            <option name="Mode" value="multi">Multi Line Mode</option>
+            <option name="Mode" value="edit">Edit Mode</option>
+          </select>
+        <select id="shape">
+            <option value="" selected="selected">Chọn hình</option>
+            <option value="hinh chop">Hình chóp</option>
+            <option value="hinh hop chu nhat">Hình hộp chữ nhật</option>
+            <option value="hinh cau">Hình cầu</option>
+            <option value="hinh lap phuong">Hình lập phương</option>
+          </select><br>
+          <div style="height: 10px;"></div><br>
+        <textarea id="txtinfo" rows="4" cols="35">Thông tin chi tiết từng hình</textarea>
     </div>
     <div class="main">
         <canvas id="renderCanvas"></canvas>

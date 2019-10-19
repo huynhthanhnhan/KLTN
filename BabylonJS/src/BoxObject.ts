@@ -36,3 +36,21 @@ export function CreateBoxMesh(center, width, height, depth) {
         //     var l12 = CreateLine(p8.position, p5.position,scene);
         // }
 }
+export function CreateBoxDefault()
+{
+    var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 2}, scene);
+    box1.position = new BABYLON.Vector3(0, 0, 10);
+    return box1;
+}
+// export function CreateBoxDefault()
+// {
+//     var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 2}, scene);
+//     box1.position = new BABYLON.Vector3(0, 0, 10);
+//     return box1;
+// }
+// export function CreateBoxDefault()
+// {
+//     var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 2}, scene);
+//     box1.position = new BABYLON.Vector3(0, 0, 10);
+//     return box1;
+// }
