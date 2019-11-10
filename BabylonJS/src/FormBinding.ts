@@ -3,145 +3,279 @@ import { hl, gizmoManager } from './Enviroment'
 
 import { changeCreateLineMode, changeCreateMutiLineMode, changeCreatePointMode, changeEditMode, changeSelectMode, changeStartCreateLine, triggerStartPoint } from './index'
 import { CreateBoxDefault } from './BoxObject'
+import { CreateBoxCustom } from './BoxObject'
+import { CreateCubeDefault } from './CubeObject'
+import { CreateCubeCustom } from './CubeObject'
+import { CreateSphereDefault } from './SphereObject'
+import { CreateSphereCustom } from './SphereObject'
+import { CreatePyramidDefault } from './PyramidObject'
+import { CreateConeDefault } from './ConeObject'
+import { CreatePrismDefault } from './PrismObject'
 import $ from 'jquery'
 
 export function formBinding() {
     //////////////////// Form Binding ////////////////////
-    var cbSelectMode = document.getElementById("cbSelectMode");
-    cbSelectMode.onclick = function () {
-        var self = cbSelectMode as HTMLInputElement;
-        changeSelectMode(self.checked);
+    // var cbSelectMode = document.getElementById("cbSelectMode");
+    // cbSelectMode.onclick = function () {
+    //     var self = cbSelectMode as HTMLInputElement;
+    //     changeSelectMode(self.checked);
 
-        if (self.checked) {
-            var checkboxes = document.getElementsByName('Mode')
-            checkboxes.forEach((item: HTMLInputElement) => {
-                if (item !== self && item.checked) item.click();
-            })
-        }
+    //     if (self.checked) {
+    //         var checkboxes = document.getElementsByName('Mode')
+    //         checkboxes.forEach((item: HTMLInputElement) => {
+    //             if (item !== self && item.checked) item.click();
+    //         })
+    //     }
+    // }
+    // var cbPointMode = document.getElementById("cbPointMode");
+    // cbPointMode.onclick = function () {
+    //     var self = cbPointMode as HTMLInputElement;
+    //     changeCreatePointMode(self.checked);
+
+    //     if (self.checked) {
+    //         var checkboxes = document.getElementsByName('Mode')
+    //         checkboxes.forEach((item: HTMLInputElement) => {
+    //             if (item !== self && item.checked) item.click();
+    //         })
+    //     }
+    // }
+
+    // var cbSingleLineMode = document.getElementById("cbSingleLineMode");
+    // cbSingleLineMode.onclick = function () {
+    //     var self = cbSingleLineMode as HTMLInputElement;
+    //     changeCreateLineMode(self.checked);
+    //     triggerStartPoint();
+    //     if (self.checked)
+    //         changeStartCreateLine(true);
+
+    //     if (self.checked) {
+    //         var checkboxes = document.getElementsByName('Mode')
+    //         checkboxes.forEach((item: HTMLInputElement) => {
+    //             if (item !== self && item.checked) item.click();
+    //         })
+    //     }
+    // }
+
+    // var cbMultiLineMode = document.getElementById("cbMultiLineMode");
+    // cbMultiLineMode.onclick = function () {
+    //     var self = cbMultiLineMode as HTMLInputElement;
+    //     changeCreateMutiLineMode(self.checked);
+    //     triggerStartPoint();
+    //     if (self.checked)
+    //         changeStartCreateLine(true);
+
+
+    //     if (self.checked) {
+    //         var checkboxes = document.getElementsByName('Mode')
+    //         checkboxes.forEach((item: HTMLInputElement) => {
+    //             if (item !== self && item.checked) item.click();
+    //         })
+    //     }
+    // }
+
+    // var cbEditMode = document.getElementById("cbEditMode");
+    // cbEditMode.onclick = function () {
+    //     var self = cbEditMode as HTMLInputElement;
+    //     changeEditMode(self.checked);
+    //     gizmoManager.boundingBoxGizmoEnabled = self.checked;
+
+
+    //     if (self.checked) {
+    //         var checkboxes = document.getElementsByName('Mode')
+    //         checkboxes.forEach((item: HTMLInputElement) => {
+    //             if (item !== self && item.checked) item.click();
+    //         })
+    //     }
+    // }
+
+    const form = document.querySelector('form')
+    form.addEventListener('submit', event => {
+    // submit event detected
+    var valCube=(<HTMLInputElement>document.getElementById('edge')).value;
+    if(valCube !=null && valCube !='')
+    {
+        CreateCubeCustom(valCube);
     }
-    var cbPointMode = document.getElementById("cbPointMode");
-    cbPointMode.onclick = function () {
-        var self = cbPointMode as HTMLInputElement;
-        changeCreatePointMode(self.checked);
-
-        if (self.checked) {
-            var checkboxes = document.getElementsByName('Mode')
-            checkboxes.forEach((item: HTMLInputElement) => {
-                if (item !== self && item.checked) item.click();
-            })
-        }
+    var valDiameter=(<HTMLInputElement>document.getElementById('diameter')).value;
+    if(valDiameter !=null && valDiameter !='')
+    {
+        CreateSphereCustom(valDiameter);
+    }
+    var valBoxWidth=(<HTMLInputElement>document.getElementById('width')).value;
+    var valBoxHeight=(<HTMLInputElement>document.getElementById('height')).value;
+    if((valBoxWidth !=null && valBoxWidth !='')&&(valBoxHeight !=null && valBoxHeight !=''))
+    {
+        CreateBoxCustom(valBoxHeight,valBoxWidth);
+    }
+    var valPoints=(<HTMLInputElement>document.getElementById('points')).value;
+    if(valPoints !=null && valPoints !='')
+    {
+        // Cre(valPoints);
+    }
+    event.preventDefault()
+   
+    })
+    var checkStatus= function(checkValue){
+        var state= {height:false, width:false, edge:false, diameter:false, points:false };
+        Object.keys(state).forEach(function(k){
+            Object.keys(checkValue).forEach(function(i){
+            if(state[k]==true){
+                return;
+            }
+            state[k]=(k==i)?true:false;
+            });
+        });
+        Object.keys(state).forEach(function(k){
+            if(state[k]==true)
+            {
+                (<HTMLInputElement>document.getElementById(k)).type='text';
+            }
+            else
+            {
+                (<HTMLInputElement>document.getElementById(k)).type='hidden';
+            }
+        });
     }
 
-    var cbSingleLineMode = document.getElementById("cbSingleLineMode");
-    cbSingleLineMode.onclick = function () {
-        var self = cbSingleLineMode as HTMLInputElement;
-        changeCreateLineMode(self.checked);
-        triggerStartPoint();
-        if (self.checked)
-            changeStartCreateLine(true);
-
-        if (self.checked) {
-            var checkboxes = document.getElementsByName('Mode')
-            checkboxes.forEach((item: HTMLInputElement) => {
-                if (item !== self && item.checked) item.click();
-            })
-        }
-    }
-
-    var cbMultiLineMode = document.getElementById("cbMultiLineMode");
-    cbMultiLineMode.onclick = function () {
-        var self = cbMultiLineMode as HTMLInputElement;
-        changeCreateMutiLineMode(self.checked);
-        triggerStartPoint();
-        if (self.checked)
-            changeStartCreateLine(true);
-
-
-        if (self.checked) {
-            var checkboxes = document.getElementsByName('Mode')
-            checkboxes.forEach((item: HTMLInputElement) => {
-                if (item !== self && item.checked) item.click();
-            })
-        }
-    }
-
-    var cbEditMode = document.getElementById("cbEditMode");
-    cbEditMode.onclick = function () {
-        var self = cbEditMode as HTMLInputElement;
-        changeEditMode(self.checked);
-        gizmoManager.boundingBoxGizmoEnabled = self.checked;
-
-
-        if (self.checked) {
-            var checkboxes = document.getElementsByName('Mode')
-            checkboxes.forEach((item: HTMLInputElement) => {
-                if (item !== self && item.checked) item.click();
-            })
-        }
-    }
     $('#shape').on('change', function () {
         if (this.value == "hinh lap phuong") {
-            CreateBoxDefault();
-            var value = "Đây là hình lập phương";
-            $('#txtinfo').val(value);
+            CreateCubeDefault();
+            var value = "Hình lập phương";
+            document.getElementById("infoHeader").innerHTML=value;
+            var boxinfo= {edge:false };
+            checkStatus(boxinfo);
         }
-        //     else if(this.value=="hinh cau"){
-        //         var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
-        //         sphere.position.y = 1;
-        //         var value="Đây là hình cầu";
-        //         $('#txtinfo').val(value);
-        //     }
-        //     else if(this.value == "hinh hop chu nhat"){
-        //         var box = BABYLON.MeshBuilder.CreateBox("box", {height: 2, width: 4}, scene);
-        //         box.position.y = -2;
-        //         var value="Đây là hình hộp chữ nhật";
-        //         $('#txtinfo').val(value);
-        //     }
-        //     else if(this.value == "hinh chop"){
-        //         var polyhedron={ 
-        //             // "vertex":[[0.729665,-0.670121,-0.319155],[0.655235,0.29213,0.754096],[0.093922,0.607123,-0.537818],[-0.702196,-0.595691,-0.485187],[-0.776626,0.36656,0.588064]], 
-        //             "vertex":[[-0.729665,0.670121,0.319155],[-0.655235,-0.29213,-0.754096],[-0.093922,-0.607123,0.537818],[0.702196,0.595691,0.485187],[0.776626,-0.36656,-0.588064]], 
-        //             "face":[[1,4,2],[0,1,2],[3,0,2],[4,3,2],[4,1,0,3]] }
-        //         var polygon = BABYLON.MeshBuilder.CreatePolyhedron(polyhedron.name, { custom: polyhedron, size: 2 }, scene);
-        //         var value="Đây là hình chóp";
-        //         $('#txtinfo').val(value);
-        //     }
+            else if(this.value=="hinh cau"){
+                CreateSphereDefault();
+                var value="Hình cầu";
+                document.getElementById("infoHeader").innerHTML=value;
+                var sphereinfo={diameter:false};
+                checkStatus(sphereinfo);
+            }
+            else if(this.value == "hinh hop chu nhat"){
+                CreateBoxDefault();
+                var value="Hình hộp chữ nhật";
+                document.getElementById("infoHeader").innerHTML=value;
+                var cubeinfo={height:false, width:false};
+                checkStatus(cubeinfo);
+            }
+            else if(this.value == "hinh chop"){
+                CreatePyramidDefault();
+                var value="Hình chóp";
+                document.getElementById("infoHeader").innerHTML=value;
+            }
+            else if(this.value == "hinh tru"){
+                CreatePrismDefault();
+                var value="Hình trụ";
+                document.getElementById("infoHeader").innerHTML=value;
+            }
+            else if(this.value == "hinh non"){
+                CreateConeDefault();
+                var value="Hình nón";
+                document.getElementById("infoHeader").innerHTML=value;
+            }
     });
 
-    var listMode = [changeCreateLineMode, changeCreatePointMode,changeCreateMutiLineMode,changeEditMode,changeSelectMode];
-
-    function changeMode(mode: Function) {
-        // debugger
-        changeCreatePointMode(true);
-        window['test']=mode
-        // mode(true);
-        listMode.forEach(m => {
-            // if (m != mode)
-                // mode(false);
-        })
+    var changeMode= function(modeValue){
+        var mode= {changeSelectMode:false, changeEditMode:false,changeCreatePointMode:false,changeCreateLineMode:false,changeCreateMutiLineMode:false};
+        Object.keys(mode).forEach(function(k){
+            Object.keys(modeValue).forEach(function(i){
+            if(mode[k]==true){
+                return;
+            }
+            mode[k]=(k==i)?true:false;
+            });
+        });
+        Object.keys(mode).forEach(function(k){
+            if(mode[k]==true)
+            {
+                if(k == "changeEditMode")
+                {
+                    console.log("changeedittrue");
+                    changeEditMode(true);
+                    gizmoManager.boundingBoxGizmoEnabled = true;
+                }
+                else if(k == "changeSelectMode")
+                {
+                    console.log("changeselecttrue");
+                    changeSelectMode(true);
+                    gizmoManager.boundingBoxGizmoEnabled = false;
+                }
+                else if(k == "changeCreatePointMode")
+                {
+                     console.log("changeCreatePointModetrue");
+                    changeCreatePointMode(true);
+                    gizmoManager.boundingBoxGizmoEnabled = false;
+                }
+                else if(k == "changeCreateLineMode")
+                {
+                    console.log("changeCreateLineModetrue");
+                    changeCreateLineMode(true);
+                    gizmoManager.boundingBoxGizmoEnabled = false;
+                    triggerStartPoint();
+                    changeStartCreateLine(true);
+                }
+                else if(k == "changeCreateMutiLineMode")
+                {
+                    console.log("changeCreateMutiLineModetrue");
+                    changeCreateMutiLineMode(true);
+                    gizmoManager.boundingBoxGizmoEnabled = false;
+                    triggerStartPoint();
+                    changeStartCreateLine(true);
+                }
+            }
+            else
+            {
+                if(k == "changeEditMode")
+                {
+                    console.log("changeeditfalse");
+                    changeEditMode(false);
+                }
+                else if(k == "changeSelectMode")
+                {
+                    console.log("changeSelectModefalse");
+                    changeSelectMode(false);
+                }
+                else if(k == "changeCreatePointMode")
+                {
+                    console.log("changeCreatePointModefalse");
+                    changeCreatePointMode(false);
+                }
+                else if(k == "changeCreateLineMode")
+                {
+                    console.log("changeCreateLineModefalse");
+                    changeCreateLineMode(false);
+                }
+                else if(k == "changeCreateMutiLineMode")
+                {
+                    console.log("changeCreateMutiLineModefalse");
+                    changeCreateMutiLineMode(false);
+                }
+            }
+        });
     }
-
-
-
+ 
     $('#menus').on('change', function () {
         if (this.value == "point") {
-            changeMode(changeCreatePointMode);
-            // changeCreatePointMode(true);
+            var pointmode={changeCreatePointMode:false};
+            changeMode(pointmode);
         }
         else if (this.value == "single") {
-            changeMode(changeCreateLineMode);
-
-            // changeCreateLineMode(true);
+            var singlemode={changeCreateLineMode:false};
+            changeMode(singlemode);
         }
         else if (this.value == "multi") {
-            triggerStartPoint();
-            changeCreateMutiLineMode(true);
+            var multimode={changeCreateMutiLineMode:false};            
+            changeMode(multimode);
         }
         else if (this.value == "edit") {
-            changeEditMode(true);
+            var editmode={changeEditMode:false};
+            changeMode(editmode);
         }
         else if (this.value == "select") {
-            changeSelectMode(true);
+            var selectmode={changeSelectMode:false};
+            changeMode(selectmode);
+            
         }
     });
 }

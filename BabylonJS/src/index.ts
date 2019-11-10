@@ -51,8 +51,6 @@ var createScene = function() {
     formBinding();
     KeyControl();
 
-    
-
     // CreateCubeWithCenterSize({ x: 5, y: 5, z: 5 }, 4);
     ////////// TEST OBJECT ///////////////
 
@@ -66,8 +64,8 @@ var createScene = function() {
 
 
     // CreatePlaneFromPointAndVector(l1.pointA, l2.rotation)
-    var p = CreatePlaneFromPointAndVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
-    console.log(p.mesh)
+    // var p = CreatePlaneFromPointAndVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
+    // console.log(p.mesh)
 
 
 

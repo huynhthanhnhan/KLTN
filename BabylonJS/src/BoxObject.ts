@@ -1,5 +1,6 @@
 import * as BABYLON from "@babylonjs/core"
 import {gizmoManager, scene} from './Enviroment'
+import {CreateMeshMaterial} from './MeshMaterial'
 
 
 export function CreateCubeMesh(center, size) {
@@ -38,19 +39,15 @@ export function CreateBoxMesh(center, width, height, depth) {
 }
 export function CreateBoxDefault()
 {
-    var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 2}, scene);
-    box1.position = new BABYLON.Vector3(0, 0, 10);
-    return box1;
+    
+    var box = BABYLON.MeshBuilder.CreateBox("box", {height: 2, width: 4}, scene);
+    box.material = CreateMeshMaterial(scene);
+    box.position.y = -2;
+    return box;
 }
-// export function CreateBoxDefault()
-// {
-//     var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 2}, scene);
-//     box1.position = new BABYLON.Vector3(0, 0, 10);
-//     return box1;
-// }
-// export function CreateBoxDefault()
-// {
-//     var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 2}, scene);
-//     box1.position = new BABYLON.Vector3(0, 0, 10);
-//     return box1;
-// }
+export function CreateBoxCustom(height,width)
+{
+    var box = BABYLON.MeshBuilder.CreateBox("box", {height: height, width: width}, scene);
+    box.position.y = -2;
+    return box;
+}
