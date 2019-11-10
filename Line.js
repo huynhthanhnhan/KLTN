@@ -1,19 +1,22 @@
-// import * as BABYLON from "./Lib/Babylon/babylon"
-export class Line {
-    id;
-    name;
-    mesh;
-    constructor(id, name, mesh) {
-        this.id = id;
-        this.name = name;
-        this.mesh = mesh;
-    }
+export function Line(){
+    var name;
+    var length;
+    var pointA;
+    var pointB;
+    var mesh;
+    var rotation;
 }
 
-export function CreateLine(point1, point2) {
-    var distance = BABYLON.Vector3.Distance(point1, point2);
-    if (distance > 0) {
+export function CreateLine(point1, point2,scene,isCreatePointMode) {
+    var line=new Line();
+    line.name="Line";
+    line.pointA=point1;
+    line.pointB=point2;
 
+    var distance = BABYLON.Vector3.Distance(point1, point2);
+
+    if (distance > 0) {
+        line.length=distance;
         var parentLine = BABYLON.MeshBuilder.CreateBox("parentLine", { size: 0.02 }, scene);
         parentLine.lookAt(point2.subtract(BABYLON.Vector3.Center(point1, point2)));
         parentLine.position = new BABYLON.Vector3.Center(point1, point2);
@@ -21,6 +24,7 @@ export function CreateLine(point1, point2) {
         var newLine = BABYLON.MeshBuilder.CreateCylinder("line", { height: distance, diameter: 0.05 }, scene);
         newLine.parent = parentLine;
         newLine.rotation.x = Math.PI / 2;
+        line.mesh=newLine;
 
         newLine.actionManager = new BABYLON.ActionManager(scene);
         newLine.actionManager.registerAction(
@@ -41,5 +45,7 @@ export function CreateLine(point1, point2) {
                 }
             )
         );
+    
     }
+    return line;
 }

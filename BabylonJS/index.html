@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>KTLN</title>
+
+    <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+    <style>
+        html,
+        body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #renderCanvas {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+        
+        .menu {
+            float: right;
+            text-align: left;
+            font-size: 120%;
+        }
+        
+        .main {
+            width: 80%;
+            height: 100%;
+            float: left;
+        }
+        
+        .checkBox {
+            width: 20px;
+            height: 20px;
+        }
+        
+        #fpsLabel {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #999;
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        function onlyOne(checkbox) {
+            var checkboxes = document.getElementsByName('Mode')
+            checkboxes.forEach((item) => {
+                if (item !== checkbox) item.checked = false;
+            })
+        }
+    </script>
+    <div class="menu">
+        <div id="fpsLabel">Fps </div>
+        <label>Menu</label> <br><br>
+
+        <select id="menus">
+            <option value="select" selected="select">Chọn mode</option>
+            <option name="Mode" value="point">Point Mode</option>
+            <option name="Mode" value="single">Single Line Mode</option>
+            <option name="Mode" value="multi">Multi Line Mode</option>
+            <option name="Mode" value="edit">Edit Mode</option>
+          </select>
+        <select id="shape">
+            <option value="" selected="selected">Chọn hình</option>
+            <option value="hinh chop">Hình chóp</option>
+            <option value="hinh hop chu nhat">Hình hộp chữ nhật</option>
+            <option value="hinh cau">Hình cầu</option>
+            <option value="hinh lap phuong">Hình lập phương</option>
+            <option value="hinh non">Hình nón</option>
+            <option value="hinh tru">Hình trụ</option>
+          </select><br>
+        <div style="height: 10px;"></div><br>
+        <form>
+            <fieldset>
+                <legend id="infoHeader">Detail information:</legend>
+                Cạnh:<br>
+                <input type="text" id="edge" value=""><br> Chiều dài:<br>
+                <input type="text" id="width" value=""><br> Chiều rộng:<br>
+                <input type="text" id="height" value=""><br> Đường kính:<br>
+                <input type="text" id="diameter" value=""><br><br> Số điểm đáy:<br>
+                <input type="text" id="points" value=""><br><br>
+                <input type="submit" value="Submit">
+            </fieldset>
+        </form>
+    </div>
+    <div class="main">
+        <canvas id="renderCanvas"></canvas>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
