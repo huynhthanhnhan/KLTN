@@ -1,17 +1,30 @@
 
 import * as BABYLON from '@babylonjs/core'
-import { scene, gizmoManager } from './Enviroment'
-import { setMultiSelect, getEditMode, eventDelete } from './index'
+import { scene, gizmoManager, removeFromGizmoManagerList } from './Enviroment'
+import { setMultiSelect, getSelectedMesh, setIsMoveZ, getSysMode } from './TempVariable'
+import { pointMaster } from './Point'
+
+export function deleteFromSelectedMeshes() {
+    if (getSelectedMesh()) {
+        getSelectedMesh().forEach(mesh => {
+            if (mesh.parent)
+                mesh.parent.dispose();
+            removeFromGizmoManagerList(mesh);
+            gizmoManager.attachToMesh(pointMaster);
+            mesh.dispose();
+        })
+    }
+}
 
 export function KeyControl() {
     /**************************** Key Control ******************************************************/
     scene.onKeyboardObservable.add((keyInfo) => {
         switch (keyInfo.type) {
             case BABYLON.KeyboardEventTypes.KEYDOWN:
-                if (!getEditMode()) {
+                if (getSysMode()!='edit') {
                     switch (keyInfo.event.key) {
                         case "x" || "X":
-                            eventDelete();
+                            deleteFromSelectedMeshes();
                             break;
                         case "Control":
                             setMultiSelect(true);
@@ -30,6 +43,9 @@ export function KeyControl() {
                             break;
                         case "e" || "E":
                             document.getElementById("cbEditMode").click();
+                            break;
+                        case "z" || "Z":
+                            setIsMoveZ(true);
                             break;
                     }
                 } else {
@@ -65,6 +81,9 @@ export function KeyControl() {
                 switch (keyInfo.event.key) {
                     case "Control":
                         setMultiSelect(false);
+                        break;
+                    case "z" || "Z":
+                        setIsMoveZ(false);
                         break;
                 }
                 break;

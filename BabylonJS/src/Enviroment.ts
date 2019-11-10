@@ -15,6 +15,8 @@ camera.setTarget(BABYLON.Vector3.Zero());
 // This attaches the camera to the canvas
 camera.attachControl(canvas, true);
 
+camera.wheelPrecision = 50;
+
 // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
 export var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 

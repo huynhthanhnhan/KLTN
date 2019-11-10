@@ -3,45 +3,35 @@ import "@babylonjs/core/Meshes/meshBuilder";
 
 import {CreatePoint, pointMaster} from './Point'
 import {CreateLine} from './Line'
-import {camera, canvas, engine,light, scene, hl, gizmoManager, removeFromGizmoManagerList} from './Enviroment'
+import {camera, canvas, engine,light, scene, gizmoManager, removeFromGizmoManagerList} from './Enviroment'
 import {InitGround, showAxis} from './BasicScreen'
 import {formBinding} from './FormBinding'
-import {KeyControl} from './Control'
+import {KeyControl} from './KeyControl'
+import {MouseControl} from './MouseControl'
 import {CreateBoxMesh, CreateCubeMesh} from './BoxObject'
-import {CreatePlaneFrom3Point, CreatePlaneFromPointAndVector} from './Plane'
+import {CreatePlaneFrom3Point, CreatePlaneFromPointAndNormalVector} from './Plane'
+import {getSysMode} from  './TempVariable'
 
 //////////////////// Global Variable ////////////////////
 
-var listPoint = [];
-var listLine = [];
 
-var isMultiSelect = false;
+// var isSelectMode = true;
+// var isCreateLineMode = false;
+// var isCreateMultiLineMode = false;
+// var isCreatePointMode = false;
+// var isEditMode = false;
+
+// var isStartCreateLine = true;
+// var startPoint;
 
 
-var selectedMeshes = [];
+// export function changeSelectMode(b:boolean) {isSelectMode = b}
+// export function changeCreateLineMode(b: boolean){console.log('change create line mode'); isCreateLineMode = b}
+// export function changeCreateMutiLineMode(b: boolean){isCreateMultiLineMode = b}
+// export function changeCreatePointMode(b:boolean){console.log('change point mode'); isCreatePointMode = b}
+// export function changeEditMode(b:boolean){isEditMode = b} 
+// export function changeStartCreateLine(b: boolean){isStartCreateLine = b}
 
-
-var isSelectMode = true;
-var isCreateLineMode = false;
-var isCreateMultiLineMode = false;
-var isCreatePointMode = false;
-var isStartCreateLine = true;
-
-var isEditMode = false;
-var startPoint;
-
-export function changeSelectMode(b:boolean) {isSelectMode = b}
-export function changeCreateLineMode(b: boolean){isCreateLineMode = b}
-export function changeCreateMutiLineMode(b: boolean){isCreateMultiLineMode = b}
-export function changeCreatePointMode(b:boolean){isCreatePointMode = b}
-export function changeStartCreateLine(b: boolean){isStartCreateLine = b}
-export function changeEditMode(b:boolean){isEditMode = b}
-export function triggerStartPoint(){
-    if (startPoint) {
-        hl.removeMesh(startPoint);
-        startPoint = "";
-    }
-}
 
 var createScene = function() {
 
@@ -50,133 +40,27 @@ var createScene = function() {
     showAxis(10);
     formBinding();
     KeyControl();
+    MouseControl();
 
     
 
     // CreateCubeWithCenterSize({ x: 5, y: 5, z: 5 }, 4);
     ////////// TEST OBJECT ///////////////
 
-    // CreateCubeMesh({ x: 0, y: 2, z: 0 }, 1);
-    // CreateBoxMesh({ x: 5, y: 2, z: 0 }, 2, 3, 4);
-    // CreatePlaneFrom3Point(new BABYLON.Vector3(5,0,0), new BABYLON.Vector3(5,5,0), new BABYLON.Vector3(5,5,5));
-    // CreatePlaneFromPointAndVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,1,0));
+    CreateCubeMesh({ x: 0, y: 2, z: 0 }, 1);
+    CreateBoxMesh({ x: 5, y: 2, z: 0 }, 2, 3, 4);
+    CreatePlaneFrom3Point(new BABYLON.Vector3(5,0,0), new BABYLON.Vector3(5,5,0), new BABYLON.Vector3(5,5,5));
+    CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,1,0));
 
-    var l1 = CreateLine(new BABYLON.Vector3(0,0,5), new BABYLON.Vector3(5,10,0), isCreatePointMode);
-    var l2 = CreateLine(new BABYLON.Vector3(0,0,-5), new BABYLON.Vector3(5,0,0), isCreatePointMode);
+    // var l1 = CreateLine(new BABYLON.Vector3(0,0,5), new BABYLON.Vector3(5,10,0), getSysMode()=='point');
+    // var l2 = CreateLine(new BABYLON.Vector3(0,0,-5), new BABYLON.Vector3(5,0,0), getSysMode()=='point');
 
 
     // CreatePlaneFromPointAndVector(l1.pointA, l2.rotation)
-    var p = CreatePlaneFromPointAndVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
+    var p = CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
     console.log(p.mesh)
 
-
-
-
-    function checkInSelectedMeshes(object) {
-        if (selectedMeshes) {
-            for (var i = 0; i < selectedMeshes.length; i++) {
-                if (selectedMeshes[i] == object) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-    }
-
-    function removeFromSelectedMeshes(object) {
-        if (selectedMeshes) {
-            for (var i = 0; i < selectedMeshes.length; i++) {
-                if (selectedMeshes[i] == object) {
-                    selectedMeshes.splice(i, 1);
-                    return;
-                }
-            }
-        }
-
-    }
-
-    function resetSelectedMeshes() {
-        selectedMeshes.forEach(mesh => {
-            if (hl.hasMesh(mesh))
-                hl.removeMesh(mesh);
-            removeFromGizmoManagerList(mesh);
-        })
-        selectedMeshes = [];
-    }
-
-
-    scene.onPointerPick = function(evt, pickResult) {
-        // if the click hits the ground object, we change the impact position
-        if (pickResult.hit) {
-            if ((isCreateLineMode || isCreateMultiLineMode)) {
-                if (pickResult.pickedMesh.name != "point") {
-                    const pt = CreatePoint(pickResult.pickedPoint, isSelectMode, checkInSelectedMeshes);
-                    listPoint.push(pt);
-                    if (isStartCreateLine) {
-                        startPoint = pt.mesh;
-                        if (hl.hasMesh(startPoint)) hl.removeMesh(startPoint);
-                        hl.addMesh(startPoint, BABYLON.Color3.Green());
-                        isStartCreateLine = false;
-                    } else {
-                        if (startPoint) {
-                            var s = CreateLine(startPoint.position, pt.mesh.position, isCreatePointMode);
-                            listLine.push(s);
-                            console.log("create with line");
-                            hl.removeMesh(startPoint);
-                            if (isCreateLineMode)
-                                isStartCreateLine = true;
-                            else {
-                                startPoint = pt.mesh;
-                                if (hl.hasMesh(startPoint)) hl.removeMesh(startPoint);
-                                hl.addMesh(startPoint, BABYLON.Color3.Green());
-                            }
-                        }
-                    }
-                } else {
-                    if (isStartCreateLine) {
-                        startPoint = pickResult.pickedMesh;
-                        if (hl.hasMesh(startPoint)) hl.removeMesh(startPoint);
-                        hl.addMesh(startPoint, BABYLON.Color3.Green());
-                        isStartCreateLine = false;
-                    } else {
-                        if (startPoint) {
-                            var s = CreateLine(startPoint.position, pickResult.pickedMesh.position, isCreatePointMode);
-                            listLine.push(s);
-                            console.log("create with point")
-                            isStartCreateLine = true;
-                            hl.removeMesh(startPoint);
-                        }
-                    }
-                }
-            } else if (isCreatePointMode) {
-                const pt = CreatePoint(pickResult.pickedPoint, isSelectMode, checkInSelectedMeshes);
-                listPoint.push(pt);
-            } else if (isSelectMode || isEditMode) {
-                var target = (pickResult.pickedMesh) as BABYLON.Mesh;
-                if (hl.hasMesh(target)) hl.removeMesh(target);
-                hl.addMesh(target, BABYLON.Color3.Blue());
-                if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ") {
-                    if (!isMultiSelect || isEditMode) {
-                        selectedMeshes.forEach(mesh => {
-                            if (hl.hasMesh(mesh))
-                                hl.removeMesh(mesh);
-                        })
-                        resetSelectedMeshes();
-                    }
-                    selectedMeshes.push(target);
-                    gizmoManager.attachableMeshes.push(target);
-
-                    // camera.detachControl(canvas);
-                } else {
-                    resetSelectedMeshes();
-                }
-            }
-
-        }
-    };
-
-    var pointer = CreatePoint(new BABYLON.Vector3(0,0,0), isSelectMode, checkInSelectedMeshes);
+    var pointer = CreatePoint(new BABYLON.Vector3(0,0,0));
 
     /**************************** Mouse Control ******************************************************/
 
@@ -232,21 +116,6 @@ var createScene = function() {
     return scene;
 
 };
-
-export function eventDelete(){
-    if (selectedMeshes) {
-        selectedMeshes.forEach(mesh => {
-            if (mesh.parent)
-                mesh.parent.dispose();
-            removeFromGizmoManagerList(mesh);
-            gizmoManager.attachToMesh(pointMaster);
-            mesh.dispose();
-        })
-    }
-}
-
-export function setMultiSelect(b:boolean){isMultiSelect = b}
-export function getEditMode(){return isEditMode} 
 
 var mainScene = createScene();
 
