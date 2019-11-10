@@ -1,161 +1,131 @@
 
 import { hl, gizmoManager } from './Enviroment'
 
-// import { /*changeCreateLineMode, changeCreateMutiLineMode, changeCreatePointMode, changeEditMode, changeSelectMode,*/ changeStartCreateLine, changeSysMode } from './index'
-import { CreateBoxDefault } from './BoxObject'
-// import {triggerStartPoint} from './MouseControl'
+import { CreateBoxDefault } from './Objects/BoxObject'
+import { CreateBoxCustom } from './Objects/BoxObject'
+import { CreateCubeDefault } from './Objects/CubeObject'
+import { CreateCubeCustom } from './Objects/CubeObject'
+import { CreateSphereDefault } from './Objects/SphereObject'
+import { CreateSphereCustom } from './Objects/SphereObject'
+import { CreatePyramidDefault } from './Objects/PyramidObject'
+import { CreateConeDefault } from './Objects/ConeObject'
+import { CreatePrismDefault } from './Objects/PrismObject'
 import $ from 'jquery'
 import {triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine} from './TempVariable'
 
 export function formBinding() {
-    // //////////////////// Form Binding ////////////////////
-    // var cbSelectMode = document.getElementById("cbSelectMode");
-    // cbSelectMode.onclick = function () {
-    //     var self = cbSelectMode as HTMLInputElement;
-    //     changeSelectMode(self.checked);
-
-    //     if (self.checked) {
-    //         var checkboxes = document.getElementsByName('Mode')
-    //         checkboxes.forEach((item: HTMLInputElement) => {
-    //             if (item !== self && item.checked) item.click();
-    //         })
-    //     }
-    // }
-    // var cbPointMode = document.getElementById("cbPointMode");
-    // cbPointMode.onclick = function () {
-    //     var self = cbPointMode as HTMLInputElement;
-    //     changeCreatePointMode(self.checked);
-
-    //     if (self.checked) {
-    //         var checkboxes = document.getElementsByName('Mode')
-    //         checkboxes.forEach((item: HTMLInputElement) => {
-    //             if (item !== self && item.checked) item.click();
-    //         })
-    //     }
-    // }
-
-    // var cbSingleLineMode = document.getElementById("cbSingleLineMode");
-    // cbSingleLineMode.onclick = function () {
-    //     var self = cbSingleLineMode as HTMLInputElement;
-    //     changeCreateLineMode(self.checked);
-    //     triggerStartPoint();
-    //     if (self.checked)
-    //         changeStartCreateLine(true);
-
-    //     if (self.checked) {
-    //         var checkboxes = document.getElementsByName('Mode')
-    //         checkboxes.forEach((item: HTMLInputElement) => {
-    //             if (item !== self && item.checked) item.click();
-    //         })
-    //     }
-    // }
-
-    // var cbMultiLineMode = document.getElementById("cbMultiLineMode");
-    // cbMultiLineMode.onclick = function () {
-    //     var self = cbMultiLineMode as HTMLInputElement;
-    //     changeCreateMutiLineMode(self.checked);
-    //     triggerStartPoint();
-    //     if (self.checked)
-    //         changeStartCreateLine(true);
-
-
-    //     if (self.checked) {
-    //         var checkboxes = document.getElementsByName('Mode')
-    //         checkboxes.forEach((item: HTMLInputElement) => {
-    //             if (item !== self && item.checked) item.click();
-    //         })
-    //     }
-    // }
-
-    // var cbEditMode = document.getElementById("cbEditMode");
-    // cbEditMode.onclick = function () {
-    //     var self = cbEditMode as HTMLInputElement;
-    //     changeEditMode(self.checked);
-    //     gizmoManager.boundingBoxGizmoEnabled = self.checked;
-
-
-    //     if (self.checked) {
-    //         var checkboxes = document.getElementsByName('Mode')
-    //         checkboxes.forEach((item: HTMLInputElement) => {
-    //             if (item !== self && item.checked) item.click();
-    //         })
-    //     }
-    // }
+    const form = document.querySelector('form')
+    form.addEventListener('submit', event => {
+    // submit event detected
+    var valCube=(<HTMLInputElement>document.getElementById('edge')).value;
+    if(valCube !=null && valCube !='')
+    {
+        CreateCubeCustom(valCube);
+    }
+    var valDiameter=(<HTMLInputElement>document.getElementById('diameter')).value;
+    if(valDiameter !=null && valDiameter !='')
+    {
+        CreateSphereCustom(valDiameter);
+    }
+    var valBoxWidth=(<HTMLInputElement>document.getElementById('width')).value;
+    var valBoxHeight=(<HTMLInputElement>document.getElementById('height')).value;
+    if((valBoxWidth !=null && valBoxWidth !='')&&(valBoxHeight !=null && valBoxHeight !=''))
+    {
+        CreateBoxCustom(valBoxHeight,valBoxWidth);
+    }
+    var valPoints=(<HTMLInputElement>document.getElementById('points')).value;
+    if(valPoints !=null && valPoints !='')
+    {
+        // Cre(valPoints);
+    }
+    event.preventDefault()
+   
+    })
+    var checkStatus= function(checkValue){
+        var state= {height:false, width:false, edge:false, diameter:false, points:false };
+        Object.keys(state).forEach(function(k){
+            Object.keys(checkValue).forEach(function(i){
+            if(state[k]==true){
+                return;
+            }
+            state[k]=(k==i)?true:false;
+            });
+        });
+        Object.keys(state).forEach(function(k){
+            if(state[k]==true)
+            {
+                (<HTMLInputElement>document.getElementById(k)).type='text';
+            }
+            else
+            {
+                (<HTMLInputElement>document.getElementById(k)).type='hidden';
+            }
+        });
+    }
 
     $('#shape').on('change', function () {
         if (this.value == "hinh lap phuong") {
-            CreateBoxDefault();
-            var value = "Đây là hình lập phương";
-            $('#txtinfo').val(value);
+            CreateCubeDefault();
+            var value = "Hình lập phương";
+            document.getElementById("infoHeader").innerHTML=value;
+            var boxinfo= {edge:false };
+            checkStatus(boxinfo);
         }
-        //     else if(this.value=="hinh cau"){
-        //         var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
-        //         sphere.position.y = 1;
-        //         var value="Đây là hình cầu";
-        //         $('#txtinfo').val(value);
-        //     }
-        //     else if(this.value == "hinh hop chu nhat"){
-        //         var box = BABYLON.MeshBuilder.CreateBox("box", {height: 2, width: 4}, scene);
-        //         box.position.y = -2;
-        //         var value="Đây là hình hộp chữ nhật";
-        //         $('#txtinfo').val(value);
-        //     }
-        //     else if(this.value == "hinh chop"){
-        //         var polyhedron={ 
-        //             // "vertex":[[0.729665,-0.670121,-0.319155],[0.655235,0.29213,0.754096],[0.093922,0.607123,-0.537818],[-0.702196,-0.595691,-0.485187],[-0.776626,0.36656,0.588064]], 
-        //             "vertex":[[-0.729665,0.670121,0.319155],[-0.655235,-0.29213,-0.754096],[-0.093922,-0.607123,0.537818],[0.702196,0.595691,0.485187],[0.776626,-0.36656,-0.588064]], 
-        //             "face":[[1,4,2],[0,1,2],[3,0,2],[4,3,2],[4,1,0,3]] }
-        //         var polygon = BABYLON.MeshBuilder.CreatePolyhedron(polyhedron.name, { custom: polyhedron, size: 2 }, scene);
-        //         var value="Đây là hình chóp";
-        //         $('#txtinfo').val(value);
-        //     }
+            else if(this.value=="hinh cau"){
+                CreateSphereDefault();
+                var value="Hình cầu";
+                document.getElementById("infoHeader").innerHTML=value;
+                var sphereinfo={diameter:false};
+                checkStatus(sphereinfo);
+            }
+            else if(this.value == "hinh hop chu nhat"){
+                CreateBoxDefault();
+                var value="Hình hộp chữ nhật";
+                document.getElementById("infoHeader").innerHTML=value;
+                var cubeinfo={height:false, width:false};
+                checkStatus(cubeinfo);
+            }
+            else if(this.value == "hinh chop"){
+                CreatePyramidDefault();
+                var value="Hình chóp";
+                document.getElementById("infoHeader").innerHTML=value;
+            }
+            else if(this.value == "hinh tru"){
+                CreatePrismDefault();
+                var value="Hình trụ";
+                document.getElementById("infoHeader").innerHTML=value;
+            }
+            else if(this.value == "hinh non"){
+                CreateConeDefault();
+                var value="Hình nón";
+                document.getElementById("infoHeader").innerHTML=value;
+            }
     });
 
-    // var listMode = [changeCreateLineMode, changeCreatePointMode,changeCreateMutiLineMode,changeEditMode,changeSelectMode];
-
-    // function changeMode(mode: Function) {
-    //     // debugger
-    //     // changeCreatePointMode(true);
-    //     window['test']=mode
-    //     mode(true);
-    //     listMode.forEach(m => {
-    //         // if (m != mode)
-    //             // mode(false);
-    //     })
-    // }
 
     function changeSystemMode(mode: string = 'line'||'multiLine'||'select'||'point'||'edit'){
         setIsStartCreateLine(true)
         setSysMode(mode);
     }
-
-
-
     $('#menus').on('change', function () {
         if (this.value == "point") {
-            // changeMode(changeCreatePointMode);
-            // changeCreatePointMode(true);
             changeSystemMode('point');
         }
         else if (this.value == "single") {
-            // changeMode(changeCreateLineMode);
             console.log('line')
-            // changeCreateLineMode(true);
             changeSystemMode('line')
         }
         else if (this.value == "multi") {
             triggerStartPoint();
-            // changeCreateMutiLineMode(true);
             changeSystemMode('multiLine');
         }
         else if (this.value == "edit") {
-            // changeEditMode(true);
             changeSystemMode('edit');
-        }
+        }  
         else if (this.value == "select") {
-            // changeSelectMode(true);
             changeSystemMode('select');
         }
+        
     });
 }
 

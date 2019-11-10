@@ -8,7 +8,7 @@ import {InitGround, showAxis} from './BasicScreen'
 import {formBinding} from './FormBinding'
 import {KeyControl} from './KeyControl'
 import {MouseControl} from './MouseControl'
-import {CreateBoxMesh, CreateCubeMesh} from './BoxObject'
+import {CreateBoxMesh, CreateCubeMesh} from './Objects/BoxObject'
 import {CreatePlaneFrom3Point, CreatePlaneFromPointAndNormalVector} from './Plane'
 import {getSysMode} from  './TempVariable'
 
@@ -42,8 +42,6 @@ var createScene = function() {
     KeyControl();
     MouseControl();
 
-    
-
     // CreateCubeWithCenterSize({ x: 5, y: 5, z: 5 }, 4);
     ////////// TEST OBJECT ///////////////
 
@@ -59,6 +57,8 @@ var createScene = function() {
     // CreatePlaneFromPointAndVector(l1.pointA, l2.rotation)
     var p = CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
     console.log(p.mesh)
+    // var p = CreatePlaneFromPointAndVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
+    // console.log(p.mesh)
 
     var pointer = CreatePoint(new BABYLON.Vector3(0,0,0));
 
