@@ -6,7 +6,7 @@ export function CreatePrismDefault()
 {
 
     var prism = BABYLON.MeshBuilder.CreatePolyhedron("prism", {type: 6, size: 3}, scene);
-    prism.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0),scene);
+    prism.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0));
     prism.rotation.y=1;
     prism.rotation.x=-2;
     return prism;

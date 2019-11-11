@@ -5,7 +5,7 @@ import {CreateMeshMaterial} from '../MeshMaterial'
 export function CreatePyramidDefault()
 {
     var polygon = BABYLON.MeshBuilder.CreatePolyhedron("oct", {type: 8, size: 3}, scene);
-    polygon.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0),scene);
+    polygon.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0));
     polygon.rotation.x=4;
     polygon.rotation.z=0.1;
     return polygon;

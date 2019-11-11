@@ -37,7 +37,14 @@ export function CreatePlaneFromPointAndNormalVector(point: BABYLON.Vector3, vect
     var _plane = new Plane(width?width:defaultWidth, height?height:defaultHeight);
     var sourcePlane = BABYLON.Plane.FromPositionAndNormal(point, vector);
     var center = point;
-    var plane = BABYLON.MeshBuilder.CreatePlane("Plane_"+indexPlane, { height: height ? height : defaultHeight, width: width ? width : defaultWidth, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
+    // var plane = BABYLON.MeshBuilder.CreatePlane("Plane_"+indexPlane, { height: height ? height : defaultHeight, width: width ? width : defaultWidth, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
+    var shape = [
+        new BABYLON.Vector3(width?-width/2:-defaultWidth/2, 0, height?-height/2:-defaultHeight/2),
+        new BABYLON.Vector3(width?width/2:defaultWidth/2, 0, height?-height/2:-defaultHeight/2),
+        new BABYLON.Vector3(width?width/2:defaultWidth/2, 0, height?height/2:defaultHeight/2),
+        new BABYLON.Vector3(width?-width/2:-defaultWidth/2, 0, height?height/2:defaultHeight/2)
+    ];
+    var plane = BABYLON.MeshBuilder.ExtrudePolygon("Plane_"+indexPlane, {shape: shape, depth: 0.02, sideOrientation: BABYLON.Mesh.DOUBLESIDE},scene);
     plane.setDirection(sourcePlane.normal)
 
     plane.position = center;

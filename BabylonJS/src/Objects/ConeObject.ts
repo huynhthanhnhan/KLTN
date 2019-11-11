@@ -6,7 +6,7 @@ export function CreateConeDefault()
 {
 
     var cone = BABYLON.MeshBuilder.CreateCylinder("cone", { diameterTop: 0, diameter: 3, height: 3, tessellation: 6 }, scene);
-    cone.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0),scene);
+    cone.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0));
     cone.position.y=1;
     return cone;
 }
