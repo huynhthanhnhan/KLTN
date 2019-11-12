@@ -9,7 +9,7 @@ export function InitGround(){
     groundMaterial.backFaceCulling = false;
     groundMaterial.mainColor = new BABYLON.Color3(1, 1, 1);
     groundMaterial.lineColor = new BABYLON.Color3(1.0, 1.0, 1.0);
-    groundMaterial.opacity = 0.5;
+    groundMaterial.opacity = 0.2;
 
     var groundz = BABYLON.MeshBuilder.CreateGround("groundz", { width: 100, height: 100 }, scene);
     groundz.material = groundMaterial;

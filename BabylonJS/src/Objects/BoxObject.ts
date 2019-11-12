@@ -26,6 +26,7 @@ export function CreateBoxDefault()
 export function CreateBoxCustom(height,width)
 {
     var box = BABYLON.MeshBuilder.CreateBox("box", {height: height, width: width}, scene);
+    box.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0));
     box.position.y = -2;
     gizmoManager.attachableMeshes.push(box);
     return box;

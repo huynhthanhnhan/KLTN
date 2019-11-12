@@ -4,6 +4,7 @@ import { scene, hl, gizmoManager } from './Enviroment'
 import { getListLine, getLineByName, addToListLine } from './TempVariable'
 import { LineActionManager } from "./ActionManager";
 import { CreatePoint, Point, getNewIndexPoint } from "./Point";
+import { CreateMeshMaterial } from "./MeshMaterial";
 
 var indexLine = 0;
 
@@ -71,6 +72,7 @@ export function CreateLine(point1: Point, point2: Point) {
         //         CreatePoint()
         // })
         // newLine.position = BABYLON.Vector3.Center(point1.mesh.position,point2.mesh.position);
+        newLine.material = CreateMeshMaterial(new BABYLON.Color3(1,1,1))
         LineActionManager(newLine);
         // newLine.parent = parentLine;
         // newLine.rotation.x = Math.PI / 2;

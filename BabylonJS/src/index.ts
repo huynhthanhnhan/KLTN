@@ -1,37 +1,18 @@
 import * as BABYLON from "@babylonjs/core"
 import "@babylonjs/core/Meshes/meshBuilder";
 
-import {CreatePoint, pointMaster} from './Point'
-import {CreateLine} from './Line'
-import {camera, canvas, engine,light, scene, gizmoManager, removeFromGizmoManagerList} from './Enviroment'
+import {CreatePoint, Point} from './Point'
+import {camera, canvas, engine, scene} from './Enviroment'
 import {InitGround, showAxis} from './BasicScreen'
 import {formBinding} from './FormBinding'
 import {KeyControl} from './KeyControl'
 import {MouseControl} from './MouseControl'
-import {CreateBoxMesh, CreateCubeMesh} from './Objects/BoxObject'
+import {CreateBoxMesh, CreateCubeMesh, CreateBoxCustom} from './Objects/BoxObject'
 import {CreatePlaneFrom3Point, CreatePlaneFromPointAndNormalVector} from './Plane'
-import {getSysMode} from  './TempVariable'
-
-//////////////////// Global Variable ////////////////////
-
-
-// var isSelectMode = true;
-// var isCreateLineMode = false;
-// var isCreateMultiLineMode = false;
-// var isCreatePointMode = false;
-// var isEditMode = false;
-
-// var isStartCreateLine = true;
-// var startPoint;
-
-
-// export function changeSelectMode(b:boolean) {isSelectMode = b}
-// export function changeCreateLineMode(b: boolean){console.log('change create line mode'); isCreateLineMode = b}
-// export function changeCreateMutiLineMode(b: boolean){isCreateMultiLineMode = b}
-// export function changeCreatePointMode(b:boolean){console.log('change point mode'); isCreatePointMode = b}
-// export function changeEditMode(b:boolean){isEditMode = b} 
-// export function changeStartCreateLine(b: boolean){isStartCreateLine = b}
-
+import { GetIntersectMesh } from "./IntersectMeshes";
+import { CreateCubeCustom } from "./Objects/CubeObject";
+import { getListLine, getListPoint, setIsDoubleClick, getIsDoubleClick } from "./TempVariable";
+import { CreateLine } from "./Line";
 
 var createScene = function() {
 
@@ -45,63 +26,106 @@ var createScene = function() {
     // CreateCubeWithCenterSize({ x: 5, y: 5, z: 5 }, 4);
     ////////// TEST OBJECT ///////////////
 
-    CreateCubeMesh({ x: 0, y: 2, z: 0 }, 1);
-    CreateBoxMesh({ x: 5, y: 2, z: 0 }, 2, 3, 4);
-    CreatePlaneFrom3Point(new BABYLON.Vector3(5,0,0), new BABYLON.Vector3(5,5,0), new BABYLON.Vector3(5,5,5));
-    CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,1,0));
+    var listBox: BABYLON.Mesh[] = [];
+    // var cusBox1 = CreateBoxCustom(10,5);
+    var cusBox2 = CreateBoxCustom(5,10);
+
+    var line = CreateLine(CreatePoint(new BABYLON.Vector3(2,0,10)),CreatePoint( new BABYLON.Vector3(-5,0,-10)));
+    GetIntersectMesh(cusBox2,line.mesh);
+
+    // var cus3 = CreateBoxCustom(10,10);
+    // var cus4 = CreateBoxCustom(10,10);
+    // listBox.push(cusBox1);
+    // listBox.push(cusBox2);
+    // listBox.push(cus3);
+    // listBox.push(cus4);
+
+    var intersectList: BABYLON.Mesh[] = [];
+    function setIntersect(){
+        listBox.map(box => {
+            listBox.map(box1 =>{
+                if(box1!== box){
+                    intersectList.push(GetIntersectMesh(box,box1));
+                }
+            })
+        })
+
+    }
+    function setIntersectList(list){
+        list.map(box => {
+            // list.map(box1 =>{
+            //     if(box1!== box){
+            //         intersectList.push(GetIntersectMesh(box.mesh,box1.mesh));
+            //     }
+            // })
+            intersectList.push(box.mesh,cusBox2)
+        })
+    }
+    setIntersectList(getListLine());
+    // setIntersect();
+    // var intersectMesh1;
+    // intersectMesh1 = GetIntersectMesh(cus3,cus4);
+    // var intersectMesh;
+    // intersectMesh = GetIntersectMesh(cusBox1, cusBox2);
+    // var intersectMesh2;
+    // var intersectMesh3;
+    // intersectMesh2 = GetIntersectMesh(cusBox1,cus3);
+    // intersectMesh3 = GetIntersectMesh(cusBox1,cus4);
+
+    // var cusBox3 = CreateCubeCustom(21)
+    // GetIntersectMesh(cusBox1, cusBox3);
+    // scene.removeMesh(intersectMesh)
+    // intersectMesh.dispose();
+    // console.log(intersectMesh)
+
+    scene.onKeyboardObservable.add((keyInfo) => {
+        switch (keyInfo.type) {
+            case BABYLON.KeyboardEventTypes.KEYDOWN:
+                    switch (keyInfo.event.key) {
+                        case "i" || "I":
+                            // intersectList.map(inter=>{
+                            //     inter.dispose();
+                    
+                            // })
+                            setIntersectList(getListLine());
+                            console.log(getListLine());
+                            console.log(getListPoint());
+                            break;
+                    }
+            }
+        })
+        // scene(()=>{
+        //     setIsDoubleClick(false);
+        // })
+    // scene.registerBeforeRender(()=>{
+    //     // intersectMesh.name = "no";
+    //     intersectList.map(inter=>{
+    //         inter.dispose();
+
+    //     })
+    //     setIntersect();
+    //     // intersectMesh.dispose();
+    //     // intersectMesh1.dispose();
+    //     // intersectMesh = GetIntersectMesh(cusBox1, cusBox2);
+    //     // intersectMesh1 = GetIntersectMesh(cus3,cus4);
+    //     // console.log(intersectMesh.name);
+    // })
+    /////////////////////////////////////
+
+    // CreateCubeMesh({ x: 0, y: 2, z: 0 }, 1);
+    // CreateBoxMesh({ x: 5, y: 2, z: 0 }, 2, 3, 4);
+    // CreatePlaneFrom3Point(new BABYLON.Vector3(5,0,0), new BABYLON.Vector3(5,5,0), new BABYLON.Vector3(5,5,5));
+    // CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,1,0));
 
     // var l1 = CreateLine(new BABYLON.Vector3(0,0,5), new BABYLON.Vector3(5,10,0), getSysMode()=='point');
     // var l2 = CreateLine(new BABYLON.Vector3(0,0,-5), new BABYLON.Vector3(5,0,0), getSysMode()=='point');
 
 
     // CreatePlaneFromPointAndVector(l1.pointA, l2.rotation)
-    var p = CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
-    console.log(p.mesh)
+    // var p = CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
+    // console.log(p.mesh)
     // var p = CreatePlaneFromPointAndVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
     // console.log(p.mesh)
-
-    var pointer = CreatePoint(new BABYLON.Vector3(0,0,0));
-
-    /**************************** Mouse Control ******************************************************/
-
-    scene.onPointerObservable.add((pointerInfo) => {
-        if (pointerInfo.event.button == 2) {
-            camera.attachControl(canvas);
-        }
-        switch (pointerInfo.type) {
-            // case BABYLON.PointerEventTypes.POINTERDOWN:
-            //     if(pointerInfo.pickInfo.hit) {
-            //         mode = "DRAG";
-            //         castRay();
-            //     }
-            // 	break;
-            case BABYLON.PointerEventTypes.POINTERMOVE:
-                pointer.position = pointerInfo.pickInfo.pickedPoint;
-                // console.log(pointerInfo.ray.origin);
-                // if(pickedMesh && mode === "DRAG"){
-                // dragMesh();
-                // }                
-                break;
-            case BABYLON.PointerEventTypes.POINTERUP:
-                // if (pickedMesh) 
-                {
-                    // mode = "CAMERA";
-                    // pickedMesh = null;
-                    // camera.attachControl(canvas);
-                }
-                break;
-            case BABYLON.PointerEventTypes.POINTERTAP:
-                // if (pointerInfo.pickInfo.hit) {
-                //     // mode = "GIZMO";
-                //     // castRay();
-                //     if (selectedMeshes && selectedMeshes.length == 1) {
-                //         gizmoManager.attachToMesh(selectedMeshes[0]);
-                //     }
-                // }
-                break;
-
-        }
-    });
 
     scene.registerBeforeRender(function() {
         // if (selectedMeshes.length >= 1) {

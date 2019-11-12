@@ -83,7 +83,7 @@ export function resetSelectedMeshes() {
 export function addToSelectedMeshes(mesh: BABYLON.Mesh) {
     selectedMeshes.push(mesh);
 }
-export function checkInSelectedMeshes(object) {
+export function checkInSelectedMeshes(object: BABYLON.Mesh) {
     if (selectedMeshes) {
         for (var i = 0; i < selectedMeshes.length; i++) {
             if (selectedMeshes[i] == object) {
@@ -98,6 +98,13 @@ export function checkInSelectedMeshes(object) {
 var isMoveZ = false;
 export function getIsMoveZ() { return isMoveZ; }
 export function setIsMoveZ(b: boolean) { isMoveZ = b; }
+
+var defaultMaterialAlpha = 0.5;
+export function getDefaultMaterialAlpha(){return defaultMaterialAlpha;}
+
+var isDoubleClick = false;
+export function getIsDoubleClick(){return isDoubleClick;}
+export function setIsDoubleClick(b: boolean){isDoubleClick = b;}
 
 
 

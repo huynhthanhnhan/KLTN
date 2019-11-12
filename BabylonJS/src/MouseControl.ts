@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
-import { scene, hl, gizmoManager, engine, camera } from './Enviroment'
-import { addToListLine, addToListPoint, getIsMoveZ } from './TempVariable'
+import { scene, hl, gizmoManager, engine, camera, canvas } from './Enviroment'
+import { addToListLine, addToListPoint, getIsMoveZ, setIsDoubleClick, getIsDoubleClick } from './TempVariable'
 import { CreatePoint, getIndexPoint, setIndexPoint, Point, getNewIndexPoint } from './Point'
 import { CreateLine } from './Line'
 import { getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getSysMode, getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine } from './TempVariable'
@@ -9,7 +9,7 @@ import { getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getSysMode, g
 export function MouseControl() {
     scene.onPointerPick = function (evt, pickResult) {
         // if the click hits the ground object, we change the impact position
-        if (pickResult.hit) {
+        if (pickResult.hit && getIsDoubleClick() == true) {
             if ((getSysMode() == 'line' || getSysMode() == 'multiLine')) {
                 if (pickResult.pickedMesh.name != "point") {
                     const pt = CreatePoint(pickResult.pickedPoint, 'Point_' + getNewIndexPoint());
@@ -23,7 +23,7 @@ export function MouseControl() {
                         if (getStartPoint()) {
                             var s = CreateLine(getStartPoint(), pt);
                             addToListLine(s);
-                            console.log("create with line");
+                            // console.log("create with line");
                             hl.removeMesh(getStartPoint().mesh);
                             if (getSysMode() == 'line')
                                 setIsStartCreateLine(true);
@@ -47,7 +47,7 @@ export function MouseControl() {
                         if (getStartPoint()) {
                             var s = CreateLine(getStartPoint(), pointResult);
                             addToListLine(s);
-                            console.log("create with point")
+                            // console.log("create with point")
                             setIsStartCreateLine(true);
                             hl.removeMesh(getStartPoint().mesh);
                         }
@@ -74,7 +74,12 @@ export function MouseControl() {
             }
 
         }
+        setIsDoubleClick(!getIsDoubleClick());
     };
+
+    scene.onPointerMove = function(evt, pickInfo){
+        setIsDoubleClick(false);
+    }
 
     var canvas = engine.getRenderingCanvas();
     var startingPoint;
@@ -99,7 +104,7 @@ export function MouseControl() {
                 if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ")
                     currentMesh = target;
                 startingPoint = getGroundPosition();
-                console.log('get mesh ', currentMesh)
+                // console.log('get mesh ', currentMesh)
 
                 if (startingPoint && getIsMoveZ()) { // we need to disconnect camera from canvas
                     setTimeout(function () {
@@ -109,11 +114,11 @@ export function MouseControl() {
             }
         }
         if (gizmoManager.positionGizmoEnabled && isPosControlGizmo ==false) {
-            console.log('here')
+            // console.log('here')
             isPosControlGizmo = true;
             if (gizmoManager.gizmos.positionGizmo)
                 tempPos = gizmoManager.gizmos.positionGizmo.attachedMesh.position;
-                console.log('down ', tempPos)
+                // console.log('down ', tempPos)
         }
 
     }
@@ -136,7 +141,7 @@ export function MouseControl() {
 
     var onPointerMove = function (evt) {
         if (getIsMoveZ()) {
-            console.log('move')
+            // console.log('move')
             if (!startingPoint) {
                 return;
             }
@@ -183,7 +188,7 @@ export function MouseControl() {
 
     canvas.addEventListener("pointerdown", onPointerDown, false);
     canvas.addEventListener("pointerup", onPointerUp, false);
-    canvas.addEventListener("pointermove", onPointerMove, false);
+    canvas.removeEventListener("pointermove", onPointerMove, false);
 
     scene.onDispose = function () {
         canvas.removeEventListener("pointerdown", onPointerDown);
@@ -191,3 +196,46 @@ export function MouseControl() {
         canvas.removeEventListener("pointermove", onPointerMove);
     }
 }
+
+var pointer = CreatePoint(new BABYLON.Vector3(0,0,0));
+
+/**************************** Mouse Control ******************************************************/
+
+scene.onPointerObservable.add((pointerInfo) => {
+    if (pointerInfo.event.button == 2) {
+        camera.attachControl(canvas);
+    }
+    switch (pointerInfo.type) {
+        // case BABYLON.PointerEventTypes.POINTERDOWN:
+        //     if(pointerInfo.pickInfo.hit) {
+        //         mode = "DRAG";
+        //         castRay();
+        //     }
+        // 	break;
+        case BABYLON.PointerEventTypes.POINTERMOVE:
+            pointer.position = pointerInfo.pickInfo.pickedPoint;
+            // console.log(pointerInfo.ray.origin);
+            // if(pickedMesh && mode === "DRAG"){
+            // dragMesh();
+            // }                
+            break;
+        case BABYLON.PointerEventTypes.POINTERUP:
+            // if (pickedMesh) 
+            {
+                // mode = "CAMERA";
+                // pickedMesh = null;
+                // camera.attachControl(canvas);
+            }
+            break;
+        case BABYLON.PointerEventTypes.POINTERTAP:
+            // if (pointerInfo.pickInfo.hit) {
+            //     // mode = "GIZMO";
+            //     // castRay();
+            //     if (selectedMeshes && selectedMeshes.length == 1) {
+            //         gizmoManager.attachToMesh(selectedMeshes[0]);
+            //     }
+            // }
+            break;
+
+    }
+});
