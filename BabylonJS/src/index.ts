@@ -3,7 +3,7 @@ import "@babylonjs/core/Meshes/meshBuilder";
 
 import {CreatePoint, Point} from './Point'
 import {camera, canvas, engine, scene} from './Enviroment'
-import {InitGround, showAxis} from './BasicScreen'
+import {InitGround, showAxis, getIsPickableBasicScene} from './BasicScreen'
 import {formBinding} from './FormBinding'
 import {KeyControl} from './KeyControl'
 import {MouseControl} from './MouseControl'
@@ -11,7 +11,7 @@ import {CreateBoxMesh, CreateCubeMesh, CreateBoxCustom} from './Objects/BoxObjec
 import {CreatePlaneFrom3Point, CreatePlaneFromPointAndNormalVector} from './Plane'
 import { GetIntersectMesh } from "./IntersectMeshes";
 import { CreateCubeCustom } from "./Objects/CubeObject";
-import { getListLine, getListPoint, setIsDoubleClick, getIsDoubleClick } from "./TempVariable";
+import { getListLine, getListPoint, setIsDoubleClick, getIsDoubleClick, getSysMode } from "./TempVariable";
 import { CreateLine } from "./Line";
 
 var createScene = function() {
@@ -78,22 +78,22 @@ var createScene = function() {
     // intersectMesh.dispose();
     // console.log(intersectMesh)
 
-    scene.onKeyboardObservable.add((keyInfo) => {
-        switch (keyInfo.type) {
-            case BABYLON.KeyboardEventTypes.KEYDOWN:
-                    switch (keyInfo.event.key) {
-                        case "i" || "I":
-                            // intersectList.map(inter=>{
-                            //     inter.dispose();
+    // scene.onKeyboardObservable.add((keyInfo) => {
+    //     switch (keyInfo.type) {
+    //         case BABYLON.KeyboardEventTypes.KEYDOWN:
+    //                 switch (keyInfo.event.key) {
+    //                     case "i" || "I":
+    //                         // intersectList.map(inter=>{
+    //                         //     inter.dispose();
                     
-                            // })
-                            setIntersectList(getListLine());
-                            console.log(getListLine());
-                            console.log(getListPoint());
-                            break;
-                    }
-            }
-        })
+    //                         // })
+    //                         setIntersectList(getListLine());
+    //                         console.log(getListLine());
+    //                         console.log(getListPoint());
+    //                         break;
+    //                 }
+    //         }
+    //     })
         // scene(()=>{
         //     setIsDoubleClick(false);
         // })
@@ -135,7 +135,10 @@ var createScene = function() {
         //     })
         // }
         // console.log(isMultiSelect);
+        // console.log(getSysMode())
+        console.log(getIsPickableBasicScene());
     })
+
     window['scene'] = scene;
     return scene;
 

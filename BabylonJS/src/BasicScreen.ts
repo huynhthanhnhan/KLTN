@@ -1,9 +1,12 @@
 import { GridMaterial } from "@babylonjs/materials/grid";
 import * as BABYLON from '@babylonjs/core'
 
-import {scene} from './Enviroment'
+import { scene } from './Enviroment'
 
-export function InitGround(){
+var basicScene;
+export function getIsPickableBasicScene(){return basicScene.isPickable;}
+export function setIsPickableBasicScene(b: boolean){basicScene.isPickable = b;}
+export function InitGround() {
     var groundMaterial = new GridMaterial("groundMaterial", scene);
     groundMaterial.gridRatio = 1;
     groundMaterial.backFaceCulling = false;
@@ -24,11 +27,12 @@ export function InitGround(){
     groundy.rotation.z = Math.PI / 2;
     groundy.material = groundMaterial;
 
+    basicScene = BABYLON.Mesh.MergeMeshes([groundx,groundy,groundz]);
 }
 
 ///////////////// Show Axis ////////////////////////
 export function showAxis(size) {
-    var makeTextPlane = function(text, color, size) {
+    var makeTextPlane = function (text, color, size) {
         var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, scene, true);
         dynamicTexture.hasAlpha = true;
         dynamicTexture.drawText(text, 5, 40, "bold 36px Arial", color, "transparent", true);
@@ -61,6 +65,8 @@ export function showAxis(size) {
     axisZ.color = new BABYLON.Color3(0, 0, 1);
     var zChar = makeTextPlane("Z", "blue", size / 10);
     zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
+
+    // basicScene = BABYLON.Mesh.MergeMeshes([basicScene, axisX,axisY,axisZ]);
 };
 
 // showAxis(10);

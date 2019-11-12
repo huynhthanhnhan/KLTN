@@ -14,7 +14,7 @@ export function getIsStartCreateLine() { return isStartCreateLine; }
 export function setIsStartCreateLine(b: boolean) { isStartCreateLine = b; }
 
 // System modes
-var sysMode: string = 'select' || 'line' || 'multiLine' || 'point' || 'edit';
+var sysMode: string = 'select' || 'line' || 'multiLine' || 'point' || 'edit'||'intersect';
 export function getSysMode() { return sysMode.valueOf(); }
 export function setSysMode(mode: string) { sysMode = mode };
 
@@ -105,6 +105,15 @@ export function getDefaultMaterialAlpha(){return defaultMaterialAlpha;}
 var isDoubleClick = false;
 export function getIsDoubleClick(){return isDoubleClick;}
 export function setIsDoubleClick(b: boolean){isDoubleClick = b;}
+
+var intersectMesh: BABYLON.Mesh;
+export function getInterMesh(){return intersectMesh;}
+export function setInterMesh(mesh: BABYLON.Mesh){intersectMesh = mesh;}
+
+var meshesForCheckIntersect: BABYLON.Mesh[] = [];
+
+export function getMeshesForCheckIntersect(){return meshesForCheckIntersect;}
+export function resetMeshesForCheckIntersect(){meshesForCheckIntersect = [];}
 
 
 

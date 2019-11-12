@@ -12,6 +12,7 @@ import { CreateConeDefault } from './Objects/ConeObject'
 import { CreatePrismDefault } from './Objects/PrismObject'
 import $ from 'jquery'
 import {triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine} from './TempVariable'
+import { setIsPickableBasicScene } from './BasicScreen'
 
 export function formBinding() {
     const form = document.querySelector('form')
@@ -110,22 +111,30 @@ export function formBinding() {
     $('#menus').on('change', function () {
         if (this.value == "point") {
             changeSystemMode('point');
+            setIsPickableBasicScene(true);
         }
-        else if (this.value == "single") {
-            console.log('line')
+        else if (this.value == "line") {
+            // console.log('line')
             changeSystemMode('line')
+            setIsPickableBasicScene(true);
         }
         else if (this.value == "multi") {
             triggerStartPoint();
             changeSystemMode('multiLine');
+            setIsPickableBasicScene(true);
         }
         else if (this.value == "edit") {
             changeSystemMode('edit');
+            setIsPickableBasicScene(false);
         }  
         else if (this.value == "select") {
             changeSystemMode('select');
+            setIsPickableBasicScene(false);
         }
-        
+        else if(this.value == "intersect"){
+            changeSystemMode('intersect');
+            setIsPickableBasicScene(false);
+        }
     });
 }
 

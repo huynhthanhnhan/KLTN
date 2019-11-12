@@ -1,7 +1,7 @@
 
 import * as BABYLON from '@babylonjs/core'
 import { scene, gizmoManager, removeFromGizmoManagerList } from './Enviroment'
-import { setMultiSelect, getSelectedMesh, setIsMoveZ, getSysMode } from './TempVariable'
+import { setMultiSelect, getSelectedMesh, setIsMoveZ, getSysMode, setSysMode } from './TempVariable'
 import { pointMaster } from './Point'
 
 export function deleteFromSelectedMeshes() {
@@ -47,6 +47,9 @@ export function KeyControl() {
                         case "z" || "Z":
                             setIsMoveZ(true);
                             break;
+                        case "i"||"I":
+                            setSysMode('intersect');
+                            break;
                     }
                 } else {
                     switch (keyInfo.event.key) {
@@ -70,6 +73,9 @@ export function KeyControl() {
                                 gizmoManager.positionGizmoEnabled = false;
                                 gizmoManager.rotationGizmoEnabled = false;
                             }
+                            break;
+                        case "b" ||"B":
+                            gizmoManager.boundingBoxGizmoEnabled = !gizmoManager.boundingBoxGizmoEnabled;
                             break;
                         case "e" || "E":
                             document.getElementById("cbEditMode").click();

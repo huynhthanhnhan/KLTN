@@ -1,16 +1,21 @@
 import * as BABYLON from "@babylonjs/core";
 import { scene, hl, gizmoManager, engine, camera, canvas } from './Enviroment'
-import { addToListLine, addToListPoint, getIsMoveZ, setIsDoubleClick, getIsDoubleClick } from './TempVariable'
+import { addToListLine, addToListPoint, getIsMoveZ, setIsDoubleClick, getIsDoubleClick, getMeshesForCheckIntersect, setInterMesh, getInterMesh, getDefaultMaterialAlpha, resetMeshesForCheckIntersect } from './TempVariable'
 import { CreatePoint, getIndexPoint, setIndexPoint, Point, getNewIndexPoint } from './Point'
 import { CreateLine } from './Line'
 import { getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getSysMode, getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine } from './TempVariable'
+import { GetIntersectMesh } from "./IntersectMeshes";
+import { setIsPickableBasicScene } from "./BasicScreen";
 
 
 export function MouseControl() {
     scene.onPointerPick = function (evt, pickResult) {
         // if the click hits the ground object, we change the impact position
         if (pickResult.hit && getIsDoubleClick() == true) {
+
+            // Line mode
             if ((getSysMode() == 'line' || getSysMode() == 'multiLine')) {
+                // setIsPickableBasicScene(true);
                 if (pickResult.pickedMesh.name != "point") {
                     const pt = CreatePoint(pickResult.pickedPoint, 'Point_' + getNewIndexPoint());
                     addToListPoint(pt);
@@ -53,10 +58,16 @@ export function MouseControl() {
                         }
                     }
                 }
-            } else if (getSysMode() == 'point') {
+            }
+            // Point mode 
+            else if (getSysMode() == 'point') {
+                // setIsPickableBasicScene(true);
                 const pt = CreatePoint(pickResult.pickedPoint);
                 addToListPoint(pt);
-            } else if (getSysMode() == 'select' || getSysMode() == 'edit') {
+            }
+            //select || edit mode 
+            else if (getSysMode() == 'select' || getSysMode() == 'edit') {
+                // setIsPickableBasicScene(false);
                 var target = (pickResult.pickedMesh) as BABYLON.Mesh;
                 if (hl.hasMesh(target)) hl.removeMesh(target);
                 hl.addMesh(target, BABYLON.Color3.Blue());
@@ -72,12 +83,36 @@ export function MouseControl() {
                     resetSelectedMeshes();
                 }
             }
+            //intersect mode
+            else if (getSysMode() == 'intersect') {
+                // setIsPickableBasicScene(false);
+                // console.log(getMeshesForCheckIntersect())
+                var target = (pickResult.pickedMesh) as BABYLON.Mesh;
+                if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ") {
+                    var meshesForCheckIntersect = getMeshesForCheckIntersect();
+                    if (meshesForCheckIntersect.length == 0) {
+                        target.material.alpha = 1;
+                        if (hl.hasMesh(target)) hl.removeMesh(target);
+                        hl.addMesh(target, BABYLON.Color3.Green());
+                        if (getInterMesh()) getInterMesh().dispose();
+                        meshesForCheckIntersect.push(target);
+                    }
+                    else {
+                        target.material.alpha = getDefaultMaterialAlpha();
+                        meshesForCheckIntersect[0].material.alpha = getDefaultMaterialAlpha();
+                        if (hl.hasMesh(target)) hl.removeMesh(target);
+                        hl.removeMesh(meshesForCheckIntersect[0]);
+                        setInterMesh(GetIntersectMesh(meshesForCheckIntersect[0], target));
+                        resetMeshesForCheckIntersect();
+                    }
+                }
+            }
 
         }
         setIsDoubleClick(!getIsDoubleClick());
     };
 
-    scene.onPointerMove = function(evt, pickInfo){
+    scene.onPointerMove = function (evt, pickInfo) {
         setIsDoubleClick(false);
     }
 
@@ -113,12 +148,12 @@ export function MouseControl() {
                 }
             }
         }
-        if (gizmoManager.positionGizmoEnabled && isPosControlGizmo ==false) {
+        if (gizmoManager.positionGizmoEnabled && isPosControlGizmo == false) {
             // console.log('here')
             isPosControlGizmo = true;
             if (gizmoManager.gizmos.positionGizmo)
                 tempPos = gizmoManager.gizmos.positionGizmo.attachedMesh.position;
-                // console.log('down ', tempPos)
+            // console.log('down ', tempPos)
         }
 
     }
@@ -197,7 +232,7 @@ export function MouseControl() {
     }
 }
 
-var pointer = CreatePoint(new BABYLON.Vector3(0,0,0));
+var pointer = CreatePoint(new BABYLON.Vector3(0, 0, 0));
 
 /**************************** Mouse Control ******************************************************/
 
