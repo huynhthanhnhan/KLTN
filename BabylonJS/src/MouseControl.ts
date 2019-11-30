@@ -1,113 +1,29 @@
 import * as BABYLON from "@babylonjs/core";
-import { scene, hl, gizmoManager, engine, camera, canvas } from './Enviroment'
-import { addToListLine, addToListPoint, getIsMoveZ, setIsDoubleClick, getIsDoubleClick, getMeshesForCheckIntersect, setInterMesh, getInterMesh, getDefaultMaterialAlpha, resetMeshesForCheckIntersect } from './TempVariable'
-import { CreatePoint, getIndexPoint, setIndexPoint, Point, getNewIndexPoint } from './Point'
-import { CreateLine } from './Line'
-import { getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getSysMode, getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine } from './TempVariable'
-import { GetIntersectMesh } from "./IntersectMeshes";
-import { setIsPickableBasicScene } from "./BasicScreen";
+import { scene, gizmoManager, engine, camera, canvas } from './Enviroment'
+import {getIsMoveZ, setIsDoubleClick, getIsDoubleClick, } from './TempVariable'
+import { CreatePoint } from './Point'
+import { getSysMode} from './TempVariable'
+import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect } from "./MouseBinding";
 
 
 export function MouseControl() {
     scene.onPointerPick = function (evt, pickResult) {
         // if the click hits the ground object, we change the impact position
         if (pickResult.hit && getIsDoubleClick() == true) {
-
-            // Line mode
-            if ((getSysMode() == 'line' || getSysMode() == 'multiLine')) {
-                // setIsPickableBasicScene(true);
-                if (pickResult.pickedMesh.name != "point") {
-                    const pt = CreatePoint(pickResult.pickedPoint, 'Point_' + getNewIndexPoint());
-                    addToListPoint(pt);
-                    if (getIsStartCreateLine()) {
-                        setStartPoint(pt);
-                        if (hl.hasMesh(getStartPoint().mesh)) hl.removeMesh(getStartPoint().mesh);
-                        hl.addMesh(getStartPoint().mesh, BABYLON.Color3.Green());
-                        setIsStartCreateLine(false);
-                    } else {
-                        if (getStartPoint()) {
-                            var s = CreateLine(getStartPoint(), pt);
-                            addToListLine(s);
-                            // console.log("create with line");
-                            hl.removeMesh(getStartPoint().mesh);
-                            if (getSysMode() == 'line')
-                                setIsStartCreateLine(true);
-                            else {
-                                setStartPoint(pt);
-                                if (hl.hasMesh(getStartPoint().mesh)) hl.removeMesh(getStartPoint().mesh);
-                                hl.addMesh(getStartPoint().mesh, BABYLON.Color3.Green());
-                            }
-                        }
-                    }
-                } else {
-                    var result = pickResult.pickedMesh as BABYLON.Mesh;
-                    var pointResult = new Point('Point_' + getIndexPoint(), result);
-                    setIndexPoint(getIndexPoint() + 1);
-                    if (getIsStartCreateLine()) {
-                        setStartPoint(pointResult);
-                        if (hl.hasMesh(getStartPoint().mesh)) hl.removeMesh(getStartPoint().mesh);
-                        hl.addMesh(getStartPoint().mesh, BABYLON.Color3.Green());
-                        setIsStartCreateLine(false);
-                    } else {
-                        if (getStartPoint()) {
-                            var s = CreateLine(getStartPoint(), pointResult);
-                            addToListLine(s);
-                            // console.log("create with point")
-                            setIsStartCreateLine(true);
-                            hl.removeMesh(getStartPoint().mesh);
-                        }
-                    }
-                }
+            switch (getSysMode()) {
+                case 'line' || 'multiline':
+                    ProcessLineOrMultiline(pickResult);
+                    break;
+                case 'point':
+                    ProcessPoint(pickResult);
+                    break;
+                case 'select' || 'edit':
+                    ProcessSelectOrEdit(pickResult);
+                    break;
+                case 'intersect':
+                    ProcessIntersect(pickResult);
+                    break;
             }
-            // Point mode 
-            else if (getSysMode() == 'point') {
-                // setIsPickableBasicScene(true);
-                const pt = CreatePoint(pickResult.pickedPoint);
-                addToListPoint(pt);
-            }
-            //select || edit mode 
-            else if (getSysMode() == 'select' || getSysMode() == 'edit') {
-                // setIsPickableBasicScene(false);
-                var target = (pickResult.pickedMesh) as BABYLON.Mesh;
-                if (hl.hasMesh(target)) hl.removeMesh(target);
-                hl.addMesh(target, BABYLON.Color3.Blue());
-                if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ") {
-                    if (getMultiSelect() == false || getSysMode() == 'edit') {
-                        resetSelectedMeshes();
-                    }
-                    addToSelectedMeshes(target);
-                    gizmoManager.attachableMeshes.push(target);
-
-                    // camera.detachControl(canvas);
-                } else {
-                    resetSelectedMeshes();
-                }
-            }
-            //intersect mode
-            else if (getSysMode() == 'intersect') {
-                // setIsPickableBasicScene(false);
-                // console.log(getMeshesForCheckIntersect())
-                var target = (pickResult.pickedMesh) as BABYLON.Mesh;
-                if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ") {
-                    var meshesForCheckIntersect = getMeshesForCheckIntersect();
-                    if (meshesForCheckIntersect.length == 0) {
-                        target.material.alpha = 1;
-                        if (hl.hasMesh(target)) hl.removeMesh(target);
-                        hl.addMesh(target, BABYLON.Color3.Green());
-                        if (getInterMesh()) getInterMesh().dispose();
-                        meshesForCheckIntersect.push(target);
-                    }
-                    else {
-                        target.material.alpha = getDefaultMaterialAlpha();
-                        meshesForCheckIntersect[0].material.alpha = getDefaultMaterialAlpha();
-                        if (hl.hasMesh(target)) hl.removeMesh(target);
-                        hl.removeMesh(meshesForCheckIntersect[0]);
-                        setInterMesh(GetIntersectMesh(meshesForCheckIntersect[0], target));
-                        resetMeshesForCheckIntersect();
-                    }
-                }
-            }
-
         }
         setIsDoubleClick(!getIsDoubleClick());
     };

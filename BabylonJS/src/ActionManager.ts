@@ -2,6 +2,7 @@ import * as BABYLON from "@babylonjs/core"
 import { checkInSelectedMeshes, getDefaultMaterialAlpha } from './TempVariable'
 import { scene, hl } from './Enviroment'
 import { getSysMode } from './TempVariable'
+import { onMouseOver, onMouseOut } from "./MouseBinding";
 
 export function PointActionManager(mesh: BABYLON.Mesh) {
     mesh.actionManager = new BABYLON.ActionManager(scene);
@@ -18,8 +19,17 @@ export function PointActionManager(mesh: BABYLON.Mesh) {
     );
     mesh.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnRightPickTrigger,
+            function () {
+                onMouseOver(mesh)
+            }
+        )
+    );
+    mesh.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOutTrigger,
             function () {
+                onMouseOut(mesh)
                 if (getSysMode() == 'select' && hl.hasMesh(mesh)) {
                     if (!checkInSelectedMeshes(mesh))
                         hl.removeMesh(mesh);
@@ -62,4 +72,24 @@ export function LineActionManager(mesh: BABYLON.Mesh) {
         )
     );
 
+}
+
+export function RightClickActionManager(mesh: BABYLON.Mesh){
+    mesh.actionManager = new BABYLON.ActionManager(scene);
+    mesh.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnRightPickTrigger,
+            function () {
+                onMouseOver(mesh)
+            }
+        )
+    );
+    mesh.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPointerOutTrigger,
+            function () {
+                onMouseOut(mesh)
+            }
+        )
+    );
 }

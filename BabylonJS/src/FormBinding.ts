@@ -136,6 +136,17 @@ export function formBinding() {
             setIsPickableBasicScene(false);
         }
     });
+    // $('#plane').on('change', function () {
+    //     if (this.value == "3point") {
+    //         changeSystemMode('point');
+    //         setIsPickableBasicScene(true);
+    //     }
+    //     else if (this.value == "point_normal") {
+    //         // console.log('line')
+    //         changeSystemMode('line')
+    //         setIsPickableBasicScene(true);
+    //     }
+    // }
 }
 
 

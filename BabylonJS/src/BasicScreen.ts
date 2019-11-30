@@ -66,6 +66,14 @@ export function showAxis(size) {
     var zChar = makeTextPlane("Z", "blue", size / 10);
     zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
 
+    axisX.isPickable = false;
+    axisY.isPickable = false;
+    axisZ.isPickable = false;
+
+    xChar.isPickable = false;
+    yChar.isPickable = false;
+    zChar.isPickable = false;
+
     // basicScene = BABYLON.Mesh.MergeMeshes([basicScene, axisX,axisY,axisZ]);
 };
 

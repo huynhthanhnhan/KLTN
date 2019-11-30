@@ -10,5 +10,11 @@ module.exports = {
     },
     devServer: {
         port: 1997
-    }
+    },
+    // externals: {
+    //     "oimo": true,
+    //     "cannon": true,
+    //     "earcut": true,
+    //     earcut: 'EARCUT'
+    // },
 }

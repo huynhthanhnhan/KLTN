@@ -13,6 +13,7 @@ export function CreateSphereDefault()
 export function CreateSphereCustom(diameter)
 {
     var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, diameter, scene);
+    sphere.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0));
     sphere.position.y = 1;
     return sphere;
 }

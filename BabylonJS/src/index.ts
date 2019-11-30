@@ -13,6 +13,7 @@ import { GetIntersectMesh } from "./IntersectMeshes";
 import { CreateCubeCustom } from "./Objects/CubeObject";
 import { getListLine, getListPoint, setIsDoubleClick, getIsDoubleClick, getSysMode } from "./TempVariable";
 import { CreateLine } from "./Line";
+import { CreateSphereCustom } from "./Objects/SphereObject";
 
 var createScene = function() {
 
@@ -29,9 +30,11 @@ var createScene = function() {
     var listBox: BABYLON.Mesh[] = [];
     // var cusBox1 = CreateBoxCustom(10,5);
     var cusBox2 = CreateBoxCustom(5,10);
+    CreateSphereCustom(10);
 
     var line = CreateLine(CreatePoint(new BABYLON.Vector3(2,0,10)),CreatePoint( new BABYLON.Vector3(-5,0,-10)));
     GetIntersectMesh(cusBox2,line.mesh);
+    var plane = CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(1,1,1), new BABYLON.Vector3(0,1,0), 10,10);
 
     // var cus3 = CreateBoxCustom(10,10);
     // var cus4 = CreateBoxCustom(10,10);
@@ -136,7 +139,7 @@ var createScene = function() {
         // }
         // console.log(isMultiSelect);
         // console.log(getSysMode())
-        console.log(getIsPickableBasicScene());
+        // console.log(getIsPickableBasicScene());
     })
 
     window['scene'] = scene;

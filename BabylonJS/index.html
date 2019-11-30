@@ -8,7 +8,7 @@
 
     <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+    <script src="./src/earcut.min.js"></script>
 
     <style>
         html,
@@ -75,6 +75,10 @@
             <option name="Mode" value="edit">Edit Mode</option>
             <option name="Mode" value="intersect">View Intersect Mode</option>
           </select>
+        <select id="plane">
+            <option value="Mode" selected="3point">Chọn mode</option>
+            <option name="Mode" value="point_normal">Point Mode</option>
+          </select><br>
         <select id="shape">
             <option value="" selected="selected">Chọn hình</option>
             <option value="hinh chop">Hình chóp</option>
@@ -97,6 +101,18 @@
                 <input type="submit" value="Submit">
             </fieldset>
         </form>
+        <!-- <form>
+            <fieldset>
+                <legend id="planeInput">Input Plane Information:</legend>
+                Cạnh:<br>
+                <input type="text" id="edge" value=""><br> Chiều dài:<br>
+                <input type="text" id="width" value=""><br> Chiều rộng:<br>
+                <input type="text" id="height" value=""><br> Đường kính:<br>
+                <input type="text" id="diameter" value=""><br><br> Số điểm đáy:<br>
+                <input type="text" id="points" value=""><br><br>
+                <input type="submit" value="Submit">
+            </fieldset>
+        </form> -->
     </div>
     <div class="main">
         <canvas id="renderCanvas"></canvas>
