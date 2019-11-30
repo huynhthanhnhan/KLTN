@@ -45,22 +45,22 @@ var createScene = function() {
     // CreateCubeWithCenterSize({ x: 5, y: 5, z: 5 }, 4);
     ////////// TEST OBJECT ///////////////
 
-    CreateCubeMesh({ x: 0, y: 2, z: 0 }, 1);
-    CreateBoxMesh({ x: 5, y: 2, z: 0 }, 2, 3, 4);
-    CreatePlaneFrom3Point(new BABYLON.Vector3(5,0,0), new BABYLON.Vector3(5,5,0), new BABYLON.Vector3(5,5,5));
-    CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,1,0));
+    // CreateCubeMesh({ x: 0, y: 2, z: 0 }, 1);
+    // CreateBoxMesh({ x: 5, y: 2, z: 0 }, 2, 3, 4);
+    // CreatePlaneFrom3Point(new BABYLON.Vector3(5,0,0), new BABYLON.Vector3(5,5,0), new BABYLON.Vector3(5,5,5));
+    // CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,1,0));
 
     // var l1 = CreateLine(new BABYLON.Vector3(0,0,5), new BABYLON.Vector3(5,10,0), getSysMode()=='point');
     // var l2 = CreateLine(new BABYLON.Vector3(0,0,-5), new BABYLON.Vector3(5,0,0), getSysMode()=='point');
 
 
     // CreatePlaneFromPointAndVector(l1.pointA, l2.rotation)
-    var p = CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
-    console.log(p.mesh)
+    //var p = CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
+    // console.log(p.mesh)
     // var p = CreatePlaneFromPointAndVector(new BABYLON.Vector3(0,0,0), new BABYLON.Vector3(1,0,0))
     // console.log(p.mesh)
 
-    var pointer = CreatePoint(new BABYLON.Vector3(0,0,0));
+   var pointer = CreatePoint(new BABYLON.Vector3(0,0,0));
 
     /**************************** Mouse Control ******************************************************/
 
