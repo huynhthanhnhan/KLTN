@@ -8,8 +8,11 @@ import { CreateCubeCustom } from './Objects/CubeObject'
 import { CreateSphereDefault } from './Objects/SphereObject'
 import { CreateSphereCustom } from './Objects/SphereObject'
 import { CreatePyramidDefault } from './Objects/PyramidObject'
+import { CreatePyramidCustom } from './Objects/PyramidObject'
 import { CreateConeDefault } from './Objects/ConeObject'
+import { CreateConeCustom } from './Objects/ConeObject'
 import { CreatePrismDefault } from './Objects/PrismObject'
+import { CreatePrismCustom } from './Objects/PrismObject'
 import $ from 'jquery'
 import {triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine} from './TempVariable'
 import { setIsPickableBasicScene } from './BasicScreen'
@@ -21,7 +24,10 @@ export function formBinding() {
     var valCube=(<HTMLInputElement>document.getElementById('edge')).value;
     if(valCube !=null && valCube !='')
     {
-        CreateCubeCustom(valCube);
+        var cubeBox=CreateCubeCustom(parseInt(valCube));
+        // scene.registerBeforeRender(function(){
+        //     cubeBox.rotation.y += 0.05;
+        // });
     }
     var valDiameter=(<HTMLInputElement>document.getElementById('diameter')).value;
     if(valDiameter !=null && valDiameter !='')
@@ -32,18 +38,36 @@ export function formBinding() {
     var valBoxHeight=(<HTMLInputElement>document.getElementById('height')).value;
     if((valBoxWidth !=null && valBoxWidth !='')&&(valBoxHeight !=null && valBoxHeight !=''))
     {
-        CreateBoxCustom(valBoxHeight,valBoxWidth);
+        CreateBoxCustom(parseInt(valBoxHeight),parseInt(valBoxWidth));
     }
-    var valPoints=(<HTMLInputElement>document.getElementById('points')).value;
-    if(valPoints !=null && valPoints !='')
+    var valPointsOfPyramid=(<HTMLInputElement>document.getElementById('pointsofpyramid')).value;
+    var valPyramidHeight=(<HTMLInputElement>document.getElementById('heightofpyramid')).value;
+    if(valPointsOfPyramid !=null && valPyramidHeight !='')
     {
-        // Cre(valPoints);
+        CreatePyramidCustom(parseInt(valPyramidHeight),parseInt(valPointsOfPyramid));
+    }
+    var valPointsOfPrism=(<HTMLInputElement>document.getElementById('pointsofprism')).value;
+    var valPrismHeigth=(<HTMLInputElement>document.getElementById('heightofprism')).value;
+    if(valPointsOfPrism !=null && valPrismHeigth !='')
+    {
+        if(valPointsOfPrism == '3'){
+            CreatePrismCustom(parseInt(valPointsOfPrism)+2,parseInt(valPrismHeigth));
+        }
+        else{
+            CreatePrismCustom(parseInt(valPointsOfPrism)+1,parseInt(valPrismHeigth));
+        }
+    }
+    var valConeDiameter=(<HTMLInputElement>document.getElementById('diameterofcone')).value;
+    var valConeHeight=(<HTMLInputElement>document.getElementById('heightofcone')).value;
+    if(valConeDiameter !=null && valConeHeight !='')
+    {
+            CreateConeCustom(parseInt(valConeDiameter),parseInt(valConeHeight));
     }
     event.preventDefault()
    
     })
     var checkStatus= function(checkValue){
-        var state= {height:false, width:false, edge:false, diameter:false, points:false };
+        var state= {height:false, width:false, edge:false, diameter:false, pointsofpyramid:false,heightofpyramid:false, pointsofprism:false, heightofprism:false,diameterofcone:false, heightofcone:false };
         Object.keys(state).forEach(function(k){
             Object.keys(checkValue).forEach(function(i){
             if(state[k]==true){
@@ -90,16 +114,22 @@ export function formBinding() {
                 CreatePyramidDefault();
                 var value="Hình chóp";
                 document.getElementById("infoHeader").innerHTML=value;
+                var pyramidinfo={pointsofpyramid:false,heightofpyramid:false};
+                checkStatus(pyramidinfo);
             }
             else if(this.value == "hinh tru"){
                 CreatePrismDefault();
                 var value="Hình trụ";
                 document.getElementById("infoHeader").innerHTML=value;
+                var prisminfo={pointsofprism:false, heightofprism:false};
+                checkStatus(prisminfo);
             }
             else if(this.value == "hinh non"){
                 CreateConeDefault();
                 var value="Hình nón";
                 document.getElementById("infoHeader").innerHTML=value;
+                var coneinfo={diameterofcone:false, heightofcone:false};
+                checkStatus(coneinfo);
             }
     });
 
