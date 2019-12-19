@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core"
 import { checkInSelectedMeshes, getDefaultMaterialAlpha } from './TempVariable'
-import { scene, hl } from './Enviroment'
+import { scene, hl, addHLToMesh, removeHLOfMesh } from './Enviroment'
 import { getSysMode } from './TempVariable'
 import { onMouseOver, onMouseOut } from "./MouseBinding";
 
@@ -11,8 +11,7 @@ export function PointActionManager(mesh: BABYLON.Mesh) {
             BABYLON.ActionManager.OnPointerOverTrigger,
             function () {
                 if (getSysMode() == 'select' && !checkInSelectedMeshes(mesh)) {
-                    if (hl.hasMesh(mesh)) hl.removeMesh(mesh);
-                    hl.addMesh(mesh, BABYLON.Color3.Yellow());
+                    addHLToMesh(mesh, BABYLON.Color3.Yellow());
                 }
             }
         )
@@ -54,7 +53,7 @@ export function LineActionManager(mesh: BABYLON.Mesh) {
                 // if (getSysMode()=='point')
                 if (!checkInSelectedMeshes(mesh)) {
                     mesh.material.alpha = 1;
-                    hl.addMesh(mesh, BABYLON.Color3.Yellow());
+                    addHLToMesh(mesh, BABYLON.Color3.Yellow());
                 }
             }
         )
@@ -66,7 +65,7 @@ export function LineActionManager(mesh: BABYLON.Mesh) {
                 // if (getSysMode()=='point')
                 if (!checkInSelectedMeshes(mesh)) {
                     mesh.material.alpha = getDefaultMaterialAlpha();
-                    hl.removeMesh(mesh);
+                    removeHLOfMesh(mesh);
                 }
             }
         )

@@ -27,44 +27,44 @@ var createScene = function() {
     // CreateCubeWithCenterSize({ x: 5, y: 5, z: 5 }, 4);
     ////////// TEST OBJECT ///////////////
 
-    var listBox: BABYLON.Mesh[] = [];
-    // var cusBox1 = CreateBoxCustom(10,5);
-    var cusBox2 = CreateBoxCustom(5,10);
-    CreateSphereCustom(10);
+    // var listBox: BABYLON.Mesh[] = [];
+    // // var cusBox1 = CreateBoxCustom(10,5);
+    // var cusBox2 = CreateBoxCustom(5,10);
+    // CreateSphereCustom(10);
 
-    var line = CreateLine(CreatePoint(new BABYLON.Vector3(2,0,10)),CreatePoint( new BABYLON.Vector3(-5,0,-10)));
-    GetIntersectMesh(cusBox2,line.mesh);
-    var plane = CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(1,1,1), new BABYLON.Vector3(0,1,0), 10,10);
+    // var line = CreateLine(CreatePoint(new BABYLON.Vector3(2,0,10)),CreatePoint( new BABYLON.Vector3(-5,0,-10)));
+    // GetIntersectMesh(cusBox2,line.mesh);
+    // var plane = CreatePlaneFromPointAndNormalVector(new BABYLON.Vector3(1,1,1), new BABYLON.Vector3(0,1,0), 10,10);
 
-    // var cus3 = CreateBoxCustom(10,10);
-    // var cus4 = CreateBoxCustom(10,10);
-    // listBox.push(cusBox1);
-    // listBox.push(cusBox2);
-    // listBox.push(cus3);
-    // listBox.push(cus4);
+    // // var cus3 = CreateBoxCustom(10,10);
+    // // var cus4 = CreateBoxCustom(10,10);
+    // // listBox.push(cusBox1);
+    // // listBox.push(cusBox2);
+    // // listBox.push(cus3);
+    // // listBox.push(cus4);
 
-    var intersectList: BABYLON.Mesh[] = [];
-    function setIntersect(){
-        listBox.map(box => {
-            listBox.map(box1 =>{
-                if(box1!== box){
-                    intersectList.push(GetIntersectMesh(box,box1));
-                }
-            })
-        })
+    // var intersectList: BABYLON.Mesh[] = [];
+    // function setIntersect(){
+    //     listBox.map(box => {
+    //         listBox.map(box1 =>{
+    //             if(box1!== box){
+    //                 intersectList.push(GetIntersectMesh(box,box1));
+    //             }
+    //         })
+    //     })
 
-    }
-    function setIntersectList(list){
-        list.map(box => {
-            // list.map(box1 =>{
-            //     if(box1!== box){
-            //         intersectList.push(GetIntersectMesh(box.mesh,box1.mesh));
-            //     }
-            // })
-            intersectList.push(box.mesh,cusBox2)
-        })
-    }
-    setIntersectList(getListLine());
+    // }
+    // function setIntersectList(list){
+    //     list.map(box => {
+    //         // list.map(box1 =>{
+    //         //     if(box1!== box){
+    //         //         intersectList.push(GetIntersectMesh(box.mesh,box1.mesh));
+    //         //     }
+    //         // })
+    //         intersectList.push(box.mesh,cusBox2)
+    //     })
+    // }
+    // setIntersectList(getListLine());
     // setIntersect();
     // var intersectMesh1;
     // intersectMesh1 = GetIntersectMesh(cus3,cus4);
@@ -154,6 +154,8 @@ engine.runRenderLoop(function() {
         mainScene.render();
         var fpsLabel = document.getElementById("fpsLabel");
         fpsLabel.innerHTML = engine.getFps().toFixed() + " fps";
+        var modeLabel = document.getElementById("modeLabel");
+        modeLabel.innerHTML = getSysMode() + " mode";
     }
 });
 

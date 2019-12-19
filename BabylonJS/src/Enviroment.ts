@@ -51,3 +51,14 @@ function refreshGizmoManager() {
     gizmoManager.boundingBoxGizmoEnabled = !gizmoManager.boundingBoxGizmoEnabled;
     gizmoManager.boundingBoxGizmoEnabled = !gizmoManager.boundingBoxGizmoEnabled;
 }
+
+export function addHLToMesh(mesh: BABYLON.Mesh, color: BABYLON.Color3){
+    if (hl.hasMesh(mesh)) 
+        hl.removeMesh(mesh);
+    hl.addMesh(mesh, BABYLON.Color3.Green());
+}
+
+export function removeHLOfMesh(mesh: BABYLON.Mesh){
+    if(hl.hasMesh(mesh))
+        hl.removeMesh(mesh);
+}

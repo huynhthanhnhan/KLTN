@@ -1,6 +1,3 @@
-
-import { hl, gizmoManager } from './Enviroment'
-
 import { CreateBoxDefault } from './Objects/BoxObject'
 import { CreateBoxCustom } from './Objects/BoxObject'
 import { CreateCubeDefault } from './Objects/CubeObject'
@@ -166,6 +163,54 @@ export function formBinding() {
             setIsPickableBasicScene(false);
         }
     });
+    $("#point_click").on('click', function(){
+        changeSystemMode('point');
+        setIsPickableBasicScene(true);
+    })
+    $("#line_click").on('click', function(){
+        changeSystemMode('line');
+        setIsPickableBasicScene(true);
+    })
+    $("#btn_select_mode").on('click', function(){
+        changeSystemMode('select');
+        setIsPickableBasicScene(false);
+    })
+    $("#btn_edit_mode").on('click', function(){
+        changeSystemMode('edit');
+        setIsPickableBasicScene(false);
+    })
+    $("#btn_view_intersect_mode").on('click', function(){
+        changeSystemMode('intersect');
+        setIsPickableBasicScene(false);
+    })
+    function resetFormInput(){
+        document.getElementsByName('div-form-input').forEach(e=>{
+            e.style.display = "none";
+        })
+    }
+
+    
+
+    $("#point_input").on('click', function(){
+        resetFormInput();
+        document.getElementById('position').style.display = 'block';
+        document.getElementById('btnCreate').style.display = 'block';
+    })
+
+    $("#line_input_point_vector").on('click', function(){
+        resetFormInput();
+        document.getElementById('point1').style.display = 'block';
+        document.getElementById('vector').style.display = 'block';
+        document.getElementById('btnCreate').style.display = 'block';
+    })
+
+    $("#line_input_2_point").on('click', function(){
+        resetFormInput();
+        document.getElementById('point1').style.display = 'block';
+        document.getElementById('point2').style.display = 'block';
+        document.getElementById('btnCreate').style.display = 'block';
+    })
+
     // $('#plane').on('change', function () {
     //     if (this.value == "3point") {
     //         changeSystemMode('point');

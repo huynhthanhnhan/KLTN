@@ -1,6 +1,6 @@
 import * as BABYLON from '@babylonjs/core'
 import { CreateMeshMaterial } from './MeshMaterial';
-import { scene, hl } from './Enviroment';
+import { scene, addHLToMesh } from './Enviroment';
 import { RightClickActionManager } from './ActionManager';
 
 export function GetIntersectMesh(mesh1: BABYLON.Mesh, mesh2: BABYLON.Mesh, name?: string){
@@ -9,7 +9,7 @@ export function GetIntersectMesh(mesh1: BABYLON.Mesh, mesh2: BABYLON.Mesh, name?
     var intersectMaterial = CreateMeshMaterial(new BABYLON.Color3(0,1,1));
     var intersectMesh = mesh1CSG.intersect(mesh2CSG).toMesh("In_"+mesh1.name+"_"+mesh2.name, intersectMaterial,scene, true);
     BABYLON.Tags.AddTagsTo(intersectMesh,"intersectMesh");
-    hl.addMesh(intersectMesh, BABYLON.Color3.White())
+    addHLToMesh(intersectMesh, BABYLON.Color3.White())
     RightClickActionManager(intersectMesh);
     var position = intersectMesh.position;
     var update = function(){

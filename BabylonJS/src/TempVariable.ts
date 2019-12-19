@@ -1,5 +1,5 @@
 import * as BABYLON from '@babylonjs/core'
-import { hl, removeFromGizmoManagerList } from './Enviroment'
+import {removeFromGizmoManagerList, removeHLOfMesh } from './Enviroment'
 import { Point, getIndexPoint, setIndexPoint } from './Point';
 import { Line } from './Line';
 
@@ -29,7 +29,7 @@ export function setStartPoint(point: Point) {
 }
 export function triggerStartPoint() {
     if (startPoint != null) {
-        hl.removeMesh(startPoint.mesh);
+        removeHLOfMesh(startPoint.mesh);
         startPoint = null;
     }
 }
@@ -74,8 +74,7 @@ export function removeFromSelectedMeshes(object) {
 }
 export function resetSelectedMeshes() {
     selectedMeshes.forEach(mesh => {
-        if (hl.hasMesh(mesh))
-            hl.removeMesh(mesh);
+        removeHLOfMesh(mesh);
         removeFromGizmoManagerList(mesh);
     })
     selectedMeshes = [];
