@@ -3,7 +3,7 @@ import * as BABYLON from "@babylonjs/core"
 import { scene, hl, gizmoManager } from './Enviroment'
 import { getListLine, getLineByName, addToListLine } from './TempVariable'
 import { LineActionManager } from "./ActionManager";
-import { CreatePoint, Point, getNewIndexPoint } from "./Point";
+import { Point, getNewIndexPoint } from "./Point";
 import { CreateMeshMaterial } from "./MeshMaterial";
 
 var indexLine = 0;
@@ -15,10 +15,28 @@ export class Line {
     pointB: Point;
     mesh: BABYLON.Mesh;
     rotation: BABYLON.Vector3;
-    constructor(name: string, pointA: Point, pointB: Point) {
-        this.name = name;
-        this.pointA = pointA;
-        this.pointB = pointB;
+    // constructor(name: string, pointA: Point, pointB: Point) {
+        constructor(var1, var2, name? : string) {
+            if(name)
+                this.name = name;
+            else{
+                this.name = "Line_" + indexLine;
+                indexLine++;
+            }
+        if(var2.x && var1.x){
+            var result = CreateLineFromEquation(var1, var2, this.name);
+            this.mesh = result.line;
+            this.pointA = result.point1;
+            this.pointB = result.point2;
+            addToListLine(this);
+        }
+        else{
+            var result1 = CreateLine(var1, var2, this.name);
+            this.mesh = result1.newLine;
+            this.pointA = result1.point1;
+            this.pointB = result1.point2;
+            addToListLine(this);
+        }
     }
 }
 
@@ -54,19 +72,19 @@ export class Line {
 //     }
 //     return line;
 // }
-export function CreateLine(point1: Point, point2: Point) {
+function CreateLine(point1: Point, point2: Point, name: string) {
 
     var distance = BABYLON.Vector3.Distance(point1.mesh.position, point2.mesh.position);
 
     if (distance > 0) {
-        var line = new Line("Line_" + indexLine, point1, point2);
-        line.length = distance;
+        // var line = new Line(, point1, point2);
+        // line.length = distance;
         // var parentLine = BABYLON.MeshBuilder.CreateBox("parentLine", { size: 0.02 }, scene);
         // parentLine.lookAt(point2.mesh.position.subtract(BABYLON.Vector3.Center(point1.mesh.position, point2.mesh.position)));
         // parentLine.position = BABYLON.Vector3.Center(point1.mesh.position, point2.mesh.position);
 
         // var newLine = BABYLON.MeshBuilder.CreateCylinder("Line_" + indexLine, { height: distance, diameter: 0.05 }, scene);
-        var newLine = BABYLON.MeshBuilder.CreateTube("Line_" + indexLine, { path: [point1.mesh.position, point2.mesh.position],radius: 0.02,updatable: true }, scene);
+        var newLine = BABYLON.MeshBuilder.CreateTube(name, { path: [point1.mesh.position, point2.mesh.position],radius: 0.02,updatable: true }, scene);
         // getListLine().forEach(line => {
         //     if(line.mesh.intersectsMesh(newLine))
         //         CreatePoint()
@@ -77,12 +95,12 @@ export function CreateLine(point1: Point, point2: Point) {
         // newLine.parent = parentLine;
         // newLine.rotation.x = Math.PI / 2;
         // console.log(newLine)
-        line.mesh = newLine;
-        line.rotation = newLine.rotation;
+        // line.mesh = newLine;
+        // line.rotation = newLine.rotation;
         point1.linesName.push("Line_" + indexLine);
         point2.linesName.push("Line_" + indexLine);
-        indexLine++;
-        gizmoManager.attachableMeshes.push(line.mesh);
+        // indexLine++;
+        gizmoManager.attachableMeshes.push(newLine);
         var updateLine = function() {
             if(newLine) {
                 newLine = BABYLON.MeshBuilder.CreateTube("Line_" + indexLine, {
@@ -96,22 +114,24 @@ export function CreateLine(point1: Point, point2: Point) {
         }
         point1.mesh.onAfterWorldMatrixUpdateObservable.add(updateLine);
         point2.mesh.onAfterWorldMatrixUpdateObservable.add(updateLine);
-
+        return {newLine, point1, point2};
     }
-    return line;
 }
 
-export function CreateLineFromEquation(point: BABYLON.Vector3, vector: BABYLON.Vector3) { // ax + by + c = 0
+function CreateLineFromEquation(point: BABYLON.Vector3, vector: BABYLON.Vector3, name: string) { // ax + by + c = 0
     if (vector.x * vector.y * vector.z == 0){
         alert("Phương trình không hợp lệ");
         return;
     }
     var t = 10; //t thuoc R
-    var point1 = CreatePoint(point,'Point_'+ getNewIndexPoint());
+    var point1 = new Point(point,'Point_'+ getNewIndexPoint());
     var newPos = new BABYLON.Vector3(point.x + vector.x*t, point.y + vector.y*t, point.z + vector.z*t);
-    var point2 = CreatePoint(newPos, 'Point_'+getNewIndexPoint());
-    var line = CreateLine(point1,point2);
-    addToListLine(line);
+    var point2 = new Point(newPos, 'Point_'+getNewIndexPoint());
+    var result = CreateLine(point1,point2, name);
+    var line = result.newLine;
+    // addToListLine(line);
+    return {line, point1,point2};
+
     // BABYLON.Vector3.inter
 
 }

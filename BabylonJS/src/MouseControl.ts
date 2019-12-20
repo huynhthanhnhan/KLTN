@@ -1,7 +1,7 @@
 import * as BABYLON from "@babylonjs/core";
 import { scene, gizmoManager, engine, camera, canvas } from './Enviroment'
 import {getIsMoveZ, setIsDoubleClick, getIsDoubleClick, } from './TempVariable'
-import { CreatePoint } from './Point'
+import { Point } from './Point'
 import { getSysMode} from './TempVariable'
 import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect } from "./MouseBinding";
 
@@ -148,7 +148,7 @@ export function MouseControl() {
     }
 }
 
-var pointer = CreatePoint(new BABYLON.Vector3(0, 0, 0));
+var pointer = new Point(new BABYLON.Vector3(0, 0, 0));
 
 /**************************** Mouse Control ******************************************************/
 

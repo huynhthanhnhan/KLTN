@@ -1,7 +1,7 @@
 import * as BABYLON from "@babylonjs/core"
 import "@babylonjs/core/Meshes/meshBuilder";
 
-import {CreatePoint, Point} from './Point'
+import {Point} from './Point'
 import {camera, canvas, engine, scene} from './Enviroment'
 import {InitGround, showAxis, getIsPickableBasicScene} from './BasicScreen'
 import {formBinding} from './FormBinding'
@@ -12,7 +12,7 @@ import {CreatePlaneFrom3Point, CreatePlaneFromPointAndNormalVector} from './Plan
 import { GetIntersectMesh } from "./IntersectMeshes";
 import { CreateCubeCustom } from "./Objects/CubeObject";
 import { getListLine, getListPoint, setIsDoubleClick, getIsDoubleClick, getSysMode } from "./TempVariable";
-import { CreateLine } from "./Line";
+import { } from "./Line";
 import { CreateSphereCustom } from "./Objects/SphereObject";
 
 var createScene = function() {

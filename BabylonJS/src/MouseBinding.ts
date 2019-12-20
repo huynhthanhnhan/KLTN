@@ -1,22 +1,20 @@
 import * as BABYLON from "@babylonjs/core";
-import { CreatePoint, getNewIndexPoint, Point, getIndexPoint, setIndexPoint } from "./Point";
+import { getNewIndexPoint, Point, getIndexPoint, setIndexPoint } from "./Point";
 import { addToListPoint, getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine, addToListLine, getSysMode, getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getMeshesForCheckIntersect, getInterMesh, getDefaultMaterialAlpha, setInterMesh, resetMeshesForCheckIntersect } from "./TempVariable";
 import { gizmoManager, scene, addHLToMesh, removeHLOfMesh } from "./Enviroment";
-import { CreateLine } from "./Line";
+import { Line } from "./Line";
 import { GetIntersectMesh } from "./IntersectMeshes";
 
 export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
     if (pickResult.pickedMesh.name.split("_")[0] != "Point") {
-        const pt = CreatePoint(pickResult.pickedPoint, 'Point_' + getNewIndexPoint());
-        addToListPoint(pt);
+        const pt = new Point(pickResult.pickedPoint, 'Point_' + getNewIndexPoint());
         if (getIsStartCreateLine()) {
             setStartPoint(pt);
             addHLToMesh(getStartPoint().mesh, BABYLON.Color3.Green())
             setIsStartCreateLine(false);
         } else {
             if (getStartPoint()) {
-                var s = CreateLine(getStartPoint(), pt);
-                addToListLine(s);
+                var s = new Line(getStartPoint(), pt);
                 // console.log("create with line");
                 removeHLOfMesh(getStartPoint().mesh);
                 if (getSysMode() == 'line')
@@ -29,7 +27,7 @@ export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
         }
     } else {
         var result = pickResult.pickedMesh as BABYLON.Mesh;
-        var pointResult = new Point('Point_' + getIndexPoint(), result);
+        var pointResult = new Point(result.position, 'Point_' + getIndexPoint());
         setIndexPoint(getIndexPoint() + 1);
         if (getIsStartCreateLine()) {
             setStartPoint(pointResult);
@@ -38,7 +36,7 @@ export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
                 setIsStartCreateLine(false);
         } else {
             if (getStartPoint()) {
-                var s = CreateLine(getStartPoint(), pointResult);
+                var s = new Line(getStartPoint(), pointResult);
                 addToListLine(s);
                 // console.log("create with point")
                 setIsStartCreateLine(true);
@@ -93,8 +91,7 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
 
 export function ProcessPoint(pickResult: BABYLON.PickingInfo) {
     // setIsPickableBasicScene(true);
-    const pt = CreatePoint(pickResult.pickedPoint);
-    addToListPoint(pt);
+    const pt = new Point(pickResult.pickedPoint);
 }
 
 export function onMouseOver(meshEvent: BABYLON.Mesh) {

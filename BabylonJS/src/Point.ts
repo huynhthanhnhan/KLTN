@@ -2,8 +2,8 @@ import * as BABYLON from "@babylonjs/core"
 
 import {gizmoManager, scene, hl} from './Enviroment'
 import {PointActionManager} from './ActionManager'
-import { getListLine, getPointByName } from "./TempVariable";
-import { Line, CreateLine } from "./Line";
+import { getListLine, getPointByName, addToListPoint } from "./TempVariable";
+import { Line } from "./Line";
 
 var indexPoint = 0;
 export function getIndexPoint(){return indexPoint;}
@@ -26,59 +26,31 @@ export class Point{
     position: BABYLON.Vector3;
     mesh: BABYLON.Mesh;
     linesName: string[];
-    constructor(name, mesh){
-        this.name = name;
+    constructor(position: BABYLON.Vector3, name?: string){
+        this.name = name || "";
+        this.position = position;
+        var mesh = CreatePoint(position, name);
         this.mesh = mesh;
         this.linesName = [];
+        addToListPoint(this);
     }
 }
-export function CreatePoint(position, name?: string) {
+function CreatePoint(position, name?: string) {
     if(name){
-        const _point= new Point(name, pointMaster.clone(name));
-        gizmoManager.attachableMeshes.push(_point.mesh);
+        const mesh = pointMaster.clone(name);
+        gizmoManager.attachableMeshes.push(mesh);
         // p.isVisible = true;
-        _point.mesh.position =position;
-        PointActionManager(_point.mesh);
+        mesh.position =position;
+        PointActionManager(mesh);
         indexPoint ++;
-        return _point;
+        return mesh;
     }
     else{
-        const _point= new Point("Point_"+indexPoint, pointMaster.clone("Point_"+indexPoint));
-        gizmoManager.attachableMeshes.push(_point.mesh);
+        const mesh = pointMaster.clone("Point_"+ getNewIndexPoint());
+        gizmoManager.attachableMeshes.push(mesh);
         // p.isVisible = true;
-        _point.mesh.position = position;
-        PointActionManager(_point.mesh);
-        indexPoint ++;
-        return _point;
+        mesh.position = position;
+        PointActionManager(mesh);
+        return mesh;
     }
 }
-// export function triggerMovePoint(name: string){
-//     var point = getPointByName(name);
-//     if(point){
-//         var listPoint: Point[] = [point];
-//         listPoint.map(point=>{
-//             point.linesName.map(linename=>{
-//                 getListLine().forEach(line=>{
-//                     if(line.name == linename){
-//                         var point1, point2;
-//                         if(line.pointA.name == point.name){
-//                             point1 = point;
-//                             point2 = line.pointB;
-//                         }
-//                         else{
-//                             point1 = line.pointA;
-//                             point2 = point;
-//                         }
-//                         scene.removeMesh(line.mesh.parent as BABYLON.Mesh);
-//                         scene.removeMesh(line.mesh);
-//                         var newLine = CreateLine(point1,point2);
-//                         newLine.mesh.name = linename;
-//                         line.mesh = newLine.mesh;
-//                     }
-//                 })
-//             })
-//         })
-//         return true;
-//     }
-//     return false;
-// }

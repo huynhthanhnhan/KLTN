@@ -195,6 +195,7 @@ export function formBinding() {
         resetFormInput();
         document.getElementById('position').style.display = 'block';
         document.getElementById('btnCreate').style.display = 'block';
+        var x = document.getElementById('position-x');
     })
 
     $("#line_input_point_vector").on('click', function(){

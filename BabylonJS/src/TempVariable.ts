@@ -35,8 +35,15 @@ export function triggerStartPoint() {
 }
 
 var listPoint: Point[] = [];
+window['listPoint'] = listPoint;
 export function getListPoint() { return listPoint; }
 export function addToListPoint(point: Point) { listPoint.push(point); }
+export function removeFromListPoint(name: string){
+    // var point = getPointByName(name);
+    // if(point){
+    //     listPoint.splice()
+    // }
+}
 export function getPointByName(name: string) {
     for(let i =0;i<listPoint.length;i++){
         if (listPoint[i].name == name)
