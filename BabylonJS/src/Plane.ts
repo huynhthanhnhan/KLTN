@@ -14,10 +14,11 @@ export class Plane {
     height: number;
     position: BABYLON.Vector3;
     mesh: BABYLON.Mesh
-    constructor(width, height) {
+    constructor(width:number, height) {
         this.width = width;
         this.height = height;
     }
+
 }
 
 export function CreatePlaneFrom3Point(p1: BABYLON.Vector3, p2: BABYLON.Vector3, p3: BABYLON.Vector3, width?: number, height?: number) {
