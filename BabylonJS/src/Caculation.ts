@@ -6,19 +6,18 @@ export function surfaceArea(mesh: BABYLON.Mesh) {
         return 0.0;
     }
     var ar = 0.0;
-    // lay so luong dinh
-    var indices = mesh.getIndices();
-    // cu 3 diem tao thanh 1 mat phang, nen chia 3 de lay ra so mat cua khoi
-    var nbFaces = indices.length / 3;
+    // tổng số đỉnh trên các mặt (mỗi 3 phần tử liền kề là 3 đỉnh của 1 tam giác)
+    var indices = mesh.getIndices(); // mỗi phần tử mảng là chỉ số (số thứ tự) của điểm trong mảng buffer Position ( mỗi điểm đó có x, y, z)
+
+    var nbFaces = indices.length / 3; // lấy 3 điểm để tạo thành 1 tam giác, là tổng số tam giác tạo nên mesh
     
+    // tính diện tích từng tam giác
     for (var i = 0; i < nbFaces; i++) {
         ar = ar + facetArea(mesh, i);
     }
-    // dien tich be mat
     return ar;
 };
 
-// tinh dien tich cho moi mat tao boi 3 diem
 var facetArea = function(mesh, faceId) {
     if(!mesh) {
         return 0.0;
@@ -28,7 +27,7 @@ var facetArea = function(mesh, faceId) {
         return 0.0;
     }
     var nbFaces = indices.length / 3;
-    // lay toa do cua cac dinh (moi dinh co 3 tham so x, y, z)
+    // lay danh sách toa do cua cac điểm trong buffer (vị trí có thể sai lệch với thực tế) (moi dinh co 3 tham so x, y, z)
     var positions = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
     var v1x = 0.0;
     var v1y = 0.0;
@@ -49,7 +48,9 @@ var facetArea = function(mesh, faceId) {
     i2 = indices[faceId * 3 + 1];
     i3 = indices[faceId * 3 + 2];
 
-    // tinh vector cua 2 canh
+
+
+    // tinh vector cua 2 canh dựa vào vị trí các điểm là đỉnh tam giác
     v1x = positions[i1 * 3] - positions[i2 * 3];
     v1y = positions[i1 * 3 + 1] - positions[i2 * 3 + 1];
     v1z = positions[i1 * 3 + 2] - positions[i2 * 3 + 2];

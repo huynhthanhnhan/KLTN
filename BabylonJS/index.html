@@ -84,39 +84,36 @@
 
 <body>
     <div class="row" style="margin-bottom: 0.1%; background-color: #d1d1fc;height: 60px;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;">
-        <div class="col-auto">
+        <div class="col-auto" style="margin-left: 1%;">
             <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Point&nbsp;</button>
-                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" id="point_click">By click</a><a class="dropdown-item" role="presentation" href="#" id="point_input">Input Position</a></div>
+                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="point_click">By click</a><a class="dropdown-item" role="presentation" id="point_input">Input Position</a></div>
             </div>
         </div>
         <div class="col-auto">
             <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Line</button>
-                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" id="line_click">By click</a><a class="dropdown-item" role="presentation" href="#" id="line_input_point_vector">By point and vector</a><a class="dropdown-item" role="presentation" href="#"
-                        id="line_input_2_point">By two points</a></div>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" role="presentation" id="line_click">By click</a>
+                    <a class="dropdown-item" role="presentation" id="line_input_point_vector">Input point and vector</a>
+                    <a class="dropdown-item" role="presentation" id="line_input_2_point">Input 2 points</a>
+                </div>
             </div>
         </div>
         <div class="col-auto">
             <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Plane</button>
                 <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item float-right" role="presentation" href="#">
-                        <div class="btn-group dropright">
-                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Input
-  </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <button class="dropdown-item" type="button">3 points</button>
-                                <button class="dropdown-item" type="button">Point and Vector</button>
-
-                            </div>
-                        </div>
-                    </a><a class="dropdown-item" role="presentation" href="#" id="plane_click">By Click</a><a class="dropdown-item" role="presentation" href="#" id="plane_click_2_line">Select 2 Lines</a><a class="dropdown-item" role="presentation" href="#"
-                        id="plane_click_point_line">Select a point and a line</a></div>
+                    <a class="dropdown-item float-right" role="presentation"></a>
+                    <a class="dropdown-item" role="presentation" id="plane_click_3_point">Select 3 Points</a>
+                    <a class="dropdown-item" role="presentation" id="plane_click_2_line">Select 2 Lines</a>
+                    <a class="dropdown-item" role="presentation" id="plane_click_point_line">Select a point and a line</a>
+                    <a class="dropdown-item" role="presentation" id="plane_input_3_point">Input 3 Points</a>
+                    <a class="dropdown-item" role="presentation" id="plane_input_point_vector">Input point and vector</a>
+                </div>
             </div>
         </div>
         <div class="col-auto">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Mesh</button>
-                <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item float-right" role="presentation" href="#">
+            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" id="mesh-tab" data-toggle="dropdown" aria-expanded="false" type="button">Mesh</button>
+                <!-- <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item float-right" role="presentation">
                         <div class="btn-group dropright">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="tru">
     Box
@@ -128,7 +125,7 @@
                             </div>
                         </div>
                     </a>
-                    <a class="dropdown-item" role="presentation" href="#">
+                    <a class="dropdown-item" role="presentation">
                         <div class="btn-group dropright">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Cube
@@ -140,7 +137,7 @@
                             </div>
                         </div>
                     </a>
-                    <a class="dropdown-item" role="presentation" href="#">
+                    <a class="dropdown-item" role="presentation">
                         <div class="btn-group dropright">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Sphere
@@ -152,7 +149,7 @@
                             </div>
                         </div>
                     </a>
-                    <a class="dropdown-item" role="presentation" href="#">
+                    <a class="dropdown-item" role="presentation">
                         <div class="btn-group dropright">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Prism
@@ -164,7 +161,7 @@
                             </div>
                         </div>
                     </a>
-                    <a class="dropdown-item" role="presentation" href="#">
+                    <a class="dropdown-item" role="presentation">
                         <div class="btn-group dropright">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Pyramid
@@ -176,7 +173,7 @@
                             </div>
                         </div>
                     </a>
-                    <a class="dropdown-item" role="presentation" href="#">
+                    <a class="dropdown-item" role="presentation">
                         <div class="btn-group dropright">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Cone
@@ -188,83 +185,93 @@
                             </div>
                         </div>
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-auto">
             <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Calculate</button>
-                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" id="caculate_distance_2_point">Distance of two points</a><a class="dropdown-item" role="presentation" href="#" id="caculate_distance_2_line">Distance of two diagonal straight lines</a>
-                    <a class="dropdown-item" role="presentation" href="#" id="caculate_distance_point_line">Distance between a point and a line</a><a class="dropdown-item" role="presentation" href="re" id="caculate_total_area">Total area</a></div>
+                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="caculate_distance_2_point">Distance of two points</a><a class="dropdown-item" role="presentation" id="caculate_distance_2_line">Distance of two diagonal straight lines</a>
+                    <a class="dropdown-item" role="presentation" id="caculate_distance_point_line">Distance between a point and a line</a><a class="dropdown-item" role="presentation" href="re" id="caculate_total_area">Total area</a></div>
             </div>
         </div>
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_select_mode">Select</button></div>
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_edit_mode">Edit</button></div>
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_view_intersect_mode">View Intersect</button></div>
     </div>
+    <div class="row" id="listMesh" style="margin-bottom: 0.1%; background-color: #d1d1fc;height: 60px;padding-top: 10px;padding-right: 10px;padding-bottom: 10px; display: none;">
+        <div class="col-auto" style="margin-left: 1%;">
+            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Box&nbsp;</button>
+                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="box_default">Defaut</a>
+                    <a class="dropdown-item" role="presentation" id="box_input">Input</a></div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cube</button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" role="presentation" id="cube_default">Default</a>
+                    <a class="dropdown-item" role="presentation" id="cube_input">Input</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cube</button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" role="presentation" id="cube_default">Default</a>
+                    <a class="dropdown-item" role="presentation" id="cube_input">Input</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Sphere</button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" role="presentation" id="sphere_default">Default</a>
+                    <a class="dropdown-item" role="presentation" id="sphere_input">Input</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Prism</button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" role="presentation" id="prism_default">Default</a>
+                    <a class="dropdown-item" role="presentation" id="prism_input">Input</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Pyramid</button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" role="presentation" id="pyramid_default">Default</a>
+                    <a class="dropdown-item" role="presentation" id="pyramid_input">Input</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cone</button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" role="presentation" id="cone_default">Default</a>
+                    <a class="dropdown-item" role="presentation" id="cone_input">Input</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="menu">
         <div id="fpsLabel">Fps </div> <br>
         <div id="modeLabel">Mode </div>
-        <label>Menu</label> <br><br>
-
-        <select id="menus">
-            <option value="select" selected="select">Chọn mode</option>
-            <option name="Mode" value="point">Point Mode</option>
-            <option name="Mode" value="line">Single Line Mode</option>
-            <option name="Mode" value="multi">Multi Line Mode</option>
-            <option name="Mode" value="edit">Edit Mode</option>
-            <option name="Mode" value="intersect">View Intersect Mode</option>
-          </select>
-        <select id="plane">
-            <option value="Mode" selected="3point">Chọn mode</option>
-            <option name="Mode" value="point_normal">Point Mode</option>
-          </select><br>
-        <select id="shape">
-            <option value="" selected="selected">Chọn hình</option>
-            <option value="hinh chop">Hình chóp</option>
-            <option value="hinh hop chu nhat">Hình hộp chữ nhật</option>
-            <option value="hinh cau">Hình cầu</option>
-            <option value="hinh lap phuong">Hình lập phương</option>
-            <option value="hinh non">Hình nón</option>
-            <option value="hinh tru">Hình trụ</option>
-          </select><br>
-        <div style="height: 10px;"></div><br>
-        <form>
-            <fieldset>
-                <legend id="infoHeader">Detail information:</legend>Cạnh:<br>
-                <input type="text" id="edge" value=""><br> Chiều dài:<br>
-                <input type="text" id="width" value=""><br> Chiều rộng:<br>
-                <input type="text" id="height" value=""><br> Đường kính:<br>
-                <input type="text" id="diameter" value=""><br> Số điểm đáy hình chóp:<br>
-                <input type="text" id="pointsofpyramid" value=""><br>Chiều cao hình chóp:<br>
-                <input type="text" id="heightofpyramid" value=""><br>Số điểm hình trụ (3,5,6):<br>
-                <input type="text" id="pointsofprism" value=""><br>Chiều cao hình trụ :<br>
-                <input type="text" id="heightofprism" value=""><br>Đường kính hình nón: <br>
-                <input type="text" id="diameterofcone" value=""><br>Chiều cao hình nón: <br>
-                <input type="text" id="heightofcone" value=""><br><br>
-                <input type="submit" value="Submit">
-            </fieldset>
-        </form>
-        <!-- <form>
-            <fieldset>
-                <legend id="planeInput">Input Plane Information:</legend>
-                Cạnh:<br>
-                <input type="text" id="edge" value=""><br> Chiều dài:<br>
-                <input type="text" id="width" value=""><br> Chiều rộng:<br>
-                <input type="text" id="height" value=""><br> Đường kính:<br>
-                <input type="text" id="diameter" value=""><br><br> Số điểm đáy:<br>
-                <input type="text" id="points" value=""><br><br>
-                <input type="submit" value="Submit">
-            </fieldset>
-        </form> -->
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-10">
-                <canvas id="renderCanvas" style="width: 100%; margin-top: 0.1%;"></canvas>
+            <div class="col-sm-9">
+                <canvas id="renderCanvas" style="width: 100%; margin-top: 0.1%; display: block; position: fixed;"></canvas>
             </div>
 
 
-            <div class="col-sm-2" style="background-color:#D1D1FC;">
+            <div class="col-sm-3" style="background-color:#D1D1FC;">
                 <div class="ScrollStyle">
                     <div id="formInput"></div>
                 </div>

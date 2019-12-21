@@ -16,7 +16,7 @@ export class Line {
     mesh: BABYLON.Mesh;
     rotation: BABYLON.Vector3;
     // constructor(name: string, pointA: Point, pointB: Point) {
-        constructor(var1, var2, name? : string) {
+        constructor(var1, var2,type: 0|1|2, name? : string) {
             if(name)
                 this.name = name;
             else{
@@ -24,11 +24,20 @@ export class Line {
                 indexLine++;
             }
         if(var2.x && var1.x){
-            var result = CreateLineFromEquation(var1, var2, this.name);
-            this.mesh = result.line;
-            this.pointA = result.point1;
-            this.pointB = result.point2;
-            addToListLine(this);
+            if(type == 1){
+                var result = CreateLineFromEquation(var1, var2, this.name);
+                this.mesh = result.line;
+                this.pointA = result.point1;
+                this.pointB = result.point2;
+                addToListLine(this);
+            }
+            if(type == 2){
+                var result2 = CreateLineFrom2Point(var1, var2, this.name);
+                this.mesh = result2.line;
+                this.pointA = result2.p1;
+                this.pointB = result2.p2;
+                addToListLine(this);
+            }
         }
         else{
             var result1 = CreateLine(var1, var2, this.name);
@@ -39,6 +48,7 @@ export class Line {
         }
     }
 }
+
 
 // export function CreateLine(point1: Point, point2: Point) {
 
@@ -134,6 +144,14 @@ function CreateLineFromEquation(point: BABYLON.Vector3, vector: BABYLON.Vector3,
 
     // BABYLON.Vector3.inter
 
+}
+function CreateLineFrom2Point(point1: BABYLON.Vector3, point2: BABYLON.Vector3, name: string){
+    var p1 = new Point(point1,'Point_'+ getNewIndexPoint());
+    var p2 = new Point(point2, 'Point_'+getNewIndexPoint());
+    var result = CreateLine(p1,p2, name);
+    var line = result.newLine;
+    // addToListLine(line);
+    return {line, p1,p2};
 }
 
 export function CheckIntersectLines(point1: BABYLON.Vector3, vector1: BABYLON.Vector3, point2: BABYLON.Vector3, vector2: BABYLON.Vector3){
