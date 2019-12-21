@@ -18,10 +18,13 @@ export function formBinding() {
     const form = document.querySelector('form')
     form.addEventListener('submit', event => {
     // submit event detected
-    var valCube=(<HTMLInputElement>document.getElementById('edge')).value;
-    if(valCube !=null && valCube !='')
+    // (<HTMLInputElement>document.getElementById('edge')).value;
+    var x;
+    var y;
+    var z;
+    if((<HTMLInputElement>document.getElementById('edge')).value !=null && (<HTMLInputElement>document.getElementById('edge')).value !='')
     {
-        var cubeBox=CreateCubeCustom(parseInt(valCube));
+        var cubeBox=CreateCubeCustom(x,y,z,parseInt((<HTMLInputElement>document.getElementById('edge')).value));
         // scene.registerBeforeRender(function(){
         //     cubeBox.rotation.y += 0.05;
         // });
@@ -29,36 +32,36 @@ export function formBinding() {
     var valDiameter=(<HTMLInputElement>document.getElementById('diameter')).value;
     if(valDiameter !=null && valDiameter !='')
     {
-        CreateSphereCustom(valDiameter);
+        CreateSphereCustom(x,y,z,parseInt(valDiameter));
     }
     var valBoxWidth=(<HTMLInputElement>document.getElementById('width')).value;
     var valBoxHeight=(<HTMLInputElement>document.getElementById('height')).value;
     if((valBoxWidth !=null && valBoxWidth !='')&&(valBoxHeight !=null && valBoxHeight !=''))
     {
-        CreateBoxCustom(parseInt(valBoxHeight),parseInt(valBoxWidth));
+        CreateBoxCustom(x,y,z,parseInt(valBoxHeight),parseInt(valBoxWidth));
     }
     var valPointsOfPyramid=(<HTMLInputElement>document.getElementById('pointsofpyramid')).value;
     var valPyramidHeight=(<HTMLInputElement>document.getElementById('heightofpyramid')).value;
     if(valPointsOfPyramid !=null && valPyramidHeight !='')
     {
-        CreatePyramidCustom(parseInt(valPyramidHeight),parseInt(valPointsOfPyramid));
+        CreatePyramidCustom(x,y,z,parseInt(valPyramidHeight),parseInt(valPointsOfPyramid));
     }
     var valPointsOfPrism=(<HTMLInputElement>document.getElementById('pointsofprism')).value;
     var valPrismHeigth=(<HTMLInputElement>document.getElementById('heightofprism')).value;
     if(valPointsOfPrism !=null && valPrismHeigth !='')
     {
         if(valPointsOfPrism == '3'){
-            CreatePrismCustom(parseInt(valPointsOfPrism)+2,parseInt(valPrismHeigth));
+            CreatePrismCustom(x,y,z,parseInt(valPointsOfPrism)+2,parseInt(valPrismHeigth));
         }
         else{
-            CreatePrismCustom(parseInt(valPointsOfPrism)+1,parseInt(valPrismHeigth));
+            CreatePrismCustom(x,y,z,parseInt(valPointsOfPrism)+1,parseInt(valPrismHeigth));
         }
     }
     var valConeDiameter=(<HTMLInputElement>document.getElementById('diameterofcone')).value;
     var valConeHeight=(<HTMLInputElement>document.getElementById('heightofcone')).value;
     if(valConeDiameter !=null && valConeHeight !='')
     {
-            CreateConeCustom(parseInt(valConeDiameter),parseInt(valConeHeight));
+            CreateConeCustom(x,y,z,parseInt(valConeDiameter),parseInt(valConeHeight));
     }
     event.preventDefault()
    
@@ -193,9 +196,13 @@ export function formBinding() {
 
     $("#point_input").on('click', function(){
         resetFormInput();
-        document.getElementById('position').style.display = 'block';
+        // document.getElementById('position').style.display = 'block';
+        // document.getElementById('btnCreate').style.display = 'block';
+        // var x = document.getElementById('position-x');
+        document.getElementById('sphere').style.display = 'block';
+        console.log("da vao");
         document.getElementById('btnCreate').style.display = 'block';
-        var x = document.getElementById('position-x');
+
     })
 
     $("#line_input_point_vector").on('click', function(){
@@ -209,6 +216,42 @@ export function formBinding() {
         resetFormInput();
         document.getElementById('point1').style.display = 'block';
         document.getElementById('point2').style.display = 'block';
+        document.getElementById('btnCreate').style.display = 'block';
+    })
+
+    $("#boxinput").on('click', function(){
+        resetFormInput();
+        document.getElementById('box').style.display = 'block';
+        document.getElementById('btnCreate').style.display = 'block';
+    })
+
+    $("#cubeinput").on('click', function(){
+        resetFormInput();
+        document.getElementById('cube').style.display = 'block';
+        document.getElementById('btnCreate').style.display = 'block';
+    })
+
+    $("#sphereinput").on('click', function(){
+        resetFormInput();
+        document.getElementById('sphere').style.display = 'block';
+        document.getElementById('btnCreate').style.display = 'block';
+    })
+
+    $("#prisminput").on('click', function(){
+        resetFormInput();
+        document.getElementById('box').style.display = 'block';
+        document.getElementById('btnCreate').style.display = 'block';
+    })
+
+    $("#pyramidinput").on('click', function(){
+        resetFormInput();
+        document.getElementById('box').style.display = 'block';
+        document.getElementById('btnCreate').style.display = 'block';
+    })
+
+    $("#coneinput").on('click', function(){
+        resetFormInput();
+        document.getElementById('cone').style.display = 'block';
         document.getElementById('btnCreate').style.display = 'block';
     })
 

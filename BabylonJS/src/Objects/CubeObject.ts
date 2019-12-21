@@ -1,7 +1,6 @@
 import * as BABYLON from "@babylonjs/core"
 import {scene} from '../Enviroment'
 import {CreateMeshMaterial} from '../MeshMaterial'
-import { int } from "@babylonjs/core";
 
 export function CreateCubeDefault()
 {
@@ -11,9 +10,9 @@ export function CreateCubeDefault()
     return cube;
 }
 
-export function CreateCubeCustom(edge:int)
+export function CreateCubeCustom(x:number, y:number, z:number, edge:number )
 {
     var cube = BABYLON.MeshBuilder.CreateBox("cube", {size: edge}, scene);
-    cube.position = new BABYLON.Vector3(0, 0, 10);
+    cube.position = new BABYLON.Vector3(x, y, z);
     return cube;
 }

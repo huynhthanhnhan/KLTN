@@ -1,7 +1,6 @@
 import * as BABYLON from "@babylonjs/core"
 import {scene} from '../Enviroment'
 import {CreateMeshMaterial} from '../MeshMaterial'
-import { int } from "@babylonjs/core";
 
 export function CreateConeDefault()
 {
@@ -12,8 +11,9 @@ export function CreateConeDefault()
     return cone;
 }
 
-export function CreateConeCustom(diameter: int, height:int)
+export function CreateConeCustom(x:number, y:number, z:number,diameter: number, height:number)
 {
     var cone = BABYLON.MeshBuilder.CreateCylinder("cone", { diameterTop: 0, diameter: diameter, height: height }, scene);
+    cone.position = new BABYLON.Vector3(x, y, z);
     return cone;
 }
