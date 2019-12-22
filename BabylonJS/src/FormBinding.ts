@@ -133,7 +133,8 @@ export function formBinding() {
     });
 
 
-    function changeSystemMode(mode: string = 'line' || 'multiLine' || 'select' || 'point' || 'edit') {
+    function changeSystemMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect'|
+    'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea') {
         setIsStartCreateLine(true)
         setSysMode(mode);
     }
@@ -173,6 +174,10 @@ export function formBinding() {
         changeSystemMode('line');
         setIsPickableBasicScene(true);
     })
+    $("#line_click_multi").on('click', function () {
+        changeSystemMode('multiLine');
+        setIsPickableBasicScene(true);
+    })
     $("#btn_select_mode").on('click', function () {
         changeSystemMode('select');
         setIsPickableBasicScene(false);
@@ -184,7 +189,36 @@ export function formBinding() {
     $("#btn_view_intersect_mode").on('click', function () {
         changeSystemMode('intersect');
         setIsPickableBasicScene(false);
-    })
+    });
+    $("#plane_click_3_point").on('click', function () {
+        changeSystemMode('plane3Point');
+        setIsPickableBasicScene(false);
+    });
+    $("#plane_click_2_line").on('click', function () {
+        changeSystemMode('plane2Line');
+        setIsPickableBasicScene(false);
+    });
+    $("#plane_click_point_line").on('click', function () {
+        changeSystemMode('planePointLine');
+        setIsPickableBasicScene(false);
+    });
+    $("#caculate_distance_2_point").on('click', function () {
+        changeSystemMode('distance2Point');
+        setIsPickableBasicScene(false);
+    });
+    $("#caculate_distance_2_line").on('click', function () {
+        changeSystemMode('distance2Line');
+        setIsPickableBasicScene(false);
+    });
+    $("#caculate_distance_point_line").on('click', function () {
+        changeSystemMode('distancePointLine');
+        setIsPickableBasicScene(false);
+    });
+    $("#caculate_total_area").on('click', function () {
+        changeSystemMode('totalArea');
+        setIsPickableBasicScene(false);
+    });
+
 
     var listMesh = document.getElementById('listMesh');
     var form_input = document.getElementById("formInput");

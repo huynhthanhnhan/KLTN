@@ -6,7 +6,7 @@ import {camera, canvas, engine, scene} from './Enviroment'
 import {InitGround, showAxis, getIsPickableBasicScene} from './BasicScreen'
 import {formBinding} from './FormBinding'
 import {KeyControl} from './KeyControl'
-import {MouseControl} from './MouseControl'
+import {MouseControl} from './MouseBinding'
 import {CreateBoxMesh, CreateCubeMesh, CreateBoxCustom} from './Objects/BoxObject'
 import {CreatePlaneFrom3Point, CreatePlaneFromPointAndNormalVector} from './Plane'
 import { GetIntersectMesh } from "./IntersectMeshes";

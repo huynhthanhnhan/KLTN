@@ -15,9 +15,14 @@ export function getIsStartCreateLine() { return isStartCreateLine; }
 export function setIsStartCreateLine(b: boolean) { isStartCreateLine = b; }
 
 // System modes
-var sysMode: string = 'select' || 'line' || 'multiLine' || 'point' || 'edit' || 'intersect';
+var sysMode: string = 'select' || 'line' || 'multiLine' || 'point' || 'edit' || 'intersect' || 'plane3Point' || 'plane2Line' || 'planePointLine' || 'distance2Point' || 'distance2Line' || 'distancePointLine' || 'totalArea';
 export function getSysMode() { return sysMode.valueOf(); }
-export function setSysMode(mode: string) { sysMode = mode };
+export function setSysMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect'|
+ 'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea') {
+    sysMode = mode
+};
+
+
 
 // Save the first point of Line
 var startPoint: Point;
@@ -156,7 +161,7 @@ var inputObject: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plan
 export function setInputObject(input: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plane-3-point' | 'plane-point-vector') {
     inputObject = input;
 }
-export function getInputObject(){
+export function getInputObject() {
     return inputObject;
 }
 

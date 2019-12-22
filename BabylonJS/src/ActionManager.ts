@@ -2,7 +2,7 @@ import * as BABYLON from "@babylonjs/core"
 import { checkInSelectedMeshes, getDefaultMaterialAlpha } from './TempVariable'
 import { scene, hl, addHLToMesh, removeHLOfMesh } from './Enviroment'
 import { getSysMode } from './TempVariable'
-import { onMouseOver, onMouseOut } from "./MouseBinding";
+import { onMouseOver, onMouseOut } from "./MouseControl";
 
 export function PointActionManager(mesh: BABYLON.Mesh) {
     mesh.actionManager = new BABYLON.ActionManager(scene);
