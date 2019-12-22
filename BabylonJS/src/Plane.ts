@@ -27,6 +27,7 @@ export class Plane {
                 addToListPlane(this);
                 break;
             case 'point-vector':
+                console.log(var1, var2)
                 this.mesh = CreatePlaneFromPointAndNormalVector(var1, var2, width, height);
                 this.width = width?width:defaultWidth;
                 this.height = height?height:defaultHeight;
