@@ -192,7 +192,7 @@ export function formBinding() {
     });
     $("#plane_click_3_point").on('click', function () {
         changeSystemMode('plane3Point');
-        setIsPickableBasicScene(false);
+        setIsPickableBasicScene(true);
     });
     $("#plane_click_2_line").on('click', function () {
         changeSystemMode('plane2Line');
@@ -200,7 +200,7 @@ export function formBinding() {
     });
     $("#plane_click_point_line").on('click', function () {
         changeSystemMode('planePointLine');
-        setIsPickableBasicScene(false);
+        setIsPickableBasicScene(true);
     });
     $("#caculate_distance_2_point").on('click', function () {
         changeSystemMode('distance2Point');

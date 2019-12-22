@@ -19,37 +19,40 @@ export class Plane {
     constructor(type: '3point' | 'point-vector' | 'line-line'|'point-line',var1, var2, var3,width?:number, height?:number) {
         switch(type){
             case '3point':
-                this.mesh = CreatePlaneFrom3Point(var1, var2, var3, width, height);
                 this.width = width?width:defaultWidth;
                 this.height = height?height:defaultHeight;
+                this.mesh = CreatePlaneFrom3Point(var1, var2, var3, this.width, this.height);
                 this.position = this.mesh.position;
                 this.name = this.mesh.name;
                 addToListPlane(this);
                 break;
             case 'point-vector':
-                console.log(var1, var2)
-                this.mesh = CreatePlaneFromPointAndNormalVector(var1, var2, width, height);
                 this.width = width?width:defaultWidth;
                 this.height = height?height:defaultHeight;
+                this.mesh = CreatePlaneFromPointAndNormalVector(var1, var2, this.width, this.height);
                 this.position = this.mesh.position;
                 this.name = this.mesh.name;
                 addToListPlane(this);
                 break;
             case 'line-line':
-                this.mesh = CreatePlaneFromTwoLine(var1, var2, width, height);
                 this.width = width?width:defaultWidth;
                 this.height = height?height:defaultHeight;
-                this.position = this.mesh.position;
-                this.name = this.mesh.name;
-                addToListPlane(this);
+                this.mesh = CreatePlaneFromTwoLine(var1, var2, this.width, this.height);
+                if(this.mesh){
+                    this.position = this.mesh.position;
+                    this.name = this.mesh.name;
+                    addToListPlane(this);
+                }
                 break;
             case 'point-line':
-                this.mesh = CreatePlaneFromPointAndLine(var1, var2, width, height);
                 this.width = width?width:defaultWidth;
                 this.height = height?height:defaultHeight;
-                this.position = this.mesh.position;
-                this.name = this.mesh.name;
-                addToListPlane(this);
+                this.mesh = CreatePlaneFromPointAndLine(var1, var2, this.width, this.height);
+                if(this.mesh){
+                    this.position = this.mesh.position;
+                    this.name = this.mesh.name;
+                    addToListPlane(this);
+                }
                 break;
         }
     }
@@ -95,16 +98,19 @@ export function CreatePlaneFromPointAndNormalVector(point: BABYLON.Vector3, vect
 }
 
 export function CreatePlaneFromTwoLine(line1: Line, line2: Line, width?: number, height?: number) {
-    if (line1.mesh.intersectsMesh(line2.mesh)) {
+    if (line1.mesh.intersectsMesh(line2.mesh) && line1.name != line2.name) {
        return CreatePlaneFrom3Point(line1.pointA.position, line1.pointB.position, line2.pointA.position, width, height)
     }
-    else
+    else{
         alert("2 đoạn thẳng không cắt nhau");
+        return;
+    }
 }
 
 export function CreatePlaneFromPointAndLine(point: Point, line: Line, width?: number, height?: number) {
     if (point.mesh.intersectsMesh(line.mesh)) {
         alert("Điểm này thuộc đường thẳng");
+        return;
     }
     else
         return CreatePlaneFrom3Point(point.mesh.position, line.pointA.position, line.pointB.position, width, height);

@@ -3,7 +3,7 @@ import { scene, gizmoManager, engine, camera, canvas } from './Enviroment'
 import { getIsMoveZ, setIsDoubleClick, getIsDoubleClick, } from './TempVariable'
 import { Point } from './Point'
 import { getSysMode } from './TempVariable'
-import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect } from "./MouseControl";
+import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect, ProcessPlane3Point, ProcessPlane2Line, ProcessPlanePointLine, ProcessDistance2Point } from "./MouseControl";
 
 
 export function MouseControl() {
@@ -13,7 +13,6 @@ export function MouseControl() {
             switch (getSysMode().valueOf()) {
                 case 'line':
                 case 'multiLine':
-                    console.log(getSysMode())
                     ProcessLineOrMultiline(pickResult);
                     break;
                 case 'point':
@@ -25,6 +24,24 @@ export function MouseControl() {
                     break;
                 case 'intersect':
                     ProcessIntersect(pickResult);
+                    break;
+                case 'plane3Point':
+                    ProcessPlane3Point(pickResult);
+                    break;
+                case 'plane2Line':
+                    ProcessPlane2Line(pickResult);
+                    break;
+                case 'planePointLine':
+                    ProcessPlanePointLine(pickResult);
+                    break;
+                case 'distance2Point':
+                    ProcessDistance2Point(pickResult);
+                    break;
+                case 'distance2Line':
+                    break;
+                case 'distancePointLine':
+                    break;
+                case 'totalArea':
                     break;
             }
         }
