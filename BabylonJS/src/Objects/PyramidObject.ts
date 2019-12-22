@@ -1,7 +1,6 @@
 import * as BABYLON from "@babylonjs/core"
 import {scene} from '../Enviroment'
 import {CreateMeshMaterial} from '../MeshMaterial'
-import { int } from "@babylonjs/core";
 
 export function CreatePyramidDefault()
 {
@@ -12,8 +11,9 @@ export function CreatePyramidDefault()
     return polygon;
 } 
 
-export function CreatePyramidCustom(height:int,points:int)
+export function CreatePyramidCustom(x:number, y:number, z:number,height:number,points:number)
 {
     var polygon = BABYLON.MeshBuilder.CreateCylinder("pyramid", { diameterTop: 0, diameter: 8, height: height, tessellation: points }, scene);
+    polygon.position = new BABYLON.Vector3(x, y, z);
      return polygon;
 }

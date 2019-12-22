@@ -18,7 +18,7 @@ export function setIsStartCreateLine(b: boolean) { isStartCreateLine = b; }
 var sysMode: string = 'select' || 'line' || 'multiLine' || 'point' || 'edit' || 'intersect' || 'plane3Point' || 'plane2Line' || 'planePointLine' || 'distance2Point' || 'distance2Line' || 'distancePointLine' || 'totalArea';
 export function getSysMode() { return sysMode.valueOf(); }
 export function setSysMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect'|
- 'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea') {
+ 'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea'| 'box-inputs' | 'cube-inputs' | 'sphere-inputs' | 'cone-inputs' |'pyramid-inputs') {
     sysMode = mode
 };
 
@@ -157,8 +157,8 @@ var meshesForCheckIntersect: BABYLON.Mesh[] = [];
 export function getMeshesForCheckIntersect() { return meshesForCheckIntersect; }
 export function resetMeshesForCheckIntersect() { meshesForCheckIntersect = []; }
 
-var inputObject: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plane-3-point' | 'plane-point-vector';
-export function setInputObject(input: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plane-3-point' | 'plane-point-vector') {
+var inputObject: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plane-3-point' | 'plane-point-vector'|'box-inputs'| 'cone-inputs'|'sphere-inputs'|'cube-inputs'|'pyramid-inputs';
+export function setInputObject(input: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plane-3-point' | 'plane-point-vector'|'box-inputs'| 'cone-inputs'|'sphere-inputs'|'cube-inputs'|'pyramid-inputs') {
     inputObject = input;
 }
 export function getInputObject() {

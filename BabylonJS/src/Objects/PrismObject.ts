@@ -1,7 +1,6 @@
 import * as BABYLON from "@babylonjs/core"
 import {scene} from '../Enviroment'
 import {CreateMeshMaterial} from '../MeshMaterial'
-import { int } from "@babylonjs/core";
 
 export function CreatePrismDefault()
 {
@@ -13,8 +12,9 @@ export function CreatePrismDefault()
     return prism;
 }
 
-export function CreatePrismCustom(point: int,size: int)
+export function CreatePrismCustom(x:number, y:number, z:number,point: number,size: number)
 {
     var prism = BABYLON.MeshBuilder.CreatePolyhedron("prism", {type: point, size: size}, scene);
+    prism.position = new BABYLON.Vector3(x, y, z);
     return prism;
 }
