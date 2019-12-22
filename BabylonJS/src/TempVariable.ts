@@ -2,6 +2,7 @@ import * as BABYLON from '@babylonjs/core'
 import {removeFromGizmoManagerList, removeHLOfMesh } from './Enviroment'
 import { Point, getIndexPoint, setIndexPoint } from './Point';
 import { Line } from './Line';
+import { Plane } from './Plane';
 
 // Check is multi select mode (by holading Ctrl)
 var isMultiSelect = false;
@@ -39,10 +40,12 @@ window['listPoint'] = listPoint;
 export function getListPoint() { return listPoint; }
 export function addToListPoint(point: Point) { listPoint.push(point); }
 export function removeFromListPoint(name: string){
-    // var point = getPointByName(name);
-    // if(point){
-    //     listPoint.splice()
-    // }
+    var tempList = [];
+    for(let i =0;i<listPoint.length;i++){
+        if (listPoint[i].name != name)
+            tempList.push(listPoint[i]);
+    }
+    listPoint = tempList;
 }
 export function getPointByName(name: string) {
     for(let i =0;i<listPoint.length;i++){
@@ -55,10 +58,38 @@ export function getPointByName(name: string) {
 var listLine: Line[] = [];
 export function getListLine() { return listLine; }
 export function addToListLine(line: Line) { listLine.push(line); }
+export function removeFromListLine(name: string){
+    var tempList = [];
+    for(let i =0;i<listLine.length;i++){
+        if (listLine[i].name != name)
+            tempList.push(listLine[i]);
+    }
+    listLine = tempList;
+}
 export function getLineByName(name: string) {
     for(let i =0;i<listLine.length;i++){
         if (listLine[i].name == name)
             return listLine[i];
+    }
+    return false;
+}
+
+var listPlane: Plane[] = [];
+window['listPlane'] = listPlane;
+export function getListPlane() { return listPlane; }
+export function addToListPlane(Plane: Plane) { listPlane.push(Plane); }
+export function removeFromListPlane(name: string){
+    var tempList = [];
+    for(let i =0;i<listPlane.length;i++){
+        if (listPlane[i].name != name)
+            tempList.push(listPlane[i]);
+    }
+    listPlane = tempList;
+}
+export function getPlaneByName(name: string) {
+    for(let i =0;i<listPlane.length;i++){
+        if (listPlane[i].name == name)
+            return listPlane[i]; 
     }
     return false;
 }
@@ -120,6 +151,8 @@ var meshesForCheckIntersect: BABYLON.Mesh[] = [];
 
 export function getMeshesForCheckIntersect(){return meshesForCheckIntersect;}
 export function resetMeshesForCheckIntersect(){meshesForCheckIntersect = [];}
+
+var inputObject ;
 
 
 

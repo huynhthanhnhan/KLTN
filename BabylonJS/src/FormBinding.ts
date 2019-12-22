@@ -184,17 +184,42 @@ export function formBinding() {
         setIsPickableBasicScene(false);
     })
 
+    var listMesh = document.getElementById('listMesh');
+    var form_input = document.getElementById("formInput");
+    var point1 = document.getElementById('point1');
+    var point2 = document.getElementById('point2');
+    var point3 = document.getElementById('point3');
+    var vector = document.getElementById('vector');
+    var position = document.getElementById('position');
+
+    var position_x = document.getElementById('position-x');
+    var position_y = document.getElementById('position-y');
+    var position_z = document.getElementById('position-z');
+    var point1_x = document.getElementById('point1-x');
+    var point1_y = document.getElementById('point1-y');
+    var point1_z = document.getElementById('point1-z');
+    var point2_x = document.getElementById('point2-x');
+    var point2_y = document.getElementById('point2-y');
+    var point2_z = document.getElementById('point2-z');
+    var point3_x = document.getElementById('point3-x');
+    var point3_y = document.getElementById('point3-y');
+    var point3_z = document.getElementById('point3-z');
+    var vector_x = document.getElementById('vector-x');
+    var vector_y = document.getElementById('vector-y');
+    var vector_z = document.getElementById('vector-z');
+
+
     $("#renderCanvas").on('click', function(){
-        document.getElementById('listMesh').style.display= "none";
+        listMesh.style.display= "none";
         resetFormInput();
-        document.getElementById('form-input').style.display = "none"
+        form_input.style.display = "none"
     })
     var count = 1;
     $("#mesh-tab").on('click', function(){
         if(count%2 == 0)
-         document.getElementById('listMesh').style.display= "none"
+         listMesh.style.display= "none"
          else
-         document.getElementById('listMesh').style.display= "flex"
+         listMesh.style.display= "flex"
          count++;
     })
  
@@ -205,33 +230,36 @@ export function formBinding() {
         document.getElementsByName('form-input-value').forEach(e=>{
             (e as HTMLInputElement).value = "";
         })
-        document.getElementById("form-input").style.display = "block";
+        form_input.style.display = "block";
         document.getElementById('btnCreate').style.display = 'block';
         document.getElementById('btnClose').style.display = 'block';
 
     }
     $("#point_input").on('click', function(){
         resetFormInput();
-        document.getElementById('position').style.display = 'block';
+        position.style.display = 'block';
         
         // var x = document.getElementById('position-x');
     })
 
     $("#line_input_point_vector").on('click', function(){
         resetFormInput();
-        document.getElementById('point1').style.display = 'block';
-        document.getElementById('vector').style.display = 'block';
+        point1.style.display = 'block';
+        vector.style.display = 'block';
     })
 
     $("#line_input_2_point").on('click', function(){
         resetFormInput();
-        document.getElementById('point1').style.display = 'block';
-        document.getElementById('point2').style.display = 'block';
+        point1.style.display = 'block';
+        point2.style.display = 'block';
     })
-    // document.getElementById('btnClose').addEventListener("click", function(){
-    //     console.log('close')
-    //     document.getElementById("form-input").style.display = "none";
-    // })
+    $("#btnClose").on('click', function(){
+        resetFormInput();
+        form_input.style.display = "none";
+    })
+    $("#btnCreate").on('click', function(){
+        form_input.style.display = "none";
+    })
 
     // $('#plane').on('change', function () {
     //     if (this.value == "3point") {

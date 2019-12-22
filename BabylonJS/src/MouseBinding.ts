@@ -14,7 +14,7 @@ export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
             setIsStartCreateLine(false);
         } else {
             if (getStartPoint()) {
-                var s = new Line(getStartPoint(), pt,0);
+                var s = new Line(getStartPoint(), pt, '2point');
                 // console.log("create with line");
                 removeHLOfMesh(getStartPoint().mesh);
                 if (getSysMode() == 'line')
@@ -36,7 +36,7 @@ export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
                 setIsStartCreateLine(false);
         } else {
             if (getStartPoint()) {
-                var s = new Line(getStartPoint(), pointResult, 0);
+                var s = new Line(getStartPoint(), pointResult, '2point');
                 addToListLine(s);
                 // console.log("create with point")
                 setIsStartCreateLine(true);

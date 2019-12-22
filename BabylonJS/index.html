@@ -273,7 +273,129 @@
 
             <div class="col-sm-3" style="background-color:#D1D1FC;">
                 <div class="ScrollStyle">
-                    <div id="formInput"></div>
+                    <div id="formInput">
+                        <div id="form-input">
+                            <!-- <button id="btnClose" type="button" class="close" aria-label="Close" style="display: none;">
+                                <span aria-hidden="false">&times;</span>
+                              </button> -->
+                            <div id="vector" style="display: none;" name='div-form-input'>
+                                <div class="form-group">
+                                    <label>Vector X:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="vector-x" placeholder="Vector X">
+                                </div>
+                                <div class="form-group">
+                                    <label>Vector Y:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="vector-y" placeholder="Vector Y">
+                                </div>
+                                <div class="form-group">
+                                    <label>Vector Z:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="vector-z" placeholder="Vector Z">
+                                </div>
+                            </div>
+                            <div id="point1" style="display: none;" name='div-form-input'>
+                                <div class="form-group">
+                                    <label>Point1 X:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="point1-x" placeholder="Point1 X">
+                                </div>
+                                <div class="form-group">
+                                    <label>Point1 Y:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="point1-y" placeholder="Point1 Y">
+                                </div>
+                                <div class="form-group">
+                                    <label>Point1 Z:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="point1-z" placeholder="Point1 Z">
+                                </div>
+                            </div>
+                            <div id="point2" style="display: none;" name='div-form-input'>
+                                <div class="form-group">
+                                    <label>Point2 X:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="point2-x" placeholder="Point2 X">
+                                </div>
+                                <div class="form-group">
+                                    <label>Point2 Y:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="point2-y" placeholder="Point2 Y">
+                                </div>
+                                <div class="form-group">
+                                    <label>Point2 Z:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="point2-z" placeholder="Point2 Z">
+                                </div>
+                            </div>
+                            <div id="point3" style="display: none;" name='div-form-input'>
+                                <div class="form-group">
+                                    <label>Point3 X:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="point3-x" placeholder="Point3 X">
+                                </div>
+                                <div class="form-group">
+                                    <label>Point3 Y:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="point3-y" placeholder="Point3 Y">
+                                </div>
+                                <div class="form-group">
+                                    <label>Point3 Z:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="point3-z" placeholder="Point3 Z">
+                                </div>
+                            </div>
+                            <div id="box" style="display: none;" name='div-form-input'>
+                                <div class="form-group">
+                                    <label>Box Width:</label>
+                                    <input name="form-input-value" type="number" step="0.01" min="0.01" class="form-control" id="box-width" placeholder="Box Width">
+                                </div>
+                                <div class="form-group">
+                                    <label>Box Height:</label>
+                                    <input name="form-input-value" type="number" step="0.01" min="0.01" class="form-control" id="box-height" placeholder="Box Height">
+                                </div>
+                                <div class="form-group">
+                                    <label>Box Depth:</label>
+                                    <input name="form-input-value" type="number" step="0.01" min="0.01" class="form-control" id="box-depth" placeholder="Box Depth">
+                                </div>
+                            </div>
+                            <div id="cube" style="display: none;" name='div-form-input'>
+                                <div class="form-group">
+                                    <label>Cube Edge:</label>
+                                    <input name="form-input-value" type="number" step="0.01" min="0.01" class="form-control" id="cube-edge" placeholder="Cube Edge">
+                                </div>
+                            </div>
+                            <div id="sphere" style="display: none;" name='div-form-input'>
+                                <div class="form-group">
+                                    <label>Sphere Diameter:</label>
+                                    <input name="form-input-value" type="number" step="0.01" min="0.01" class="form-control" id="sphere-diameter" placeholder="Sphere Diameter">
+                                </div>
+                            </div>
+                            <div id="cone" style="display: none;" name='div-form-input'>
+                                <div class="form-group">
+                                    <label>Cone Diameter:</label>
+                                    <input name="form-input-value" type="number" step="0.01" min="0.01" class="form-control" id="cone-diameter" placeholder="Cone Diameter">
+                                </div>
+                                <div class="form-group">
+                                    <label>Cone Height:</label>
+                                    <input name="form-input-value" type="number" step="0.01" min="0.01" class="form-control" id="cone-height" placeholder="Cone Height">
+                                </div>
+                            </div>
+                            <div id="position" style="display: none;" name='div-form-input'>
+                                <div class="form-group">
+                                    <label>Position X:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="position-x" placeholder="Position X">
+                                </div>
+                                <div class="form-group">
+                                    <label>Position Y:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="position-y" placeholder="Position Y">
+                                </div>
+                                <div class="form-group">
+                                    <label>Position Z:</label>
+                                    <input name="form-input-value" type="number" class="form-control" id="position-z" placeholder="Position Z">
+                                </div>
+                            </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <button id="btnCreate" type="button" class="btn btn-primary" style="margin: 5%; display: none;">Create</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button id="btnClose" type="button" class="btn btn-primary" style="margin: 5%; display: none;">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -284,9 +406,9 @@
     <script src="./src/earcut.min.js"></script>
     <script src="assets/js/jquery.min.js"></script>
     <script>
-        $(function() {
-            $("#formInput").load("formInput.html");
-        });
+        // $(function() {
+        //     $("#formInput").load("formInput.html");
+        // });
     </script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
