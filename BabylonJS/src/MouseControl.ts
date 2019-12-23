@@ -50,7 +50,10 @@ export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
 
 export function ProcessSelectOrEdit(pickResult: BABYLON.PickingInfo) {
     // setIsPickableBasicScene(false);
+    console.log(getSysMode())
     var target = (pickResult.pickedMesh) as BABYLON.Mesh;
+    if(target.material)
+        target.material.alpha = 1;
     addHLToMesh(target, BABYLON.Color3.Blue());
     if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ") {
         if (getMultiSelect() == false || getSysMode() == 'edit') {

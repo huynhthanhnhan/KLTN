@@ -140,6 +140,7 @@ export function formBinding() {
 
     var box_width = document.getElementById('box-width') as HTMLInputElement;
     var box_height = document.getElementById('box-height') as HTMLInputElement;
+    var box_depth = document.getElementById('box-depth') as HTMLInputElement;
 
     var cube_edge = document.getElementById('cube-edge') as HTMLInputElement;
 
@@ -167,6 +168,26 @@ export function formBinding() {
             listMesh.style.display = "flex"
         count++;
     })
+
+    $("#box_default").on('click', function () {
+        CreateBoxDefault();
+    })
+    $("#cube_default").on('click', function () {
+        CreateCubeDefault();
+    })
+    $("#sphere_default").on('click', function () {
+        CreateSphereDefault();
+    })
+    $("#prism_default").on('click', function () {
+        CreatePrismDefault();
+    })
+    $("#pyramid_default").on('click', function () {
+        CreatePyramidDefault();
+    })
+    $("#cone_default").on('click', function () {
+        CreateConeDefault();
+    })
+
 
     function resetFormInput() {
         document.getElementsByName('div-form-input').forEach(e => {
@@ -291,7 +312,7 @@ export function formBinding() {
                 new Plane('point-vector',pt, vt, 0);
                 break;
             case "box-inputs":
-                CreateBoxCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(box_width.value),parseInt(box_height.value));
+                CreateBoxCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(box_width.value),parseInt(box_height.value),parseInt(box_depth.value));
                 break;
             case "cone-inputs":
                 CreateConeCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(cone_diameter.value),parseInt(cone_height.value));

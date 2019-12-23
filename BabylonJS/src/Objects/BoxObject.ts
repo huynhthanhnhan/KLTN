@@ -24,9 +24,9 @@ export function CreateBoxDefault()
     index++;
     return box;
 }
-export function CreateBoxCustom(x:number, y:number, z:number,height:number ,width:number)
+export function CreateBoxCustom(x:number, y:number, z:number,height:number ,width:number, depth: number)
 {
-    var box = BABYLON.MeshBuilder.CreateBox("box"+ index, {height: height, width: width}, scene);
+    var box = BABYLON.MeshBuilder.CreateBox("box"+ index, {height: height, width: width, depth: depth}, scene);
     box.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0));
     box.position = new BABYLON.Vector3(x, y, z);
     gizmoManager.attachableMeshes.push(box);
