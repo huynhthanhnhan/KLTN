@@ -19,82 +19,8 @@ import { Line } from './Line'
 import { Plane } from './Plane'
 
 export function formBinding() {
-    // const form = document.querySelector('form')
-    // form.addEventListener('Create', event => {
-    // // submit event detected
-    // // (<HTMLInputElement>document.getElementById('edge')).value;
-    // var x;
-    // var y;
-    // var z;
-    // console.log("vao ho t cai");
-    // // console.log("style",document.getElementById('box'));
-    // if((<HTMLElement>document.getElementById('box')).style.display !='none')
-    // {
-    //     console.log("vao dung");
-    //     // var cubeBox=CreateCubeCustom(x,y,z,parseInt((<HTMLInputElement>document.getElementById('edge')).value));
-    //     // scene.registerBeforeRender(function(){
-    //     //     cubeBox.rotation.y += 0.05;
-    //     // });
-    // }
-    // var valDiameter=(<HTMLInputElement>document.getElementById('diameter')).value;
-    // if(valDiameter !=null && valDiameter !='')
-    // {
-    //     CreateSphereCustom(x,y,z,parseInt(valDiameter));
-    // }
-    // var valBoxWidth=(<HTMLInputElement>document.getElementById('width')).value;
-    // var valBoxHeight=(<HTMLInputElement>document.getElementById('height')).value;
-    // if((valBoxWidth !=null && valBoxWidth !='')&&(valBoxHeight !=null && valBoxHeight !=''))
-    // {
-    //     CreateBoxCustom(x,y,z,parseInt(valBoxHeight),parseInt(valBoxWidth));
-    // }
-    // var valPointsOfPyramid=(<HTMLInputElement>document.getElementById('pointsofpyramid')).value;
-    // var valPyramidHeight=(<HTMLInputElement>document.getElementById('heightofpyramid')).value;
-    // if(valPointsOfPyramid !=null && valPyramidHeight !='')
-    // {
-    //     CreatePyramidCustom(x,y,z,parseInt(valPyramidHeight),parseInt(valPointsOfPyramid));
-    // }
-    // var valPointsOfPrism=(<HTMLInputElement>document.getElementById('pointsofprism')).value;
-    // var valPrismHeigth=(<HTMLInputElement>document.getElementById('heightofprism')).value;
-    // if(valPointsOfPrism !=null && valPrismHeigth !='')
-    // {
-    //     if(valPointsOfPrism == '3'){
-    //         CreatePrismCustom(x,y,z,parseInt(valPointsOfPrism)+2,parseInt(valPrismHeigth));
-    //     }
-    //     else{
-    //         CreatePrismCustom(x,y,z,parseInt(valPointsOfPrism)+1,parseInt(valPrismHeigth));
-    //     }
-    // }
-    // var valConeDiameter=(<HTMLInputElement>document.getElementById('diameterofcone')).value;
-    // var valConeHeight=(<HTMLInputElement>document.getElementById('heightofcone')).value;
-    // if(valConeDiameter !=null && valConeHeight !='')
-    // {
-    //         CreateConeCustom(x,y,z,parseInt(valConeDiameter),parseInt(valConeHeight));
-    // }
-    // event.preventDefault()
-   
-    // })
-    var checkStatus= function(checkValue){
-        var state= {height:false, width:false, edge:false, diameter:false, pointsofpyramid:false,heightofpyramid:false, pointsofprism:false, heightofprism:false,diameterofcone:false, heightofcone:false };
-        Object.keys(state).forEach(function(k){
-            Object.keys(checkValue).forEach(function(i){
-            if(state[k]==true){
-                return;
-            }
-            state[k]=(k==i)?true:false;
-            });
-        });
-        Object.keys(state).forEach(function (k) {
-            if (state[k] == true) {
-                (<HTMLInputElement>document.getElementById(k)).type = 'text';
-            }
-            else {
-                (<HTMLInputElement>document.getElementById(k)).type = 'hidden';
-            }
-        });
-    }
-
     function changeSystemMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect'|
-    'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs'|'pyramid-inputs') {
+    'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs'|'pyramid-inputs' | 'prism-inputs') {
         setIsStartCreateLine(true)
         setSysMode(mode);
     }
@@ -178,6 +104,7 @@ export function formBinding() {
         changeSystemMode('totalArea');
         setIsPickableBasicScene(false);
     });
+    
 
 
     var listMesh = document.getElementById('listMesh');
@@ -193,6 +120,7 @@ export function formBinding() {
     var cone = document.getElementById('cone');
     var sphere = document.getElementById('sphere');
     var pyramid= document.getElementById('pyramid');
+    var prism= document.getElementById('prism');
 
     var position_x = document.getElementById('position-x') as HTMLInputElement;
     var position_y = document.getElementById('position-y') as HTMLInputElement;
@@ -222,6 +150,9 @@ export function formBinding() {
 
     var pyramid_height = document.getElementById('pyramid-height') as HTMLInputElement;
     var pyramid_face = document.getElementById('pyramid-face') as HTMLInputElement;
+
+    var prism_height = document.getElementById('prism-height') as HTMLInputElement;
+    var prism_face = document.getElementById('prism-face') as HTMLInputElement;
 
     $("#renderCanvas").on('click', function () {
         listMesh.style.display = "none";
@@ -322,6 +253,13 @@ export function formBinding() {
         setInputObject('pyramid-inputs');
     })
 
+    $("#prism_input").on('click', function () {
+        resetFormInput();
+        prism.style.display = 'block';
+        position.style.display = 'block';
+        setInputObject('prism-inputs');
+    })
+
     $("#btnClose").on('click', function () {
         resetFormInput();
         form_input.style.display = "none";
@@ -366,6 +304,9 @@ export function formBinding() {
                 break;
             case "pyramid-inputs":
                 CreatePyramidCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(pyramid_height.value),parseInt(pyramid_face.value));
+                break;
+            case "prism-inputs":
+                CreatePrismCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(prism_face.value),parseInt(prism_height.value));
                 break;
             default:
         }
