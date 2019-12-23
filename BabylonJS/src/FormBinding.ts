@@ -19,122 +19,8 @@ import { Line } from './Line'
 import { Plane } from './Plane'
 
 export function formBinding() {
-    // const form = document.querySelector('form')
-    // form.addEventListener('submit', event => {
-    // submit event detected
-    // var valCube=(<HTMLInputElement>document.getElementById('edge')).value;
-    // if(valCube !=null && valCube !='')
-    // {
-    //     var cubeBox=CreateCubeCustom(parseInt(valCube));
-    //     // scene.registerBeforeRender(function(){
-    //     //     cubeBox.rotation.y += 0.05;
-    //     // });
-    // }
-    // var valDiameter=(<HTMLInputElement>document.getElementById('diameter')).value;
-    // if(valDiameter !=null && valDiameter !='')
-    // {
-    //     CreateSphereCustom(valDiameter);
-    // }
-    // var valBoxWidth=(<HTMLInputElement>document.getElementById('width')).value;
-    // var valBoxHeight=(<HTMLInputElement>document.getElementById('height')).value;
-    // if((valBoxWidth !=null && valBoxWidth !='')&&(valBoxHeight !=null && valBoxHeight !=''))
-    // {
-    //     CreateBoxCustom(parseInt(valBoxHeight),parseInt(valBoxWidth));
-    // }
-    // var valPointsOfPyramid=(<HTMLInputElement>document.getElementById('pointsofpyramid')).value;
-    // var valPyramidHeight=(<HTMLInputElement>document.getElementById('heightofpyramid')).value;
-    // if(valPointsOfPyramid !=null && valPyramidHeight !='')
-    // {
-    //     CreatePyramidCustom(parseInt(valPyramidHeight),parseInt(valPointsOfPyramid));
-    // }
-    // var valPointsOfPrism=(<HTMLInputElement>document.getElementById('pointsofprism')).value;
-    // var valPrismHeigth=(<HTMLInputElement>document.getElementById('heightofprism')).value;
-    // if(valPointsOfPrism !=null && valPrismHeigth !='')
-    // {
-    //     if(valPointsOfPrism == '3'){
-    //         CreatePrismCustom(parseInt(valPointsOfPrism)+2,parseInt(valPrismHeigth));
-    //     }
-    //     else{
-    //         CreatePrismCustom(parseInt(valPointsOfPrism)+1,parseInt(valPrismHeigth));
-    //     }
-    // }
-    // var valConeDiameter=(<HTMLInputElement>document.getElementById('diameterofcone')).value;
-    // var valConeHeight=(<HTMLInputElement>document.getElementById('heightofcone')).value;
-    // if(valConeDiameter !=null && valConeHeight !='')
-    // {
-    //         CreateConeCustom(parseInt(valConeDiameter),parseInt(valConeHeight));
-    // }
-    // event.preventDefault()
-
-    // })
-    var checkStatus = function (checkValue) {
-        var state = { height: false, width: false, edge: false, diameter: false, pointsofpyramid: false, heightofpyramid: false, pointsofprism: false, heightofprism: false, diameterofcone: false, heightofcone: false };
-        Object.keys(state).forEach(function (k) {
-            Object.keys(checkValue).forEach(function (i) {
-                if (state[k] == true) {
-                    return;
-                }
-                state[k] = (k == i) ? true : false;
-            });
-        });
-        Object.keys(state).forEach(function (k) {
-            if (state[k] == true) {
-                (<HTMLInputElement>document.getElementById(k)).type = 'text';
-            }
-            else {
-                (<HTMLInputElement>document.getElementById(k)).type = 'hidden';
-            }
-        });
-    }
-
-    $('#shape').on('change', function () {
-        if (this.value == "hinh lap phuong") {
-            CreateCubeDefault();
-            var value = "Hình lập phương";
-            document.getElementById("infoHeader").innerHTML = value;
-            var boxinfo = { edge: false };
-            checkStatus(boxinfo);
-        }
-        else if (this.value == "hinh cau") {
-            CreateSphereDefault();
-            var value = "Hình cầu";
-            document.getElementById("infoHeader").innerHTML = value;
-            var sphereinfo = { diameter: false };
-            checkStatus(sphereinfo);
-        }
-        else if (this.value == "hinh hop chu nhat") {
-            CreateBoxDefault();
-            var value = "Hình hộp chữ nhật";
-            document.getElementById("infoHeader").innerHTML = value;
-            var cubeinfo = { height: false, width: false };
-            checkStatus(cubeinfo);
-        }
-        else if (this.value == "hinh chop") {
-            CreatePyramidDefault();
-            var value = "Hình chóp";
-            document.getElementById("infoHeader").innerHTML = value;
-            var pyramidinfo = { pointsofpyramid: false, heightofpyramid: false };
-            checkStatus(pyramidinfo);
-        }
-        else if (this.value == "hinh tru") {
-            CreatePrismDefault();
-            var value = "Hình trụ";
-            document.getElementById("infoHeader").innerHTML = value;
-            var prisminfo = { pointsofprism: false, heightofprism: false };
-            checkStatus(prisminfo);
-        }
-        else if (this.value == "hinh non") {
-            CreateConeDefault();
-            var value = "Hình nón";
-            document.getElementById("infoHeader").innerHTML = value;
-            var coneinfo = { diameterofcone: false, heightofcone: false };
-            checkStatus(coneinfo);
-        }
-    });
-
-
     function changeSystemMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect'|
-    'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea') {
+    'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs'|'pyramid-inputs' | 'prism-inputs') {
         setIsStartCreateLine(true)
         setSysMode(mode);
     }
@@ -218,6 +104,7 @@ export function formBinding() {
         changeSystemMode('totalArea');
         setIsPickableBasicScene(false);
     });
+    
 
 
     var listMesh = document.getElementById('listMesh');
@@ -227,6 +114,13 @@ export function formBinding() {
     var point3 = document.getElementById('point3');
     var vector = document.getElementById('vector');
     var position = document.getElementById('position');
+
+    var box = document.getElementById('box');
+    var cube = document.getElementById('cube');
+    var cone = document.getElementById('cone');
+    var sphere = document.getElementById('sphere');
+    var pyramid= document.getElementById('pyramid');
+    var prism= document.getElementById('prism');
 
     var position_x = document.getElementById('position-x') as HTMLInputElement;
     var position_y = document.getElementById('position-y') as HTMLInputElement;
@@ -243,6 +137,22 @@ export function formBinding() {
     var vector_x = document.getElementById('vector-x') as HTMLInputElement;
     var vector_y = document.getElementById('vector-y') as HTMLInputElement;
     var vector_z = document.getElementById('vector-z') as HTMLInputElement;
+
+    var box_width = document.getElementById('box-width') as HTMLInputElement;
+    var box_height = document.getElementById('box-height') as HTMLInputElement;
+
+    var cube_edge = document.getElementById('cube-edge') as HTMLInputElement;
+
+    var cone_diameter = document.getElementById('cone-diameter') as HTMLInputElement;
+    var cone_height = document.getElementById('cone-height') as HTMLInputElement;
+
+    var sphere_diameter = document.getElementById('sphere-diameter') as HTMLInputElement;
+
+    var pyramid_height = document.getElementById('pyramid-height') as HTMLInputElement;
+    var pyramid_face = document.getElementById('pyramid-face') as HTMLInputElement;
+
+    var prism_height = document.getElementById('prism-height') as HTMLInputElement;
+    var prism_face = document.getElementById('prism-face') as HTMLInputElement;
 
     $("#renderCanvas").on('click', function () {
         listMesh.style.display = "none";
@@ -308,6 +218,48 @@ export function formBinding() {
         setInputObject('plane-point-vector');
     })
 
+    $("#box_input").on('click', function () {
+        resetFormInput();
+        box.style.display = 'block';
+        position.style.display = 'block';
+        setInputObject('box-inputs');
+    })
+
+    $("#cube_input").on('click', function () {
+        resetFormInput();
+        cube.style.display = 'block';
+        position.style.display = 'block';
+        setInputObject('cube-inputs');
+    })
+
+    $("#sphere_input").on('click', function () {
+        resetFormInput();
+        sphere.style.display = 'block';
+        position.style.display = 'block';
+        setInputObject('sphere-inputs');
+    })
+
+    $("#cone_input").on('click', function () {
+        resetFormInput();
+        cone.style.display = 'block';
+        position.style.display = 'block';
+        setInputObject('cone-inputs');
+    })
+
+    $("#pyramid_input").on('click', function () {
+        resetFormInput();
+        pyramid.style.display = 'block';
+        position.style.display = 'block';
+        setInputObject('pyramid-inputs');
+    })
+
+    $("#prism_input").on('click', function () {
+        resetFormInput();
+        prism.style.display = 'block';
+        position.style.display = 'block';
+        setInputObject('prism-inputs');
+    })
+
     $("#btnClose").on('click', function () {
         resetFormInput();
         form_input.style.display = "none";
@@ -337,6 +289,24 @@ export function formBinding() {
                 var pt = new BABYLON.Vector3(parseInt(point1_x.value), parseInt(point1_y.value), parseInt(point1_z.value));
                 var vt = new BABYLON.Vector3(parseInt(vector_x.value), parseInt(vector_y.value), parseInt(vector_z.value));
                 new Plane('point-vector',pt, vt, 0);
+                break;
+            case "box-inputs":
+                CreateBoxCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(box_width.value),parseInt(box_height.value));
+                break;
+            case "cone-inputs":
+                CreateConeCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(cone_diameter.value),parseInt(cone_height.value));
+                break;
+            case "sphere-inputs":
+                CreateSphereCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(sphere_diameter.value));
+                break;
+            case "cube-inputs":
+                CreateCubeCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(cube_edge.value));
+                break;
+            case "pyramid-inputs":
+                CreatePyramidCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(pyramid_height.value),parseInt(pyramid_face.value));
+                break;
+            case "prism-inputs":
+                CreatePrismCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(prism_face.value),parseInt(prism_height.value));
                 break;
             default:
         }
