@@ -3,7 +3,7 @@ import { scene, gizmoManager, engine, camera, canvas } from './Enviroment'
 import { getIsMoveZ, setIsDoubleClick, getIsDoubleClick, } from './TempVariable'
 import { Point } from './Point'
 import { getSysMode } from './TempVariable'
-import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect, ProcessPlane3Point, ProcessPlane2Line, ProcessPlanePointLine, ProcessDistance2Point } from "./MouseControl";
+import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect, ProcessPlane3Point, ProcessPlane2Line, ProcessPlanePointLine, ProcessDistance2Point, ProcessCaculateTotalArea } from "./MouseControl";
 
 
 export function MouseControl() {
@@ -42,6 +42,7 @@ export function MouseControl() {
                 case 'distancePointLine':
                     break;
                 case 'totalArea':
+                    ProcessCaculateTotalArea(pickResult);
                     break;
             }
         }

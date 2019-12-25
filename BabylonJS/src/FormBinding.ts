@@ -30,7 +30,7 @@ export function formBinding() {
                 setContent('Use Keys R / G / S / B to control');
                 break;
             case 'select':
-                setContent("Right-click object to show information");
+                setContent("Right-click object to show information, Press key X to remove object");
                 break;
             case 'point':
                 setContent('Double-click on the screen');
@@ -39,6 +39,7 @@ export function formBinding() {
                 setContent('Double-click to create point');
                 break;
             case 'intersect':
+                setContent('Select 2 mesh to see the intersect');
                 break;
             case 'plane3Point':
                 setContent('Select or create 3 point to create Plane');
@@ -70,34 +71,6 @@ export function formBinding() {
         }
         setSysMode(mode);
     }
-    $('#menus').on('change', function () {
-        if (this.value == "point") {
-            changeSystemMode('point');
-            setIsPickableBasicScene(true);
-        }
-        else if (this.value == "line") {
-            // console.log('line')
-            changeSystemMode('line')
-            setIsPickableBasicScene(true);
-        }
-        else if (this.value == "multi") {
-            triggerStartPoint();
-            changeSystemMode('multiLine');
-            setIsPickableBasicScene(true);
-        }
-        else if (this.value == "edit") {
-            changeSystemMode('edit');
-            setIsPickableBasicScene(false);
-        }
-        else if (this.value == "select") {
-            changeSystemMode('select');
-            setIsPickableBasicScene(false);
-        }
-        else if (this.value == "intersect") {
-            changeSystemMode('intersect');
-            setIsPickableBasicScene(false);
-        }
-    });
     $("#point_click").on('click', function () {
         changeSystemMode('point');
         setIsPickableBasicScene(true);
@@ -153,7 +126,6 @@ export function formBinding() {
 
 
 
-    var listMesh = document.getElementById('listMesh');
     var form_input = document.getElementById("formInput");
     var point1 = document.getElementById('point1');
     var point2 = document.getElementById('point2');
@@ -202,17 +174,8 @@ export function formBinding() {
     var prism_face = document.getElementById('prism-face') as HTMLInputElement;
 
     $("#renderCanvas").on('click', function () {
-        listMesh.style.display = "none";
         resetFormInput();
         form_input.style.display = "none"
-    })
-    var count = 1;
-    $("#mesh-tab").on('click', function () {
-        if (count % 2 == 0)
-            listMesh.style.display = "none"
-        else
-            listMesh.style.display = "flex"
-        count++;
     })
 
     $("#box_default").on('click', function () {

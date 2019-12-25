@@ -154,8 +154,8 @@ engine.runRenderLoop(function() {
         mainScene.render();
         var fpsLabel = document.getElementById("fpsLabel");
         fpsLabel.innerHTML = engine.getFps().toFixed() + " fps";
-        var modeLabel = document.getElementById("modeLabel");
-        modeLabel.innerHTML = getSysMode() + " mode";
+        // var modeLabel = document.getElementById("modeLabel");
+        // modeLabel.innerHTML = getSysMode() + " mode";
     }
 });
 

@@ -110,7 +110,7 @@ function CreateLine(point1: Point, point2: Point, name: string) {
         point1.linesName.push("Line_" + indexLine);
         point2.linesName.push("Line_" + indexLine);
         // indexLine++;
-        gizmoManager.attachableMeshes.push(newLine);
+        // gizmoManager.attachableMeshes.push(newLine);
         var updateLine = function () {
             if (newLine) {
                 newLine = BABYLON.MeshBuilder.CreateTube("Line_" + indexLine, {

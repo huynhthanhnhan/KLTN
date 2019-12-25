@@ -90,6 +90,7 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
             addHLToMesh(target, BABYLON.Color3.Green())
             if (getInterMesh()) getInterMesh().dispose();
             meshesForCheckIntersect.push(target);
+            setContent('Choose another mesh to see the intersect')
         }
         else {
             target.material.alpha = getDefaultMaterialAlpha();
@@ -100,6 +101,7 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
             addHLToMesh(intersectMesh, BABYLON.Color3.Yellow());
             setInterMesh(intersectMesh);
             resetMeshesForCheckIntersect();
+            setContent('Select 2 mesh to see the intersect');
         }
     }
 }
@@ -237,10 +239,13 @@ export function ProcessDistance2Point(pickResult: BABYLON.PickingInfo) {
 }
 
 export function ProcessCaculateTotalArea(pickResult: BABYLON.PickingInfo) {
-    var mesh = pickResult.pickedMesh as BABYLON.Mesh;
-    if (pickResult.pickedMesh.name.split("_")[0] != "Point" && pickResult.pickedMesh.name.split("_")[0] != "Line" && pickResult.pickedMesh.name.split("_")[0] != "Plane") {
-        var total_area = totalArea(mesh);
-        alert('Total Area: ' + total_area);
+    if(pickResult.pickedMesh){
+        var mesh = pickResult.pickedMesh as BABYLON.Mesh;
+        if (mesh.name.split("_")[0] != "Point" && mesh.name.split("_")[0] != "Line" && mesh.name.split("_")[0] != "Plane") {
+            var total_area = totalArea(mesh);
+            alert('Total Area: ' + total_area);
+        }
+
     }
 }
 
