@@ -40,6 +40,24 @@
             height: 100%;
             background-color: #D1D1FC;
         }
+
+        .subnav {
+            float: left;
+            overflow: hidden;
+        }
+
+        .subnav-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            background-color:#007bff;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .subnav:hover .subnav-content {
+            display: block;
+        }
         
         .ScrollStyle {
             max-height: 500px;
@@ -112,8 +130,48 @@
             </div>
         </div>
         <div class="col-auto">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" id="mesh-tab" type="button">Mesh</button>
-
+                <div class="subnav">
+                    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="mesh-tab">Mesh</button>
+                    <div class="subnav-content">
+                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Box&nbsp;</button>
+                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="box_default">Defaut</a>
+                                <a class="dropdown-item" role="presentation" id="box_input">Input</a></div>
+                        </div>
+                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cube</button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" role="presentation" id="cube_default">Default</a>
+                                <a class="dropdown-item" role="presentation" id="cube_input">Input</a>
+                            </div>
+                        </div>
+                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Sphere</button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" role="presentation" id="sphere_default">Default</a>
+                                <a class="dropdown-item" role="presentation" id="sphere_input">Input</a>
+            
+                            </div>
+                        </div>
+                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Prism</button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" role="presentation" id="prism_default">Default</a>
+                                <a class="dropdown-item" role="presentation" id="prism_input">Input</a>
+            
+                            </div>
+                        </div>
+                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Pyramid</button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" role="presentation" id="pyramid_default">Default</a>
+                                <a class="dropdown-item" role="presentation" id="pyramid_input">Input</a>
+            
+                            </div>
+                        </div>
+                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cone</button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" role="presentation" id="cone_default">Default</a>
+                                <a class="dropdown-item" role="presentation" id="cone_input">Input</a>
+            
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
         <div class="col-auto">
@@ -126,59 +184,7 @@
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_edit_mode">Edit</button></div>
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_view_intersect_mode">View Intersect</button></div>
     </div>
-    <div class="row" id="listMesh" style="margin-bottom: 0.1%; background-color: #d1d1fc;height: 60px;padding-top: 10px;padding-right: 10px;padding-bottom: 10px; display: none;">
-        <div class="col-auto" style="margin-left: 1%;">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Box&nbsp;</button>
-                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="box_default">Defaut</a>
-                    <a class="dropdown-item" role="presentation" id="box_input">Input</a></div>
-            </div>
-        </div>
-        <div class="col-auto">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cube</button>
-                <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" role="presentation" id="cube_default">Default</a>
-                    <a class="dropdown-item" role="presentation" id="cube_input">Input</a>
 
-                </div>
-            </div>
-        </div>
-        <div class="col-auto">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Sphere</button>
-                <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" role="presentation" id="sphere_default">Default</a>
-                    <a class="dropdown-item" role="presentation" id="sphere_input">Input</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-auto">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Prism</button>
-                <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" role="presentation" id="prism_default">Default</a>
-                    <a class="dropdown-item" role="presentation" id="prism_input">Input</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-auto">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Pyramid</button>
-                <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" role="presentation" id="pyramid_default">Default</a>
-                    <a class="dropdown-item" role="presentation" id="pyramid_input">Input</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-auto">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cone</button>
-                <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" role="presentation" id="cone_default">Default</a>
-                    <a class="dropdown-item" role="presentation" id="cone_input">Input</a>
-
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="menu">
         <div id="fpsLabel">Fps </div> <br>
         <div id="modeLabel">Mode </div>
