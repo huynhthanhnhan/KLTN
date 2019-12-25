@@ -165,6 +165,10 @@ export function getInputObject() {
     return inputObject;
 }
 
+var content = document.getElementById('notice');
+export function setContent(text: string){
+    content.textContent = text;
+}
 
 
 

@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import { getNewIndexPoint, Point, getIndexPoint, setIndexPoint } from "./Point";
-import { addToListPoint, getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine, addToListLine, getSysMode, getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getMeshesForCheckIntersect, getInterMesh, getDefaultMaterialAlpha, setInterMesh, resetMeshesForCheckIntersect, getLineByName, getPointByName } from "./TempVariable";
+import { addToListPoint, getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine, addToListLine, getSysMode, getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getMeshesForCheckIntersect, getInterMesh, getDefaultMaterialAlpha, setInterMesh, resetMeshesForCheckIntersect, getLineByName, getPointByName, setContent } from "./TempVariable";
 import { gizmoManager, scene, addHLToMesh, removeHLOfMesh } from "./Enviroment";
 import { Line } from "./Line";
 import { GetIntersectMesh } from "./IntersectMeshes";
@@ -14,13 +14,16 @@ export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
             setStartPoint(pt);
             addHLToMesh(getStartPoint().mesh, BABYLON.Color3.Green())
             setIsStartCreateLine(false);
+            setContent('Create another point')
         } else {
             if (getStartPoint()) {
                 var s = new Line(getStartPoint(), pt, '2point');
                 // console.log("create with line");
                 removeHLOfMesh(getStartPoint().mesh);
-                if (getSysMode() == 'line')
+                if (getSysMode() == 'line') {
                     setIsStartCreateLine(true);
+                    setContent('Double-click to create point');
+                }
                 else {
                     setStartPoint(pt);
                     addHLToMesh(getStartPoint().mesh, BABYLON.Color3.Green())
@@ -41,8 +44,15 @@ export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
                 var s = new Line(getStartPoint(), pointResult, '2point');
                 addToListLine(s);
                 // console.log("create with point")
-                setIsStartCreateLine(true);
                 removeHLOfMesh(getStartPoint().mesh);
+                if (getSysMode() == 'line') {
+                    setIsStartCreateLine(true);
+                    setContent('Double-click to create point');
+                }
+                else {
+                    setStartPoint(pointResult);
+                    addHLToMesh(getStartPoint().mesh, BABYLON.Color3.Green())
+                }
             }
         }
     }
@@ -52,7 +62,7 @@ export function ProcessSelectOrEdit(pickResult: BABYLON.PickingInfo) {
     // setIsPickableBasicScene(false);
     console.log(getSysMode())
     var target = (pickResult.pickedMesh) as BABYLON.Mesh;
-    if(target.material)
+    if (target.material)
         target.material.alpha = 1;
     addHLToMesh(target, BABYLON.Color3.Blue());
     if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ") {
@@ -96,7 +106,7 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
 
 export function ProcessPoint(pickResult: BABYLON.PickingInfo) {
     // setIsPickableBasicScene(true);
-    new Point(pickResult.pickedPoint,"Point_" + getNewIndexPoint());
+    new Point(pickResult.pickedPoint, "Point_" + getNewIndexPoint());
 }
 
 var listPlanePoint: Point[] = [];
@@ -105,6 +115,7 @@ export function ProcessPlane3Point(pickResult: BABYLON.PickingInfo) {
         const pt = new Point(pickResult.pickedPoint, 'Point_' + getNewIndexPoint());
         listPlanePoint.push(pt);
         if (listPlanePoint.length < 3) {
+            setContent('Select or create another Point');
             addHLToMesh(pt.mesh, BABYLON.Color3.Green());
         }
         else {
@@ -113,12 +124,14 @@ export function ProcessPlane3Point(pickResult: BABYLON.PickingInfo) {
                 removeHLOfMesh(point.mesh);
             })
             listPlanePoint = [];
+            setContent('Select or create 3 point to create Plane');
         }
     } else {
         var result = pickResult.pickedMesh as BABYLON.Mesh;
         var pointResult = new Point(result.position, 'Point_' + getIndexPoint());
         listPlanePoint.push(pointResult);
         if (listPlanePoint.length < 3) {
+            setContent('Select or create another Point');
             addHLToMesh(pointResult.mesh, BABYLON.Color3.Green());
         }
         else {
@@ -127,6 +140,7 @@ export function ProcessPlane3Point(pickResult: BABYLON.PickingInfo) {
                 removeHLOfMesh(point.mesh);
             })
             listPlanePoint = [];
+            setContent('Select or create 3 point to create Plane');
         }
     }
 }
@@ -140,6 +154,7 @@ export function ProcessPlane2Line(pickResult: BABYLON.PickingInfo) {
             listPlane2Line.push(line);
             if (listPlane2Line.length < 2) {
                 addHLToMesh(result, BABYLON.Color3.Green());
+                setContent('Select another line intersecting line first');
             }
             else {
                 new Plane('line-line', listPlane2Line[0], listPlane2Line[1], 0);
@@ -147,6 +162,7 @@ export function ProcessPlane2Line(pickResult: BABYLON.PickingInfo) {
                     removeHLOfMesh(line.mesh);
                 })
                 listPlane2Line = [];
+                setContent('Select two line intersect other');
             }
         }
     }
@@ -182,12 +198,17 @@ export function ProcessPlanePointLine(pickResult: BABYLON.PickingInfo) {
             addHLToMesh(result, BABYLON.Color3.Green());
         }
     }
+    if (planeLine.length == 0)
+        setContent('Select a Line');
+    if (planePoint.length == 0)
+        setContent('Select or create a Point');
     if (planeLine.length == 1 && planePoint.length == 1) {
         new Plane('point-line', planePoint[0], planeLine[0], 0);
         removeHLOfMesh(planeLine[0].mesh);
         removeHLOfMesh(planePoint[0].mesh);
         planePoint = [];
         planeLine = [];
+        setContent('Select a Point and a Line');
     }
 
 }
@@ -199,22 +220,25 @@ export function ProcessDistance2Point(pickResult: BABYLON.PickingInfo) {
         console.log('if')
         var result = pickResult.pickedMesh as BABYLON.Mesh;
         listPointDistance.push(result);
-        if (listPointDistance.length < 2)
+        if (listPointDistance.length < 2){
             addHLToMesh(result, BABYLON.Color3.Green());
+            setContent('Select another Point')
+        }
         else {
             var distance = distance2Point(listPointDistance[0], listPointDistance[1]);
             listPointDistance.forEach(point => {
                 removeHLOfMesh(point);
             })
             listPointDistance = [];
+            setContent('Select 2 points exist')
             alert('Distance: ' + distance);
         }
     }
 }
 
-export function ProcessCaculateTotalArea(pickResult: BABYLON.PickingInfo){
+export function ProcessCaculateTotalArea(pickResult: BABYLON.PickingInfo) {
     var mesh = pickResult.pickedMesh as BABYLON.Mesh;
-    if(pickResult.pickedMesh.name.split("_")[0] != "Point" && pickResult.pickedMesh.name.split("_")[0] != "Line" && pickResult.pickedMesh.name.split("_")[0] != "Plane"){
+    if (pickResult.pickedMesh.name.split("_")[0] != "Point" && pickResult.pickedMesh.name.split("_")[0] != "Line" && pickResult.pickedMesh.name.split("_")[0] != "Plane") {
         var total_area = totalArea(mesh);
         alert('Total Area: ' + total_area);
     }

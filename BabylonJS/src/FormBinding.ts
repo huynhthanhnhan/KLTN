@@ -11,17 +11,63 @@ import { CreateConeCustom } from './Objects/ConeObject'
 import { CreatePrismDefault } from './Objects/PrismObject'
 import { CreatePrismCustom } from './Objects/PrismObject'
 import $ from 'jquery'
-import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject } from './TempVariable'
+import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject, setContent } from './TempVariable'
 import { setIsPickableBasicScene } from './BasicScreen'
 import { Point } from './Point'
 import * as BABYLON from '@babylonjs/core'
 import { Line } from './Line'
 import { Plane } from './Plane'
+import { gizmoManager } from './Enviroment'
+
+
 
 export function formBinding() {
-    function changeSystemMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect'|
-    'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs'|'pyramid-inputs' | 'prism-inputs') {
-        setIsStartCreateLine(true)
+    function changeSystemMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect' |
+        'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs' | 'pyramid-inputs' | 'prism-inputs') {
+        setIsStartCreateLine(true);
+        switch (mode) {
+            case 'edit':
+                setContent('Use Keys R / G / S / B to control');
+                break;
+            case 'select':
+                setContent("Right-click object to show information");
+                break;
+            case 'point':
+                setContent('Double-click on the screen');
+                break;
+            case 'line':
+                setContent('Double-click to create point');
+                break;
+            case 'intersect':
+                break;
+            case 'plane3Point':
+                setContent('Select or create 3 point to create Plane');
+                break;
+            case 'plane2Line':
+                setContent('Select two line intersect other');
+                break;
+            case 'planePointLine':
+                setContent('Select a Point and a Line');
+                break;
+            case 'distance2Point':
+                setContent('Select 2 points exist')
+                break;
+            case 'distance2Line':
+                break;
+            case 'distancePointLine':
+                break;
+            case 'totalArea':
+                setContent('Double-click a mesh to get total area');
+                break;
+            default:
+                BroadcastChannel;
+        }
+        if (mode != 'edit') {
+            gizmoManager.positionGizmoEnabled = false;
+            gizmoManager.scaleGizmoEnabled = false;
+            gizmoManager.rotationGizmoEnabled = false;
+            gizmoManager.boundingBoxGizmoEnabled = false;
+        }
         setSysMode(mode);
     }
     $('#menus').on('change', function () {
@@ -104,7 +150,7 @@ export function formBinding() {
         changeSystemMode('totalArea');
         setIsPickableBasicScene(false);
     });
-    
+
 
 
     var listMesh = document.getElementById('listMesh');
@@ -119,12 +165,12 @@ export function formBinding() {
     var cube = document.getElementById('cube');
     var cone = document.getElementById('cone');
     var sphere = document.getElementById('sphere');
-    var pyramid= document.getElementById('pyramid');
-    var prism= document.getElementById('prism');
+    var pyramid = document.getElementById('pyramid');
+    var prism = document.getElementById('prism');
 
     var position_x = document.getElementById('position-x') as HTMLInputElement;
     var position_y = document.getElementById('position-y') as HTMLInputElement;
-    var position_z = document.getElementById('position-z')as HTMLInputElement;
+    var position_z = document.getElementById('position-z') as HTMLInputElement;
     var point1_x = document.getElementById('point1-x') as HTMLInputElement;
     var point1_y = document.getElementById('point1-y') as HTMLInputElement;
     var point1_z = document.getElementById('point1-z') as HTMLInputElement;
@@ -293,41 +339,41 @@ export function formBinding() {
             case "line-point-point":
                 var pt1 = new BABYLON.Vector3(parseInt(point1_x.value), parseInt(point1_y.value), parseInt(point1_z.value));
                 var pt2 = new BABYLON.Vector3(parseInt(point2_x.value), parseInt(point2_y.value), parseInt(point2_z.value));
-                new Line(pt1, pt2,"pos-pos");
+                new Line(pt1, pt2, "pos-pos");
                 break;
             case "line-point-vector":
                 var pt = new BABYLON.Vector3(parseInt(point1_x.value), parseInt(point1_y.value), parseInt(point1_z.value));
                 var vt = new BABYLON.Vector3(parseInt(vector_x.value), parseInt(vector_y.value), parseInt(vector_z.value));
-                new Line(pt, vt,"point-vector");
+                new Line(pt, vt, "point-vector");
                 break;
             case "plane-3-point":
                 var pt1 = new BABYLON.Vector3(parseInt(point1_x.value), parseInt(point1_y.value), parseInt(point1_z.value));
                 var pt2 = new BABYLON.Vector3(parseInt(point2_x.value), parseInt(point2_y.value), parseInt(point2_z.value));
                 var pt3 = new BABYLON.Vector3(parseInt(point3_x.value), parseInt(point3_y.value), parseInt(point3_z.value));
-                new Plane('3point',pt1, pt2,pt3);
+                new Plane('3point', pt1, pt2, pt3);
                 break;
             case "plane-point-vector":
                 var pt = new BABYLON.Vector3(parseInt(point1_x.value), parseInt(point1_y.value), parseInt(point1_z.value));
                 var vt = new BABYLON.Vector3(parseInt(vector_x.value), parseInt(vector_y.value), parseInt(vector_z.value));
-                new Plane('point-vector',pt, vt, 0);
+                new Plane('point-vector', pt, vt, 0);
                 break;
             case "box-inputs":
-                CreateBoxCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(box_width.value),parseInt(box_height.value),parseInt(box_depth.value));
+                CreateBoxCustom(parseInt(position_x.value), parseInt(position_y.value), parseInt(position_z.value), parseInt(box_width.value), parseInt(box_height.value), parseInt(box_depth.value));
                 break;
             case "cone-inputs":
-                CreateConeCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(cone_diameter.value),parseInt(cone_height.value));
+                CreateConeCustom(parseInt(position_x.value), parseInt(position_y.value), parseInt(position_z.value), parseInt(cone_diameter.value), parseInt(cone_height.value));
                 break;
             case "sphere-inputs":
-                CreateSphereCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(sphere_diameter.value));
+                CreateSphereCustom(parseInt(position_x.value), parseInt(position_y.value), parseInt(position_z.value), parseInt(sphere_diameter.value));
                 break;
             case "cube-inputs":
-                CreateCubeCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(cube_edge.value));
+                CreateCubeCustom(parseInt(position_x.value), parseInt(position_y.value), parseInt(position_z.value), parseInt(cube_edge.value));
                 break;
             case "pyramid-inputs":
-                CreatePyramidCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(pyramid_height.value),parseInt(pyramid_face.value));
+                CreatePyramidCustom(parseInt(position_x.value), parseInt(position_y.value), parseInt(position_z.value), parseInt(pyramid_height.value), parseInt(pyramid_face.value));
                 break;
             case "prism-inputs":
-                CreatePrismCustom(parseInt(position_x.value),parseInt(position_y.value),parseInt(position_z.value),parseInt(prism_face.value),parseInt(prism_height.value));
+                CreatePrismCustom(parseInt(position_x.value), parseInt(position_y.value), parseInt(position_z.value), parseInt(prism_face.value), parseInt(prism_height.value));
                 break;
             default:
         }
