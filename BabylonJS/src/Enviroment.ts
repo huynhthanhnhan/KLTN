@@ -55,7 +55,7 @@ function refreshGizmoManager() {
 export function addHLToMesh(mesh: BABYLON.Mesh, color: BABYLON.Color3){
     if (hl.hasMesh(mesh)) 
         hl.removeMesh(mesh);
-    hl.addMesh(mesh, BABYLON.Color3.Green());
+    hl.addMesh(mesh, color);
 }
 
 export function removeHLOfMesh(mesh: BABYLON.Mesh){

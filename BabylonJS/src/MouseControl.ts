@@ -65,19 +65,22 @@ export function ProcessSelectOrEdit(pickResult: BABYLON.PickingInfo) {
     var target = (pickResult.pickedMesh) as BABYLON.Mesh;
     if (target.material)
         target.material.alpha = 1;
-    addHLToMesh(target, BABYLON.Color3.Blue());
+
+
     if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ") {
-        if (getMultiSelect() == false || getSysMode() == 'edit') {
-            resetSelectedMeshes();
+        if ( getSysMode() == 'edit') {
+             resetSelectedMeshes();
+             addHLToMesh(target, BABYLON.Color3.Blue());
+             addToSelectedMeshes(target);
+             gizmoManager.attachableMeshes.push(target);
         }
-        addToSelectedMeshes(target);
-        gizmoManager.attachableMeshes.push(target);
-
-        // camera.detachControl(canvas);
-    } else {
-        resetSelectedMeshes();
+        else{
+            resetSelectedMeshes();
+            addHLToMesh(target, BABYLON.Color3.Green());
+             addToSelectedMeshes(target);
+    gizmoManager.attachableMeshes.push(target);
+        }
     }
-
 }
 
 export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
