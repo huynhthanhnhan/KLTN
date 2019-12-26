@@ -23,7 +23,8 @@ import { gizmoManager } from './Enviroment'
 
 export function formBinding() {
     function changeSystemMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect' |
-        'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs' | 'pyramid-inputs' | 'prism-inputs') {
+        'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs' | 'pyramid-inputs' | 'prism-inputs'|
+        'spherePointPoint' | 'planeMidPointPoint' | 'planePlanePoint' | 'pointMidPointPoint') {
         setIsStartCreateLine(true);
         switch (mode) {
             case 'edit':
@@ -56,12 +57,25 @@ export function formBinding() {
             case 'distance2Line':
                 break;
             case 'distancePointLine':
+                setContent('Select a Point and a Line');
                 break;
             case 'totalArea':
                 setContent('Double-click a mesh to get total area');
                 break;
+            case 'spherePointPoint':
+                setContent('Select a point for center of sphere');
+                break;
+            case 'planeMidPointPoint':
+                setContent('Select 2 Point');
+                break;
+            case 'planePlanePoint':
+                setContent('Select a Plane and a Point');
+                break;
+            case 'pointMidPointPoint':
+                setContent('Select 2 Point');
+                break;
             default:
-                BroadcastChannel;
+                break;
         }
         if (mode != 'edit') {
             gizmoManager.positionGizmoEnabled = false;
@@ -123,11 +137,27 @@ export function formBinding() {
         changeSystemMode('totalArea');
         setIsPickableBasicScene(false);
     });
+    $("#sphere_point_point").on('click', function () {
+        changeSystemMode('spherePointPoint');
+        setIsPickableBasicScene(false);
+    });
+    $("#plane_click_point_point").on('click', function () {
+        changeSystemMode('planeMidPointPoint');
+        setIsPickableBasicScene(false);
+    });
+    $("#plane_click_plane_point").on('click', function () {
+        changeSystemMode('planePlanePoint');
+        setIsPickableBasicScene(false);
+    });
+    $("#point_mid").on('click', function () {
+        changeSystemMode('pointMidPointPoint');
+        setIsPickableBasicScene(false);
+    });
 
 
 
     var form_input = document.getElementById("formInput");
-    var point1 = document.getElementById('point1');
+    var point1 = document.getElementById('point1'); 
     var point2 = document.getElementById('point2');
     var point3 = document.getElementById('point3');
     var vector = document.getElementById('vector');

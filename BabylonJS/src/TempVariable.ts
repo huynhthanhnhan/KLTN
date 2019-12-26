@@ -15,10 +15,11 @@ export function getIsStartCreateLine() { return isStartCreateLine; }
 export function setIsStartCreateLine(b: boolean) { isStartCreateLine = b; }
 
 // System modes
-var sysMode: string = 'select' || 'line' || 'multiLine' || 'point' || 'edit' || 'intersect' || 'plane3Point' || 'plane2Line' || 'planePointLine' || 'distance2Point' || 'distance2Line' || 'distancePointLine' || 'totalArea';
+var sysMode: string = 'select' || 'line' || 'multiLine' || 'point' || 'edit' || 'intersect' || 'plane3Point' || 'plane2Line' || 'planePointLine' || 'distance2Point' || 'distance2Line' || 'distancePointLine' || 'totalArea' ||'spherePointPoint' || 'planeMidPointPoint' || 'planePlanePoint' || 'pointMidPointPoint';
 export function getSysMode() { return sysMode.valueOf(); }
 export function setSysMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect'|
- 'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea'| 'box-inputs' | 'cube-inputs' | 'sphere-inputs' | 'cone-inputs' |'pyramid-inputs' | 'prism-inputs') {
+ 'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea'| 'box-inputs' | 'cube-inputs' | 'sphere-inputs' | 'cone-inputs' |'pyramid-inputs' | 'prism-inputs'|
+ 'spherePointPoint' | 'planeMidPointPoint' | 'planePlanePoint' | 'pointMidPointPoint') {
     sysMode = mode
 };
 

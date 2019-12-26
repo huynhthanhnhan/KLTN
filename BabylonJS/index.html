@@ -13,97 +13,7 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 
     <style>
-        html,
-        body {
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        /* #renderCanvas {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            touch-action: none;
-        } */
-        
-        .form-group {
-            /*float: right;
-            text-align: left;*/
-            font-size: 100%;
-            width: 100%;
-        }
-        
-        .container-fluid {
-            width: 100%;
-            height: 100%;
-            background-color: #D1D1FC;
-        }
-        
-        .subnav {
-            float: left;
-            overflow: hidden;
-        }
-        
-        .subnav-content {
-            display: none;
-            position: absolute;
-            left: 0;
-            background-color: #007bff;
-            width: 100%;
-            z-index: 1;
-        }
-        
-        .subnav:hover .subnav-content {
-            display: block;
-        }
-        
-        .ScrollStyle {
-            max-height: 500px;
-            overflow-y: scroll;
-        }
-        
-        .noticeLabel {
-            color: orange;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: left;
-        }
-        
-        .menu {
-            float: right;
-            text-align: left;
-            font-size: 120%;
-            width: 1%;
-        }
-        
-        .main {
-            position: relative;
-            width: 83%;
-            height: 100%;
-        }
-        
-        .checkBox {
-            width: 20px;
-            height: 20px;
-        }
-        
-        #fpsLabel {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            color: #999;
-            cursor: default;
-        }
-        
-        #modeLabel {
-            position: absolute;
-            right: 100px;
-            top: 20px;
-            color: #999;
-            cursor: default;
-        }
+
     </style>
 </head>
 
@@ -111,7 +21,10 @@
     <div class="row" style="margin-bottom: 0.1%; background-color: #d1d1fc;height: 60px;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;">
         <div class="col-auto" style="margin-left: 1%;">
             <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Point&nbsp;</button>
-                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="point_click">By click</a><a class="dropdown-item" role="presentation" id="point_input">Input Position</a></div>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" role="presentation" id="point_click">By click</a>
+                    <a class="dropdown-item" role="presentation" id="point_mid">From middle of 2 Points</a>
+                    <a class="dropdown-item" role="presentation" id="point_input">Input Position</a></div>
             </div>
         </div>
         <div class="col-auto">
@@ -131,6 +44,8 @@
                     <a class="dropdown-item" role="presentation" id="plane_click_3_point">Select 3 Points</a>
                     <a class="dropdown-item" role="presentation" id="plane_click_2_line">Select 2 Lines</a>
                     <a class="dropdown-item" role="presentation" id="plane_click_point_line">Select a point and a line</a>
+                    <a class="dropdown-item" role="presentation" id="plane_click_point_point">From middle of 2 Points</a>
+                    <a class="dropdown-item" role="presentation" id="plane_click_plane_point">Select a plane and a point</a>
                     <a class="dropdown-item" role="presentation" id="plane_input_3_point">Input 3 Points</a>
                     <a class="dropdown-item" role="presentation" id="plane_input_point_vector">Input point and vector</a>
                 </div>
@@ -154,7 +69,7 @@
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item" role="presentation" id="sphere_default">Default</a>
                             <a class="dropdown-item" role="presentation" id="sphere_input">Input</a>
-
+                            <a class="dropdown-item" role="presentation" id="sphere_point_point">Select 2 Points</a>
                         </div>
                     </div>
                     <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Prism</button>

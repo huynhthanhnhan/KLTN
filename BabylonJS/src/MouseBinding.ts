@@ -3,7 +3,7 @@ import { scene, gizmoManager, engine, camera, canvas } from './Enviroment'
 import { getIsMoveZ, setIsDoubleClick, getIsDoubleClick, } from './TempVariable'
 import { Point } from './Point'
 import { getSysMode } from './TempVariable'
-import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect, ProcessPlane3Point, ProcessPlane2Line, ProcessPlanePointLine, ProcessDistance2Point, ProcessCaculateTotalArea } from "./MouseControl";
+import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect, ProcessPlane3Point, ProcessPlane2Line, ProcessPlanePointLine, ProcessDistance2Point, ProcessCaculateTotalArea, ProcessDistancePointLine, ProcessSphereCenterPoint, ProcessPlaneMidPointPoint, ProcessPlanePlanePoint, ProcessPointMidPointPoint } from "./MouseControl";
 
 
 export function MouseControl() {
@@ -40,9 +40,24 @@ export function MouseControl() {
                 case 'distance2Line':
                     break;
                 case 'distancePointLine':
+                    ProcessDistancePointLine(pickResult);
                     break;
                 case 'totalArea':
                     ProcessCaculateTotalArea(pickResult);
+                    break;
+                case 'spherePointPoint':
+                    ProcessSphereCenterPoint(pickResult);
+                    break;
+                case 'planeMidPointPoint':
+                    ProcessPlaneMidPointPoint(pickResult);
+                    break;
+                case 'planePlanePoint':
+                    ProcessPlanePlanePoint(pickResult);
+                    break;
+                case 'pointMidPointPoint':
+                    ProcessPointMidPointPoint(pickResult);
+                    break;
+                default:
                     break;
             }
         }
@@ -78,7 +93,7 @@ export function MouseControl() {
                 startingPoint = getGroundPosition();
                 // console.log('get mesh ', currentMesh)
 
-                if (startingPoint && getIsMoveZ()) { // we need to disconnect camera from canvas
+                if (startingPoint) { // we need to disconnect camera from canvas
                     setTimeout(function () {
                         camera.detachControl(canvas);
                     }, 0);

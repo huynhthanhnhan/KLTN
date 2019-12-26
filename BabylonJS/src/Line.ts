@@ -109,6 +109,8 @@ function CreateLine(point1: Point, point2: Point, name: string) {
         // line.rotation = newLine.rotation;
         point1.linesName.push("Line_" + indexLine);
         point2.linesName.push("Line_" + indexLine);
+        newLine.scaling.z = 2;
+
         // indexLine++;
         // gizmoManager.attachableMeshes.push(newLine);
         var updateLine = function () {
@@ -164,26 +166,3 @@ export function CheckIntersectLines(point1: BABYLON.Vector3, vector1: BABYLON.Ve
     var z = point1.z + vector1.z * t1;
     return new BABYLON.Vector3(x, y, z);
 }
-
-// export function triggerMoveLine(name: string, delta: number | BABYLON.Vector3) {
-//     var line = getLineByName(name);
-//     console.log(delta)
-//     if (line) {
-//         if (typeof (delta) == 'number') {
-//             line.pointA.mesh.position.y -= delta;
-//             line.pointB.mesh.position.y -= delta;
-//             triggerMovePoint(line.pointA.name);
-//             triggerMovePoint(line.pointB.name);
-//         }
-//         else {
-//             line.pointA.mesh.position = line.pointA.mesh.position.subtract(delta);
-//             line.pointB.mesh.position = line.pointB.mesh.position.subtract(delta);
-//             line.mesh.position = line.mesh.position.subtract(delta);
-//             triggerMovePoint(line.pointA.name);
-//             triggerMovePoint(line.pointB.name);
-//         }
-//         return true;
-//     }
-//     return false;
-
-// }

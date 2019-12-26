@@ -1,11 +1,12 @@
 import * as BABYLON from "@babylonjs/core";
 import { getNewIndexPoint, Point, getIndexPoint, setIndexPoint } from "./Point";
-import { addToListPoint, getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine, addToListLine, getSysMode, getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getMeshesForCheckIntersect, getInterMesh, getDefaultMaterialAlpha, setInterMesh, resetMeshesForCheckIntersect, getLineByName, getPointByName, setContent } from "./TempVariable";
+import { getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine, addToListLine, getSysMode, getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getMeshesForCheckIntersect, getInterMesh, getDefaultMaterialAlpha, setInterMesh, resetMeshesForCheckIntersect, getLineByName, getPointByName, setContent } from "./TempVariable";
 import { gizmoManager, scene, addHLToMesh, removeHLOfMesh } from "./Enviroment";
 import { Line } from "./Line";
 import { GetIntersectMesh } from "./IntersectMeshes";
 import { Plane } from "./Plane";
-import { distance2Point, totalArea } from "./Caculation";
+import { distance2Point, totalArea, distancePointLine } from "./Caculation";
+import { CreateSphereFromPointAndPoint } from "./Objects/SphereObject";
 
 export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
     if (pickResult.pickedMesh.name.split("_")[0] != "Point") {
@@ -217,12 +218,10 @@ export function ProcessPlanePointLine(pickResult: BABYLON.PickingInfo) {
 
 var listPointDistance: BABYLON.Mesh[] = [];
 export function ProcessDistance2Point(pickResult: BABYLON.PickingInfo) {
-    console.log(pickResult.pickedMesh.name)
     if (pickResult.pickedMesh.name.split("_")[0] == "Point") {
-        console.log('if')
         var result = pickResult.pickedMesh as BABYLON.Mesh;
         listPointDistance.push(result);
-        if (listPointDistance.length < 2){
+        if (listPointDistance.length < 2) {
             addHLToMesh(result, BABYLON.Color3.Green());
             setContent('Select another Point')
         }
@@ -233,19 +232,142 @@ export function ProcessDistance2Point(pickResult: BABYLON.PickingInfo) {
             })
             listPointDistance = [];
             setContent('Select 2 points exist')
-            alert('Distance: ' + distance);
+            alert('Distance 2 points: ' + distance);
         }
     }
 }
 
 export function ProcessCaculateTotalArea(pickResult: BABYLON.PickingInfo) {
-    if(pickResult.pickedMesh){
+    if (pickResult.pickedMesh) {
         var mesh = pickResult.pickedMesh as BABYLON.Mesh;
         if (mesh.name.split("_")[0] != "Point" && mesh.name.split("_")[0] != "Line" && mesh.name.split("_")[0] != "Plane") {
             var total_area = totalArea(mesh);
-            alert('Total Area: ' + total_area);
+            alert('Total Area of mesh: ' + total_area);
         }
 
+    }
+}
+
+var distancePointLine_point: Point[] = [];
+var distancePointLine_line: Line[] = [];
+export function ProcessDistancePointLine(pickResult: BABYLON.PickingInfo) {
+    if (pickResult.pickedMesh.name.split("_")[0] == "Line" && distancePointLine_line.length == 0) {
+        var result = pickResult.pickedMesh as BABYLON.Mesh;
+        var line = getLineByName(result.name);
+        if (line)
+            distancePointLine_line.push(line);
+    }
+    if (pickResult.pickedMesh.name.split("_")[0] == "Point" && distancePointLine_point.length == 0) {
+        var result = pickResult.pickedMesh as BABYLON.Mesh;
+        var point = getPointByName(result.name);
+        if (point)
+            distancePointLine_point.push(point);
+    }
+    if(distancePointLine_point.length == 0)
+        setContent('Select a Point');
+    if(distancePointLine_line.length == 0)
+        setContent('Select a Line');
+    if(distancePointLine_line.length == 1 && distancePointLine_point.length == 1){
+        var distance = distancePointLine(distancePointLine_point[0], distancePointLine_line[0]);
+        alert('Distance Point - Line: '+ distance);
+        distancePointLine_point=[];
+        distancePointLine_line = [];
+        setContent('Select a Point and a Line');
+    }
+}
+
+var listSpherePoint: BABYLON.Mesh[] = [];
+export function ProcessSphereCenterPoint(pickResult: BABYLON.PickingInfo) {
+    if (pickResult.pickedMesh.name.split("_")[0] == "Point") {
+        var result = pickResult.pickedMesh as BABYLON.Mesh;
+        listSpherePoint.push(result);
+        if (listSpherePoint.length < 2) {
+            addHLToMesh(result, BABYLON.Color3.Green());
+            setContent('Select another Point')
+        }
+        else {
+            console.log('create sphere')
+            CreateSphereFromPointAndPoint(listSpherePoint[0].position, listSpherePoint[1].position);
+            listSpherePoint.forEach(point => {
+                removeHLOfMesh(point);
+            })
+            listSpherePoint = [];
+            setContent('Select a point for center of sphere');
+        }
+    }
+}
+
+var listPlaneMidPointPoint: BABYLON.Mesh[] = [];
+export function ProcessPlaneMidPointPoint(pickResult: BABYLON.PickingInfo) {
+    if (pickResult.pickedMesh.name.split("_")[0] == "Point") {
+        var result = pickResult.pickedMesh as BABYLON.Mesh;
+        listPlaneMidPointPoint.push(result);
+        if (listPlaneMidPointPoint.length < 2) {
+            addHLToMesh(result, BABYLON.Color3.Green());
+            setContent('Select another Point')
+        }
+        else {
+            var point = BABYLON.Vector3.Center(listPlaneMidPointPoint[0].position, listPlaneMidPointPoint[1].position);
+            var vector = listPlaneMidPointPoint[1].position.subtract(listPlaneMidPointPoint[0].position);
+            new Plane('point-vector',point, vector,0);
+            listPlaneMidPointPoint.forEach(point => {
+                removeHLOfMesh(point);
+            })
+            listPlaneMidPointPoint = [];
+            setContent('Select 2 Point');
+        }
+    }
+}
+
+var listPlanePlanePoint_point: Point[] = [];
+var listPlanePlanePoint_plane: BABYLON.Mesh[] = [];
+export function ProcessPlanePlanePoint(pickResult: BABYLON.PickingInfo) {
+    if (pickResult.pickedMesh.name.split("_")[0] == "Point" && listPlanePlanePoint_point.length == 0) {
+        var result = pickResult.pickedMesh as BABYLON.Mesh;
+        var point = getPointByName(result.name);
+        if(point){
+            listPlanePlanePoint_point.push(point);
+            addHLToMesh(listPlanePlanePoint_point[0].mesh, BABYLON.Color3.Green());
+        }
+    }
+    if (pickResult.pickedMesh.name.split("_")[0] == "Plane" && listPlanePlanePoint_plane.length == 0) {
+        var result = pickResult.pickedMesh as BABYLON.Mesh;
+        if(result){
+            listPlanePlanePoint_plane.push(result);
+            addHLToMesh(listPlanePlanePoint_plane[0], BABYLON.Color3.Green());
+        }
+    }
+    if(listPlanePlanePoint_plane.length == 0)
+        setContent('Select a plane');
+    if(listPlanePlanePoint_point.length == 0)
+        setContent('Select a point');
+    if(listPlanePlanePoint_point.length == 1 && listPlanePlanePoint_plane.length == 1){
+        new Plane('plane-point',listPlanePlanePoint_plane[0], listPlanePlanePoint_point[0],0);
+        removeHLOfMesh(listPlanePlanePoint_point[0].mesh);
+        removeHLOfMesh(listPlanePlanePoint_plane[0]);
+        listPlanePlanePoint_plane = [];
+        listPlanePlanePoint_point = [];
+    }
+}
+
+var listPointMid: BABYLON.Mesh[] = [];
+export function ProcessPointMidPointPoint(pickResult: BABYLON.PickingInfo) {
+    if (pickResult.pickedMesh.name.split("_")[0] == "Point") {
+        var result = pickResult.pickedMesh as BABYLON.Mesh;
+        listPointMid.push(result);
+        if (listPointMid.length < 2) {
+            addHLToMesh(result, BABYLON.Color3.Green());
+            setContent('Select another Point')
+        }
+        else {
+            var point = BABYLON.Vector3.Center(listPointMid[0].position, listPointMid[1].position);
+            new Point(point,"Point_" + getNewIndexPoint() );
+            listPointMid.forEach(point => {
+                removeHLOfMesh(point);
+            })
+            listPointMid = [];
+            setContent('Select 2 Point');
+        }
     }
 }
 

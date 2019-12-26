@@ -1,4 +1,6 @@
 import * as BABYLON from '@babylonjs/core'
+import { Point } from './Point';
+import { Line } from './Line';
 
 // dien tich be mat
 export function totalArea(mesh: BABYLON.Mesh) {
@@ -10,7 +12,7 @@ export function totalArea(mesh: BABYLON.Mesh) {
     var indices = mesh.getIndices(); // mỗi phần tử mảng là chỉ số (số thứ tự) của điểm trong mảng buffer Position ( mỗi điểm đó có x, y, z)
 
     var numOfFaces = indices.length / 3; // lấy 3 điểm để tạo thành 1 tam giác, là tổng số tam giác tạo nên mesh
-    
+
     // tính diện tích từng tam giác
     for (var i = 0; i < numOfFaces; i++) {
         totalArea = totalArea + facetArea(mesh, indices, i);
@@ -18,8 +20,8 @@ export function totalArea(mesh: BABYLON.Mesh) {
     return totalArea;
 };
 
-var facetArea = function(mesh, indices, faceId) {
-    if(!mesh) {
+var facetArea = function (mesh, indices, faceId) {
+    if (!mesh) {
         return 0.0;
     }
     // lay danh sách toa do cua cac điểm trong buffer (vị trí có thể sai lệch với thực tế) (moi dinh co 3 tham so x, y, z)
@@ -36,7 +38,7 @@ var facetArea = function(mesh, indices, faceId) {
     var index1 = 0;
     var index2 = 0;
     var index3 = 0;
- 
+
     //lay index 3 dinh cua tam giac
     index1 = indices[faceId * 3];
     index2 = indices[faceId * 3 + 1];
@@ -56,13 +58,32 @@ var facetArea = function(mesh, indices, faceId) {
     // tinh tich co huong cua 2 vector 
     crossx = vector1y * vector2z - vector1z * vector2y;
     crossy = vector1z * vector2x - vector1x * vector2z;
-    crossz = vector1x * vector2y - vector1y * vector2x; 
+    crossz = vector1x * vector2y - vector1y * vector2x;
 
     // dien tich bang 1/2 * tri tuyet doi tich co huong (can cua tong binh phuong)
     return Math.sqrt(crossx * crossx + crossy * crossy + crossz * crossz) * 0.5;
 }
 
-export function distance2Point(point1: BABYLON.Mesh, point2: BABYLON.Mesh){
+export function distance2Point(point1: BABYLON.Mesh, point2: BABYLON.Mesh) {
     var distance = BABYLON.Vector3.Distance(point1.position, point2.position);
     return distance;
+}
+
+export function distancePointLine(point: Point, line: Line) {
+    var p1 = line.pointA.position;
+    var p2 = line.pointB.position;
+
+    var u = p1.subtract(p2);
+
+    var point_p1 = p1.subtract(point.position);
+
+    // tich co huong point_p1 va u
+    var crossx = point_p1.y * u.z - point_p1.z * u.y;
+    var crossy = point_p1.z * u.x - point_p1.x * u.z;
+    var crossz = point_p1.x * u.y - point_p1.y * u.x;
+
+    var ts = Math.sqrt(crossx * crossx + crossy * crossy + crossz * crossz);
+    var ms = Math.sqrt(u.x * u.x + u.y * u.y + u.z * u.z);
+
+    return ts/ms;
 }

@@ -2,8 +2,7 @@ import * as BABYLON from "@babylonjs/core"
 
 import { gizmoManager, scene, hl } from './Enviroment'
 import { PointActionManager } from './ActionManager'
-import { getListLine, getPointByName, addToListPoint } from "./TempVariable";
-import { Line } from "./Line";
+import {  addToListPoint } from "./TempVariable";
 
 var indexPoint = 0;
 export function getIndexPoint() { return indexPoint; }
