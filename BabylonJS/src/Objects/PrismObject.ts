@@ -8,8 +8,6 @@ export function CreatePrismDefault()
 
     var prism = BABYLON.MeshBuilder.CreatePolyhedron("prism_"+index, {type: 6, size: 3}, scene);
     prism.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0));
-    prism.rotation.y=1;
-    prism.rotation.x=-2;
     index++;
     return prism;
 }
@@ -17,6 +15,7 @@ export function CreatePrismDefault()
 export function CreatePrismCustom(x:number, y:number, z:number,point: number,size: number)
 {
     var prism = BABYLON.MeshBuilder.CreateCylinder("prism_"+index, { diameter: 4, height: size, tessellation: point }, scene);
+    prism.material = CreateMeshMaterial(new BABYLON.Color3(0.64, 0, 1));
     prism.position = new BABYLON.Vector3(x, y, z);
     index++;
     return prism;

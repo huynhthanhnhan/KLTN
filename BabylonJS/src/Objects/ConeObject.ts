@@ -15,6 +15,7 @@ export function CreateConeDefault()
 export function CreateConeCustom(x:number, y:number, z:number,diameter: number, height:number)
 {
     var cone = BABYLON.MeshBuilder.CreateCylinder("cone_"+index, { diameterTop: 0, diameter: diameter, height: height }, scene);
+    cone.material = CreateMeshMaterial(new BABYLON.Color3(0.64, 0, 1));
     cone.position = new BABYLON.Vector3(x, y, z);
     index++;
     return cone;
