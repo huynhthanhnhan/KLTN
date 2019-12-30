@@ -15,6 +15,7 @@ export function CreatePyramidDefault()
 export function CreatePyramidCustom(x:number, y:number, z:number,height:number,points:number)
 {
     var polygon = BABYLON.MeshBuilder.CreateCylinder("pyramid_"+index, { diameterTop: 0, diameter: 8, height: height, tessellation: points }, scene);
+    polygon.material = CreateMeshMaterial(new BABYLON.Color3(0.64, 0, 1));
     polygon.position = new BABYLON.Vector3(x, y, z);
     index++;
      return polygon;
