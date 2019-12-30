@@ -62,3 +62,8 @@ export function removeHLOfMesh(mesh: BABYLON.Mesh){
     if(hl.hasMesh(mesh))
         hl.removeMesh(mesh);
 }
+
+export function resetHL(){
+    hl.dispose();
+    hl = new BABYLON.HighlightLayer("hl", scene);
+}

@@ -109,7 +109,7 @@ function CreateLine(point1: Point, point2: Point, name: string) {
         // line.rotation = newLine.rotation;
         point1.linesName.push("Line_" + indexLine);
         point2.linesName.push("Line_" + indexLine);
-        newLine.scaling.z = 2;
+        // newLine.scaling.z = 2;
 
         // indexLine++;
         // gizmoManager.attachableMeshes.push(newLine);

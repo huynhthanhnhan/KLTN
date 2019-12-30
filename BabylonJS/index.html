@@ -105,21 +105,28 @@
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_select_mode">Select</button></div>
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_edit_mode">Edit</button></div>
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_view_intersect_mode">View Intersect</button></div>
-        <div class="col-auto"><label class="noticeLabel" id="notice">Let's Create Object</label></div>
+        <div class="col-auto">
+            <label class="noticeLabel" style="border: 2px solid red;
+            border-radius: 6px;" id="notice">Let's Create Object</label></div>
     </div>
 
     <div class="menu">
         <div id="fpsLabel">Fps </div> <br>
         <div id="modeLabel"> </div>
     </div>
+    <!-- <div class="row" style="margin-bottom: 0.1%; background-color: #d1d1fc;height: 10px;padding-top: 10px;padding-right: 1px;padding-bottom: 10px;">
+        <div class="col-sm-12" style="margin-left: 1%;">
+            dsafsdafsad
+        </div>
+    </div> -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-9">
-                <canvas id="renderCanvas" style="width: 100%; margin-top: 0.1%; display: block; position: fixed;"></canvas>
+                <canvas id="renderCanvas" style="width: 100%; margin-top: 0.1%;background-color:#D1D1FC; display: block; position: fixed;"></canvas>
             </div>
 
 
-            <div class="col-sm-3" style="background-color:#D1D1FC;">
+            <div class="col-sm-3" style="background-color:#D1D1FC; ">
                 <div class="ScrollStyle">
                     <div id="formInput">
                         <div id="form-input">

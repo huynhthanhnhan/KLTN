@@ -17,7 +17,7 @@ import { Point } from './Point'
 import * as BABYLON from '@babylonjs/core'
 import { Line } from './Line'
 import { Plane } from './Plane'
-import { gizmoManager } from './Enviroment'
+import { gizmoManager, resetHL } from './Enviroment'
 
 
 
@@ -83,6 +83,7 @@ export function formBinding() {
             gizmoManager.rotationGizmoEnabled = false;
             gizmoManager.boundingBoxGizmoEnabled = false;
         }
+        resetHL();
         setSysMode(mode);
     }
     $("#point_click").on('click', function () {
