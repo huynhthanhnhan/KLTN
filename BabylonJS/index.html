@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 
     <style>
-
     </style>
+  
 </head>
 
 <body>
@@ -53,40 +53,40 @@
         </div>
         <div class="col-auto">
             <div class="subnav">
-                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="mesh-tab">Mesh</button>
+                <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" onclick="myFunction()" aria-expanded="false" type="button" id="mesh-tab">Mesh</button></div>
                 <div class="subnav-content">
-                    <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Box&nbsp;</button>
+                    <div class="dropdown"><button class="btn btn-primary-son dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Box&nbsp;</button>
                         <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="box_default">Defaut</a>
                             <a class="dropdown-item" role="presentation" id="box_input">Input</a></div>
                     </div>
-                    <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cube</button>
+                    <div class="dropdown"><button class="btn btn-primary-son dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cube</button>
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item" role="presentation" id="cube_default">Default</a>
                             <a class="dropdown-item" role="presentation" id="cube_input">Input</a>
                         </div>
                     </div>
-                    <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Sphere</button>
+                    <div class="dropdown"><button class="btn btn-primary-son dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Sphere</button>
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item" role="presentation" id="sphere_default">Default</a>
                             <a class="dropdown-item" role="presentation" id="sphere_input">Input</a>
                             <a class="dropdown-item" role="presentation" id="sphere_point_point">Select 2 Points</a>
                         </div>
                     </div>
-                    <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Prism</button>
+                    <div class="dropdown"><button class="btn btn-primary-son dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Prism</button>
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item" role="presentation" id="prism_default">Default</a>
                             <a class="dropdown-item" role="presentation" id="prism_input">Input</a>
 
                         </div>
                     </div>
-                    <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Pyramid</button>
+                    <div class="dropdown"><button class="btn btn-primary-son dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Pyramid</button>
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item" role="presentation" id="pyramid_default">Default</a>
                             <a class="dropdown-item" role="presentation" id="pyramid_input">Input</a>
 
                         </div>
                     </div>
-                    <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cone</button>
+                    <div class="dropdown"><button class="btn btn-primary-son dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Cone</button>
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item" role="presentation" id="cone_default">Default</a>
                             <a class="dropdown-item" role="presentation" id="cone_input">Input</a>
@@ -105,11 +105,11 @@
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_select_mode">Select</button></div>
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_edit_mode">Edit</button></div>
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_view_intersect_mode">View Intersect</button></div>
-        <div class="col-auto">
+        <div class="col-auto">  
             <label class="noticeLabel" style="border: 2px solid red;
-            border-radius: 6px;" id="notice">Let's Create Object</label></div>
-    </div>
-
+            border-radius: 6px; padding:4px;margin-left:50px;margin-top:5px;" id="notice">Let's Create Object</label></div>     
+        </div>
+         
     <div class="menu">
         <div id="fpsLabel">Fps </div> <br>
         <div id="modeLabel"> </div>
@@ -133,6 +133,12 @@
                             <!-- <button id="btnClose" type="button" class="close" aria-label="Close" style="display: none;">
                                 <span aria-hidden="false">&times;</span>
                               </button> -->
+                            <div id="colorpicker" style="display: none;" name='div-form-input'>  
+                              <form >
+                                Select your favorite color:
+                                <input type="color" name="favcolor" id="colorChoice" value="#ff0000">
+                              </form>
+                            </div>
                             <div id="vector" style="display: none;" name='div-form-input'>
                                 <div class="form-group">
                                     <label>Vector X:</label>
@@ -285,6 +291,7 @@
         //     $("#formInput").load("formInput.html");
         // });
     </script>
+
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/swiper.jquery.min.js"></script>
     <script src="assets/js/Simple-Slider1.js"></script>

@@ -11,7 +11,7 @@ import { CreateConeCustom } from './Objects/ConeObject'
 import { CreatePrismDefault } from './Objects/PrismObject'
 import { CreatePrismCustom } from './Objects/PrismObject'
 import $ from 'jquery'
-import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject, setContent } from './TempVariable'
+import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject, setContent, getSelectedMesh } from './TempVariable'
 import { setIsPickableBasicScene } from './BasicScreen'
 import { Point } from './Point'
 import * as BABYLON from '@babylonjs/core'
@@ -163,6 +163,8 @@ export function formBinding() {
     var point3 = document.getElementById('point3');
     var vector = document.getElementById('vector');
     var position = document.getElementById('position');
+    var colorpick = document.getElementById('colorpicker'); 
+
 
     var box = document.getElementById('box');
     var cube = document.getElementById('cube');
@@ -227,6 +229,13 @@ export function formBinding() {
     $("#cone_default").on('click', function () {
         CreateConeDefault();
     })
+
+    
+    $("#colorChoice").change(function(){
+        console.log($(this).val());
+        // $(getSelectedMesh().name).css('background', $(this).val());
+      });
+    
 
 
     function resetFormInput() {
@@ -325,6 +334,14 @@ export function formBinding() {
         resetFormInput();
         form_input.style.display = "none";
     })
+
+    $("#btn_select_mode").on('click', function () {
+        resetFormInput();
+        colorpick.style.display = "block";
+        document.getElementById('btnCreate').style.display = 'none';
+    })
+
+    
     $("#btnCreate").on('click', function () {
         switch (getInputObject()) {
             case "point":
