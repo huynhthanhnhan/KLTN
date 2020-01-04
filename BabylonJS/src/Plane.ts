@@ -1,5 +1,5 @@
 import * as BABYLON from '@babylonjs/core'
-import { scene } from './Enviroment'
+import { scene, resetHL } from './Enviroment'
 import { Line } from './Line'
 import { Point } from './Point'
 import { CreateMeshMaterial } from './MeshMaterial'
@@ -14,13 +14,18 @@ export class Plane {
     height: number;
     position: BABYLON.Vector3;
     mesh: BABYLON.Mesh;
+    vector: BABYLON.Vector3;
+    point: BABYLON.Vector3;
     name: string;
     constructor(type: '3point' | 'point-vector' | 'line-line'|'point-line' | 'plane-point',var1, var2, var3,width?:number, height?:number) {
         switch(type){
             case '3point':
                 this.width = width?width:defaultWidth;
                 this.height = height?height:defaultHeight;
-                this.mesh = CreatePlaneFrom3Point(var1, var2, var3, this.width, this.height);
+                var result = CreatePlaneFrom3Point(var1, var2, var3, this.width, this.height);
+                this.mesh = result.plane;
+                this.vector = result.vector;
+                this.point = result.point;
                 this.position = this.mesh.position;
                 this.name = this.mesh.name;
                 addToListPlane(this);
@@ -36,7 +41,10 @@ export class Plane {
             case 'line-line':
                 this.width = width?width:defaultWidth;
                 this.height = height?height:defaultHeight;
-                this.mesh = CreatePlaneFromTwoLine(var1, var2, this.width, this.height);
+                var result = CreatePlaneFromTwoLine(var1, var2, this.width, this.height); 
+                this.mesh = result.plane;
+                this.vector = result.vector;
+                this.point = result.point;
                 if(this.mesh){
                     this.position = this.mesh.position;
                     this.name = this.mesh.name;
@@ -46,7 +54,10 @@ export class Plane {
             case 'point-line':
                 this.width = width?width:defaultWidth;
                 this.height = height?height:defaultHeight;
-                this.mesh = CreatePlaneFromPointAndLine(var1, var2, this.width, this.height);
+                var result  = CreatePlaneFromPointAndLine(var1, var2, this.width, this.height);
+                this.mesh = result.plane;
+                this.vector =result.vector;
+                this.point = result.point;
                 if(this.mesh){
                     this.position = this.mesh.position;
                     this.name = this.mesh.name;
@@ -67,18 +78,22 @@ export class Plane {
 }
 
 function CreatePlaneFrom3Point(p1: BABYLON.Vector3, p2: BABYLON.Vector3, p3: BABYLON.Vector3, width?: number, height?: number) {
+    width = height = maxDistance([p1,p2,p3]);
     // var _plane = new Plane(width ? width : defaultWidth, height ? height : defaultHeight);
     var sourcePlane = BABYLON.Plane.FromPoints(p1, p2, p3);
     var center = new BABYLON.Vector3((p1.x + p2.x + p3.x) / 3, (p1.y + p2.y + p3.y) / 3, (p1.z + p2.z + p3.z) / 3);
     var plane = BABYLON.MeshBuilder.CreatePlane("Plane_" + indexPlane, { height: height ? height : defaultHeight, width: width ? width : defaultWidth, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
     plane.material = CreateMeshMaterial(BABYLON.Color3.Blue())
     plane.setDirection(sourcePlane.normal)
+    console.log('normal ', sourcePlane.normal)
+    var vector = sourcePlane.normal;
+    var point = p1;
 
     plane.position = center;
     // _plane.mesh = plane;
     // _plane.position = center;
     indexPlane++;
-    return plane;
+    return {plane, vector, point};
 
 }
 
@@ -156,5 +171,5 @@ function maxDistance(list: Array<BABYLON.Vector3>) {
     }
     var d = BABYLON.Vector3.Distance(list[0], list[list.length - 1])
     if (d > maxD) maxD = d;
-    return maxD;
+    return maxD + 1;
 }

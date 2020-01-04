@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import { getNewIndexPoint, Point, getIndexPoint, setIndexPoint } from "./Point";
-import { getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine, addToListLine, getSysMode, getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getMeshesForCheckIntersect, getInterMesh, getDefaultMaterialAlpha, setInterMesh, resetMeshesForCheckIntersect, getLineByName, getPointByName, setContent } from "./TempVariable";
+import { getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine, addToListLine, getSysMode, getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getMeshesForCheckIntersect, getInterMesh, getDefaultMaterialAlpha, setInterMesh, resetMeshesForCheckIntersect, getLineByName, getPointByName, setContent, getPlaneByName } from "./TempVariable";
 import { gizmoManager, scene, addHLToMesh, removeHLOfMesh } from "./Enviroment";
 import { Line } from "./Line";
 import { GetIntersectMesh } from "./IntersectMeshes";
@@ -68,17 +68,19 @@ export function ProcessSelectOrEdit(pickResult: BABYLON.PickingInfo) {
 
 
     if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ") {
-        if ( getSysMode() == 'edit') {
-             resetSelectedMeshes();
-             addHLToMesh(target, BABYLON.Color3.Blue());
-             addToSelectedMeshes(target);
-             gizmoManager.attachableMeshes.push(target);
+        if (getSysMode() == 'edit') {
+            resetSelectedMeshes();
+            addHLToMesh(target, BABYLON.Color3.Blue());
+            addToSelectedMeshes(target);
+            gizmoManager.attachableMeshes.push(target);
         }
-        else{
+        else {
             resetSelectedMeshes();
             addHLToMesh(target, BABYLON.Color3.Green());
-             addToSelectedMeshes(target);
-    gizmoManager.attachableMeshes.push(target);
+            addToSelectedMeshes(target);
+            gizmoManager.attachableMeshes.push(target);
+            console.log('tét')
+            document.getElementById('colorpicker').style.display = "block";
         }
     }
 }
@@ -89,24 +91,58 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
     var target = (pickResult.pickedMesh) as BABYLON.Mesh;
     if (target.name != "groundx" && target.name != "groundy" && target.name != "groundz" && target.name != "axisX" && target.name != "axisY" && target.name != "axisZ") {
         var meshesForCheckIntersect = getMeshesForCheckIntersect();
-        if (meshesForCheckIntersect.length == 0) {
+        if (meshesForCheckIntersect.length < 2) {
             target.material.alpha = 1;
             addHLToMesh(target, BABYLON.Color3.Green())
             if (getInterMesh()) getInterMesh().dispose();
             meshesForCheckIntersect.push(target);
             setContent('Choose another mesh to see the intersect')
+            if(meshesForCheckIntersect.length == 2){
+                target.material.alpha = getDefaultMaterialAlpha();
+                meshesForCheckIntersect[0].material.alpha = getDefaultMaterialAlpha();
+                removeHLOfMesh(target);
+                removeHLOfMesh(meshesForCheckIntersect[0]);
+                var result = GetIntersectMesh(meshesForCheckIntersect[0], target);
+                addHLToMesh(result, BABYLON.Color3.Yellow());
+                setInterMesh(result);
+                var mesh1 = meshesForCheckIntersect[0];
+                var mesh2 = meshesForCheckIntersect[1];
+                console.log(meshesForCheckIntersect)
+                if (mesh1.name.split("_")[0] == "Line" && mesh2.name.split("_")[0] == "Plane") {
+                    var line = getLineByName(mesh1.name);
+                    var plane = getPlaneByName(mesh2.name);
+                    if (line && plane) {
+                        var lineV = line.pointA.position.subtract(line.pointB.position);
+                        var lineP = line.pointA.position;
+                        var planeV = plane.vector;
+                        var planeP = plane.point;
+                        var t = ((planeV.x * planeP.x + planeV.y * planeP.y + planeV.z * planeP.z) - ((planeV.x * lineP.x + planeV.y * lineP.y + planeV.z * lineP.z))) / (planeV.x * lineV.x + planeV.y * lineV.y + planeV.z * lineV.z);
+                        var newPosition = new BABYLON.Vector3(lineP.x + lineV.x * t, lineP.y + lineV.y * t, lineP.z + lineV.z * t);
+                        new Point(newPosition, 'Point_' + getIndexPoint())
+                    }
+                    if (getInterMesh()) getInterMesh().dispose();
+                }
+                if (mesh1.name.split("_")[0] == "Plane" && mesh2.name.split("_")[0] == "Line") {
+                    var line = getLineByName(mesh2.name);
+                    var plane = getPlaneByName(mesh1.name);
+                    if (line && plane) {
+                        var lineV = line.pointA.position.subtract(line.pointB.position);
+                        var lineP = line.pointA.position;
+                        var planeV = plane.vector;
+                        var planeP = plane.point;
+                        var t = ((planeV.x * planeP.x + planeV.y * planeP.y + planeV.z * planeP.z) - ((planeV.x * lineP.x + planeV.y * lineP.y + planeV.z * lineP.z))) / (planeV.x * lineV.x + planeV.y * lineV.y + planeV.z * lineV.z);
+                        var newPosition = new BABYLON.Vector3(lineP.x + lineV.x * t, lineP.y + lineV.y * t, lineP.z + lineV.z * t);
+                        new Point(newPosition, 'Point_' + getIndexPoint())
+                    }
+                    if (getInterMesh()) getInterMesh().dispose();
+                }
+                resetMeshesForCheckIntersect();
+                setContent('Select 2 mesh to see the intersect');
+            }
         }
-        else {
-            target.material.alpha = getDefaultMaterialAlpha();
-            meshesForCheckIntersect[0].material.alpha = getDefaultMaterialAlpha();
-            removeHLOfMesh(target);
-            removeHLOfMesh(meshesForCheckIntersect[0]);
-            var intersectMesh = GetIntersectMesh(meshesForCheckIntersect[0], target);
-            addHLToMesh(intersectMesh, BABYLON.Color3.Yellow());
-            setInterMesh(intersectMesh);
-            resetMeshesForCheckIntersect();
-            setContent('Select 2 mesh to see the intersect');
-        }
+        // else {
+            
+        // }
     }
 }
 
@@ -266,14 +302,14 @@ export function ProcessDistancePointLine(pickResult: BABYLON.PickingInfo) {
         if (point)
             distancePointLine_point.push(point);
     }
-    if(distancePointLine_point.length == 0)
+    if (distancePointLine_point.length == 0)
         setContent('Select a Point');
-    if(distancePointLine_line.length == 0)
+    if (distancePointLine_line.length == 0)
         setContent('Select a Line');
-    if(distancePointLine_line.length == 1 && distancePointLine_point.length == 1){
+    if (distancePointLine_line.length == 1 && distancePointLine_point.length == 1) {
         var distance = distancePointLine(distancePointLine_point[0], distancePointLine_line[0]);
-        alert('Distance Point - Line: '+ distance);
-        distancePointLine_point=[];
+        alert('Distance Point - Line: ' + distance);
+        distancePointLine_point = [];
         distancePointLine_line = [];
         setContent('Select a Point and a Line');
     }
@@ -312,7 +348,7 @@ export function ProcessPlaneMidPointPoint(pickResult: BABYLON.PickingInfo) {
         else {
             var point = BABYLON.Vector3.Center(listPlaneMidPointPoint[0].position, listPlaneMidPointPoint[1].position);
             var vector = listPlaneMidPointPoint[1].position.subtract(listPlaneMidPointPoint[0].position);
-            new Plane('point-vector',point, vector,0);
+            new Plane('point-vector', point, vector, 0);
             listPlaneMidPointPoint.forEach(point => {
                 removeHLOfMesh(point);
             })
@@ -328,24 +364,24 @@ export function ProcessPlanePlanePoint(pickResult: BABYLON.PickingInfo) {
     if (pickResult.pickedMesh.name.split("_")[0] == "Point" && listPlanePlanePoint_point.length == 0) {
         var result = pickResult.pickedMesh as BABYLON.Mesh;
         var point = getPointByName(result.name);
-        if(point){
+        if (point) {
             listPlanePlanePoint_point.push(point);
             addHLToMesh(listPlanePlanePoint_point[0].mesh, BABYLON.Color3.Green());
         }
     }
     if (pickResult.pickedMesh.name.split("_")[0] == "Plane" && listPlanePlanePoint_plane.length == 0) {
         var result = pickResult.pickedMesh as BABYLON.Mesh;
-        if(result){
+        if (result) {
             listPlanePlanePoint_plane.push(result);
             addHLToMesh(listPlanePlanePoint_plane[0], BABYLON.Color3.Green());
         }
     }
-    if(listPlanePlanePoint_plane.length == 0)
+    if (listPlanePlanePoint_plane.length == 0)
         setContent('Select a plane');
-    if(listPlanePlanePoint_point.length == 0)
+    if (listPlanePlanePoint_point.length == 0)
         setContent('Select a point');
-    if(listPlanePlanePoint_point.length == 1 && listPlanePlanePoint_plane.length == 1){
-        new Plane('plane-point',listPlanePlanePoint_plane[0], listPlanePlanePoint_point[0],0);
+    if (listPlanePlanePoint_point.length == 1 && listPlanePlanePoint_plane.length == 1) {
+        new Plane('plane-point', listPlanePlanePoint_plane[0], listPlanePlanePoint_point[0], 0);
         removeHLOfMesh(listPlanePlanePoint_point[0].mesh);
         removeHLOfMesh(listPlanePlanePoint_plane[0]);
         listPlanePlanePoint_plane = [];
@@ -364,7 +400,7 @@ export function ProcessPointMidPointPoint(pickResult: BABYLON.PickingInfo) {
         }
         else {
             var point = BABYLON.Vector3.Center(listPointMid[0].position, listPointMid[1].position);
-            new Point(point,"Point_" + getNewIndexPoint() );
+            new Point(point, "Point_" + getNewIndexPoint());
             listPointMid.forEach(point => {
                 removeHLOfMesh(point);
             })
