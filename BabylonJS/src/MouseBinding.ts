@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import { scene, gizmoManager, engine, camera, canvas } from './Enviroment'
-import { getIsMoveZ, setIsDoubleClick, getIsDoubleClick, } from './TempVariable'
+import { getIsMoveZ, setIsDoubleClick, getIsDoubleClick, getVertices, createFacePoints} from './TempVariable'
 import { Point } from './Point'
 import { getSysMode } from './TempVariable'
 import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect, ProcessPlane3Point, ProcessPlane2Line, ProcessPlanePointLine, ProcessDistance2Point, ProcessCaculateTotalArea, ProcessDistancePointLine, ProcessSphereCenterPoint, ProcessPlaneMidPointPoint, ProcessPlanePlanePoint, ProcessPointMidPointPoint } from "./MouseControl";
@@ -125,7 +125,7 @@ export function MouseControl() {
         }
     }
 
-
+    var vertInfo;
     var onPointerMove = function (evt) {
         if (getIsMoveZ()) {
             // console.log('move')
@@ -171,11 +171,21 @@ export function MouseControl() {
         //         }
         //     }
         // }
+
+        var result = scene.pick(scene.pointerX, scene.pointerY,null,null,camera);
+        if (result.hit && result.pickedMesh.name != 'helper' && !BABYLON.Tags.HasTags(result.pickedMesh)) {
+            BABYLON.Tags.AddTagsTo(result.pickedMesh, "mark");
+            vertInfo = getVertices(result.pickedMesh as BABYLON.Mesh);
+            for (var i = 0; i < vertInfo.length; i++) {
+                createFacePoints(i,vertInfo[i]);
+            }
+        }
     }
+
 
     canvas.addEventListener("pointerdown", onPointerDown, false);
     canvas.addEventListener("pointerup", onPointerUp, false);
-    canvas.removeEventListener("pointermove", onPointerMove, false);
+    canvas.addEventListener("pointermove", onPointerMove, false);
 
     scene.onDispose = function () {
         canvas.removeEventListener("pointerdown", onPointerDown);

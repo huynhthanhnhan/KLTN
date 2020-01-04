@@ -335,11 +335,11 @@ export function formBinding() {
         form_input.style.display = "none";
     })
 
-    $("#btn_select_mode").on('click', function () {
-        resetFormInput();
-        colorpick.style.display = "block";
-        document.getElementById('btnCreate').style.display = 'none';
-    })
+    // $("#btn_select_mode").on('click', function () {
+    //     resetFormInput();
+    //     colorpick.style.display = "block";
+    //     document.getElementById('btnCreate').style.display = 'none';
+    // })
 
     
     $("#btnCreate").on('click', function () {
