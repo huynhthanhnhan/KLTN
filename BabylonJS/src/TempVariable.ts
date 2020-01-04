@@ -3,6 +3,8 @@ import { removeFromGizmoManagerList, removeHLOfMesh } from './Enviroment'
 import { Point, getIndexPoint, setIndexPoint } from './Point';
 import { Line } from './Line';
 import { Plane } from './Plane';
+import { scene } from './Enviroment'
+
 
 // Check is multi select mode (by holading Ctrl)
 var isMultiSelect = false;
@@ -171,5 +173,69 @@ export function setContent(text: string){
     content.textContent = text;
 }
 
+var spheres: BABYLON.Mesh[] = [];
+var cylinder;
+var offset = .5;
 
+var makeClickResponse = function(mesh:BABYLON.Mesh){
+    mesh.actionManager = new BABYLON.ActionManager(scene);
+    mesh.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function(m){
+            // console.log('In');
+            m.meshUnderPointer.material.alpha = 1;
+        })
+    );
+    
+    mesh.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOutTrigger, function(m){
+            // console.log('Out');
+            m.meshUnderPointer.material.alpha = 0;
+        })
+    );
+}
+
+
+    var mat = new BABYLON.StandardMaterial("material", scene);
+    mat.emissiveColor  = new BABYLON.Color3(0, 0, 1);
+    mat.alpha = 0;
+    var sphere = BABYLON.Mesh.CreateSphere("sphere", 10, offset, scene);
+
+export var createFacePoints = function(id,pos) {
+    spheres[id] = sphere.clone("helper");
+    spheres[id].material = mat.clone("check");
+    spheres[id].position = pos;
+    makeClickResponse(spheres[id]);
+};
+
+
+
+export function getVertices(mesh: BABYLON.Mesh) {
+    if(!mesh){return;}
+    var piv = mesh.getPivotPoint();
+    var positions = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+    if(!positions){return;}
+    var numberOfPoints = positions.length / 3;
+
+    var level = false;
+    var map = [];
+    var poGlob = [];
+    for (var i = 0; i < numberOfPoints; i++) {
+        var p = new BABYLON.Vector3(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+        var found = false;
+        for (var index = 0; index < map.length && !found; index++) {
+            var array = map[index];
+            var p0 = array[0];
+            if (p0.equals(p) || (p0.subtract(p)).lengthSquared() < 0.01) {
+                found = true;
+            }
+        }
+        if (!found) {
+             array = [];
+            poGlob.push(BABYLON.Vector3.TransformCoordinates(p, mesh.getWorldMatrix()));
+            array.push(p);
+            map.push(array);
+        }
+    }
+    return poGlob;
+}
 

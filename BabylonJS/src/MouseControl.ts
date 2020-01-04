@@ -75,12 +75,11 @@ export function ProcessSelectOrEdit(pickResult: BABYLON.PickingInfo) {
             gizmoManager.attachableMeshes.push(target);
         }
         else {
-            resetSelectedMeshes();
+            if (getMultiSelect() == false)
+                resetSelectedMeshes();
             addHLToMesh(target, BABYLON.Color3.Green());
             addToSelectedMeshes(target);
             gizmoManager.attachableMeshes.push(target);
-            console.log('tét')
-            document.getElementById('colorpicker').style.display = "block";
         }
     }
 }
@@ -439,3 +438,4 @@ export function onMouseOut(meshEvent) {
         document.getElementById("mybut").parentNode.removeChild(document.getElementById("mybut"));
     }
 };
+
