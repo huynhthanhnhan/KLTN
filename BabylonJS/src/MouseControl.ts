@@ -390,7 +390,7 @@ export function ProcessPlanePlanePoint(pickResult: BABYLON.PickingInfo) {
 
 var listPointMid: BABYLON.Mesh[] = [];
 export function ProcessPointMidPointPoint(pickResult: BABYLON.PickingInfo) {
-    if (pickResult.pickedMesh.name.split("_")[0] == "Point") {
+    if (pickResult.pickedMesh.name.split("_")[0] == "Point" || pickResult.pickedMesh.name == "helper") {
         var result = pickResult.pickedMesh as BABYLON.Mesh;
         listPointMid.push(result);
         if (listPointMid.length < 2) {
