@@ -171,15 +171,22 @@ export function MouseControl() {
         //         }
         //     }
         // }
-
-        var result = scene.pick(scene.pointerX, scene.pointerY,null,null,camera);
-        if (result.hit && result.pickedMesh.name != 'helper' && !BABYLON.Tags.HasTags(result.pickedMesh)) {
-            BABYLON.Tags.AddTagsTo(result.pickedMesh, "mark");
-            vertInfo = getVertices(result.pickedMesh as BABYLON.Mesh);
-            for (var i = 0; i < vertInfo.length; i++) {
-                createFacePoints(i,vertInfo[i]);
+        var pickInfo = scene.pick(scene.pointerX, scene.pointerY, function (mesh) { return mesh !== scene.getMeshByName('groundx'); });
+        if (pickInfo.hit) {
+            var target = pickInfo.pickedMesh;
+        if(getSysMode().valueOf()=='pointMidPointPoint' && target.name.split("_")[0] != "Point")
+        {
+            var result = scene.pick(scene.pointerX, scene.pointerY,null,null,camera);
+            if (result.hit && result.pickedMesh.name != 'helper' && !BABYLON.Tags.HasTags(result.pickedMesh)) {
+                BABYLON.Tags.AddTagsTo(result.pickedMesh, "mark");
+                vertInfo = getVertices(result.pickedMesh as BABYLON.Mesh);
+                for (var i = 0; i < vertInfo.length; i++) {
+                    createFacePoints(i,vertInfo[i]);
+                }
             }
         }
+    }
+       
     }
 
 
