@@ -4,7 +4,7 @@ import { gizmoManager, scene, hl } from './Enviroment'
 import { PointActionManager } from './ActionManager'
 import {  addToListPoint } from "./TempVariable";
 
-var indexPoint = 0;
+var indexPoint = 1;
 export function getIndexPoint() { return indexPoint; }
 export function setIndexPoint(index: number) { indexPoint = index; }
 export function getNewIndexPoint() {
@@ -13,7 +13,7 @@ export function getNewIndexPoint() {
     return temp;
 }
 
-export var pointMaster = BABYLON.MeshBuilder.CreateSphere("point", { diameter: 0.1 }, scene);
+export var pointMaster = BABYLON.MeshBuilder.CreateSphere("Point_0", { diameter: 0.1 }, scene);
 gizmoManager.attachableMeshes.push(pointMaster);
 pointMaster.position.y = 1000;
 var pointMat = new BABYLON.StandardMaterial("pointMat", scene);

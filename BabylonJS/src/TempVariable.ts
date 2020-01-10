@@ -177,6 +177,12 @@ var spheres: BABYLON.Mesh[] = [];
 var cylinder;
 var offset = .5;
 
+export function resetSphereVerticleList(){
+    spheres.forEach(sphere =>{
+        sphere.dispose();
+    })
+}
+
 var makeClickResponse = function(mesh:BABYLON.Mesh){
     mesh.actionManager = new BABYLON.ActionManager(scene);
     mesh.actionManager.registerAction(
@@ -199,6 +205,7 @@ var makeClickResponse = function(mesh:BABYLON.Mesh){
     mat.emissiveColor  = new BABYLON.Color3(0, 0, 1);
     mat.alpha = 0;
     var sphere = BABYLON.Mesh.CreateSphere("sphere", 10, offset, scene);
+    sphere.position.y = 100000;
 
 export var createFacePoints = function(id,pos) {
     spheres[id] = sphere.clone("helper");
@@ -206,7 +213,6 @@ export var createFacePoints = function(id,pos) {
     spheres[id].position = pos;
     makeClickResponse(spheres[id]);
 };
-
 
 
 export function getVertices(mesh: BABYLON.Mesh) {

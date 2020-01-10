@@ -1,10 +1,11 @@
 
 import * as BABYLON from '@babylonjs/core'
 import { scene, gizmoManager, removeFromGizmoManagerList } from './Enviroment'
-import { setMultiSelect, getSelectedMesh, setIsMoveZ, getSysMode, setSysMode } from './TempVariable'
+import { setMultiSelect, getSelectedMesh, setIsMoveZ, getSysMode, setSysMode, resetSphereVerticleList } from './TempVariable'
 import { pointMaster } from './Point'
 
 export function deleteFromSelectedMeshes() {
+    resetSphereVerticleList();
     if (getSelectedMesh()) {
         getSelectedMesh().forEach(mesh => {
             if (mesh.parent)

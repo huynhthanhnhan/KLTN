@@ -173,13 +173,17 @@ export function MouseControl() {
         // }
 
         var result = scene.pick(scene.pointerX, scene.pointerY,null,null,camera);
-        if (result.hit && result.pickedMesh.name != 'helper' && !BABYLON.Tags.HasTags(result.pickedMesh)) {
+        if (result.hit && result.pickedMesh.name != 'helper' && !BABYLON.Tags.HasTags(result.pickedMesh)
+            && result.pickedMesh.name.split('_')[0] != "Point" && result.pickedMesh.name.split('_')[0] != "Line" 
+            && result.pickedMesh.name.split('_')[0] != "Plane") {
+                console.log(result.pickedMesh.name)
             BABYLON.Tags.AddTagsTo(result.pickedMesh, "mark");
             vertInfo = getVertices(result.pickedMesh as BABYLON.Mesh);
             for (var i = 0; i < vertInfo.length; i++) {
                 createFacePoints(i,vertInfo[i]);
             }
         }
+        
     }
 
 
