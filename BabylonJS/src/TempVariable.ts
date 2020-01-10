@@ -204,12 +204,17 @@ var makeClickResponse = function(mesh:BABYLON.Mesh){
     var mat = new BABYLON.StandardMaterial("material", scene);
     mat.emissiveColor  = new BABYLON.Color3(0, 0, 1);
     mat.alpha = 0;
-    var sphere = BABYLON.Mesh.CreateSphere("sphere", 10, offset, scene);
-    sphere.position.y = 100000;
+   
+    var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.1 }, scene);
+    var pointMat = new BABYLON.StandardMaterial("pointMat", scene);
+    pointMat.diffuseColor = BABYLON.Color3.Blue();
+    pointMat.alpha = 0;
+    sphere.material = pointMat;
+
 
 export var createFacePoints = function(id,pos) {
     spheres[id] = sphere.clone("helper");
-    spheres[id].material = mat.clone("check");
+    spheres[id].material = pointMat.clone("check");
     spheres[id].position = pos;
     makeClickResponse(spheres[id]);
 };
