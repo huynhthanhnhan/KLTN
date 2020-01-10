@@ -11,7 +11,7 @@ import { CreateConeCustom } from './Objects/ConeObject'
 import { CreatePrismDefault } from './Objects/PrismObject'
 import { CreatePrismCustom } from './Objects/PrismObject'
 import $ from 'jquery'
-import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject, setContent, getSelectedMesh } from './TempVariable'
+import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject, setContent, getSelectedMesh, resetSelectedMeshes } from './TempVariable'
 import { setIsPickableBasicScene } from './BasicScreen'
 import { Point } from './Point'
 import * as BABYLON from '@babylonjs/core'
@@ -26,6 +26,8 @@ export function formBinding() {
         'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs' | 'pyramid-inputs' | 'prism-inputs'|
         'spherePointPoint' | 'planeMidPointPoint' | 'planePlanePoint' | 'pointMidPointPoint') {
         setIsStartCreateLine(true);
+        resetSelectedMeshes();
+        document.getElementById('colorpicker').style.display ="none"
         switch (mode) {
             case 'edit':
                 setContent('Use Keys R / G / S / B to control');
@@ -230,10 +232,20 @@ export function formBinding() {
         CreateConeDefault();
     })
 
-    
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        } : null;
+      }
     $("#colorChoice").change(function(){
-        console.log($(this).val());
-        // $(getSelectedMesh().name).css('background', $(this).val());
+        var color = hexToRgb($(this).val());
+        getSelectedMesh().forEach(mesh=>{
+            if(mesh.material)
+                (mesh.material as BABYLON.StandardMaterial).diffuseColor = new BABYLON.Color3(color.r/255, color.g/255, color.b/255);
+        })
       });
     
 

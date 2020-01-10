@@ -75,6 +75,8 @@ export function ProcessSelectOrEdit(pickResult: BABYLON.PickingInfo) {
             gizmoManager.attachableMeshes.push(target);
         }
         else {
+            console.log('select')
+            document.getElementById('colorpicker').style.display ="block"
             if (getMultiSelect() == false)
                 resetSelectedMeshes();
             addHLToMesh(target, BABYLON.Color3.Green());

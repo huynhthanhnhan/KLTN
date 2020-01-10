@@ -38,7 +38,7 @@ engine.runRenderLoop(function() {
     if (mainScene) {
         mainScene.render();
         var fpsLabel = document.getElementById("fpsLabel");
-        fpsLabel.innerHTML = engine.getFps().toFixed() + " fps";
+        fpsLabel.innerHTML = document.getElementById('colorpicker').style.display
         // var modeLabel = document.getElementById("modeLabel");
         // modeLabel.innerHTML = getSysMode() + " mode";
     }
