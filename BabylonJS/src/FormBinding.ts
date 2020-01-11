@@ -11,10 +11,11 @@ import { CreateConeCustom } from './Objects/ConeObject'
 import { CreatePrismDefault } from './Objects/PrismObject'
 import { CreatePrismCustom } from './Objects/PrismObject'
 import $ from 'jquery'
-import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject, setContent, getSelectedMesh, resetSelectedMeshes } from './TempVariable'
+import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject, setContent, getSelectedMesh, resetSelectedMeshes, pointName } from './TempVariable'
 import { setIsPickableBasicScene } from './BasicScreen'
-import { Point } from './Point'
+import { Point, getIndexPoint } from './Point'
 import * as BABYLON from '@babylonjs/core'
+import * as GUI from '@babylonjs/gui'
 import { Line } from './Line'
 import { Plane } from './Plane'
 import { gizmoManager, resetHL } from './Enviroment'
@@ -23,11 +24,11 @@ import { gizmoManager, resetHL } from './Enviroment'
 
 export function formBinding() {
     function changeSystemMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect' |
-        'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs' | 'pyramid-inputs' | 'prism-inputs'|
+        'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'cone-inputs' | 'sphere-inputs' | 'pyramid-inputs' | 'prism-inputs' |
         'spherePointPoint' | 'planeMidPointPoint' | 'planePlanePoint' | 'pointMidPointPoint') {
         setIsStartCreateLine(true);
         resetSelectedMeshes();
-        document.getElementById('colorpicker').style.display ="none"
+        document.getElementById('colorpicker').style.display = "none"
         switch (mode) {
             case 'edit':
                 setContent('Use Keys R / G / S / B to control');
@@ -36,7 +37,7 @@ export function formBinding() {
                 setContent("Right-click object to show information, Press key X to remove object");
                 break;
             case 'point':
-                setContent('Double-click on the screen'); 
+                setContent('Double-click on the screen');
                 break;
             case 'line':
                 setContent('Double-click to create point');
@@ -59,7 +60,7 @@ export function formBinding() {
             case 'distance2Line':
                 break;
             case 'distancePointLine':
-                setContent('Select a Point and a Line');    
+                setContent('Select a Point and a Line');
                 break;
             case 'totalArea':
                 setContent('Double-click a mesh to get total area');
@@ -164,12 +165,12 @@ export function formBinding() {
 
 
     var form_input = document.getElementById("formInput");
-    var point1 = document.getElementById('point1'); 
+    var point1 = document.getElementById('point1');
     var point2 = document.getElementById('point2');
     var point3 = document.getElementById('point3');
     var vector = document.getElementById('vector');
     var position = document.getElementById('position');
-    var colorpick = document.getElementById('colorpicker'); 
+    var colorpick = document.getElementById('colorpicker');
 
 
     var box = document.getElementById('box');
@@ -239,26 +240,65 @@ export function formBinding() {
     function hexToRgb(hex) {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         return result ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
         } : null;
-      }
-    $("#colorChoice").change(function(){
+    }
+    $("#colorChoice").change(function () {
         var color = hexToRgb($(this).val());
-        getSelectedMesh().forEach(mesh=>{
-            if(mesh.material)
-                (mesh.material as BABYLON.StandardMaterial).diffuseColor = new BABYLON.Color3(color.r/255, color.g/255, color.b/255);
+        getSelectedMesh().forEach(mesh => {
+            if (mesh.material)
+                (mesh.material as BABYLON.StandardMaterial).diffuseColor = new BABYLON.Color3(color.r / 255, color.g / 255, color.b / 255);
         })
-      });
-      document.getElementById("alpha").oninput =function(){
-        getSelectedMesh().forEach(mesh=>{
-            if(mesh.material)
+    });
+    document.getElementById("alpha").oninput = function () {
+        getSelectedMesh().forEach(mesh => {
+            if (mesh.material)
                 (mesh.material as BABYLON.StandardMaterial).alpha = parseFloat((this as HTMLInputElement).value);
         })
-      }
-    
+    }
 
+
+    $("#inputName").change(function () {
+        console.log('change')
+        if (getSelectedMesh().length > 0) {
+            if (getSelectedMesh()[0].name.split("_")[0] == "Point") {
+                if(BABYLON.Tags.MatchesQuery(getSelectedMesh()[0],'haveName')){
+                    pointName.forEach(point=>{
+                        if(point.name == "UI_" + getSelectedMesh()[0].name.split("_")[1])
+                            point.dispose();
+                    })
+                    BABYLON.Tags.RemoveTagsFrom(getSelectedMesh()[0],'haveName');
+                }
+                const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI_" + getSelectedMesh()[0].name.split("_")[1]);
+
+                var rect1 = new GUI.Rectangle();
+                var label = new GUI.TextBlock();
+                console.log(advancedTexture.name);
+                pointName.push(advancedTexture);
+                rect1.width = 0.2;
+                rect1.height = "60px";
+                rect1.width = "60px";
+                rect1.cornerRadius = 0;
+                rect1.thickness = 0;
+                advancedTexture.addControl(rect1);
+
+                label.fontFamily = 'arial';
+                label.text = $(this).val();
+                label.color = 'white';
+                label.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+                label.fontSize = 20;
+                rect1.addControl(label);
+
+                getSelectedMesh().forEach(mesh => {
+                    rect1.linkWithMesh(mesh);
+                    rect1.linkOffsetY = -20;
+                })
+                BABYLON.Tags.AddTagsTo(getSelectedMesh()[0],'haveName');
+            }
+        }
+    });
 
     function resetFormInput() {
         document.getElementsByName('div-form-input').forEach(e => {
@@ -363,7 +403,7 @@ export function formBinding() {
     //     document.getElementById('btnCreate').style.display = 'none';
     // })
 
-    
+
     $("#btnCreate").on('click', function () {
         switch (getInputObject()) {
             case "point":

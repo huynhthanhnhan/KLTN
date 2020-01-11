@@ -80,6 +80,7 @@ export function ProcessSelectOrEdit(pickResult: BABYLON.PickingInfo) {
         else {
             document.getElementById('colorpicker').style.display ="block";
             document.getElementById('alpha').style.display ="block";
+            document.getElementById('pointName').style.display ="block"
             if (getMultiSelect() == false)
                 resetSelectedMeshes();
             addHLToMesh(target, BABYLON.Color3.Green());

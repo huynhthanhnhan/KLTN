@@ -1,7 +1,7 @@
 
 import * as BABYLON from '@babylonjs/core'
 import { scene, gizmoManager, removeFromGizmoManagerList, changeCamera } from './Enviroment'
-import { setMultiSelect, getSelectedMesh, setIsMoveZ, getSysMode, setSysMode, resetSphereVerticleList, resetMidPointList } from './TempVariable'
+import { setMultiSelect, getSelectedMesh, setIsMoveZ, getSysMode, setSysMode, resetSphereVerticleList, resetMidPointList, pointName } from './TempVariable'
 import { pointMaster } from './Point'
 
 export function deleteFromSelectedMeshes() {
@@ -14,6 +14,16 @@ export function deleteFromSelectedMeshes() {
                 mesh.parent.dispose();
             removeFromGizmoManagerList(mesh);
             gizmoManager.attachToMesh(pointMaster);
+            if (mesh.name.split("_")[0] == "Point") {
+                var id = mesh.name.split("_")[1];
+                var name = "UI_" + id;
+                pointName.forEach(point => {
+                    console.log(point.name, name);
+                    if (point.name == name) {
+                        point.dispose();
+                    }
+                })
+            }
             mesh.dispose();
         })
     }
@@ -24,7 +34,7 @@ export function KeyControl() {
     scene.onKeyboardObservable.add((keyInfo) => {
         switch (keyInfo.type) {
             case BABYLON.KeyboardEventTypes.KEYDOWN:
-                if(keyInfo.event.key == "c" || keyInfo.event.key == "C"){
+                if (keyInfo.event.key == "c" || keyInfo.event.key == "C") {
                     changeCamera();
                 }
                 if (getSysMode() != 'edit') {
