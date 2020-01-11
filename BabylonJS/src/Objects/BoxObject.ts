@@ -9,6 +9,10 @@ export function CreateBoxDefault()
     box.material = CreateMeshMaterial(new BABYLON.Color3(1,1,0));
     gizmoManager.attachableMeshes.push(box);
     index++;
+    function rmTag(){
+        BABYLON.Tags.RemoveTagsFrom(box,'mark');
+    }
+    box.onAfterWorldMatrixUpdateObservable.add(rmTag);
     return box;
 }
 export function CreateBoxCustom(x:number, y:number, z:number,height:number ,width:number, depth: number)
@@ -18,5 +22,9 @@ export function CreateBoxCustom(x:number, y:number, z:number,height:number ,widt
     box.position = new BABYLON.Vector3(x, y, z);
     gizmoManager.attachableMeshes.push(box);
     index++;
+    function rmTag(){
+        BABYLON.Tags.RemoveTagsFrom(box,'mark');
+    }
+    box.onAfterWorldMatrixUpdateObservable.add(rmTag);
     return box;
 }

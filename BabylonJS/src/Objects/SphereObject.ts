@@ -8,6 +8,10 @@ export function CreateSphereDefault() {
     sphere.material = CreateMeshMaterial(new BABYLON.Color3(1, 1, 0));
     sphere.position.y = 1;
     index++;
+    function rmTag(){
+        BABYLON.Tags.RemoveTagsFrom(sphere,'mark');
+    }
+    sphere.onAfterWorldMatrixUpdateObservable.add(rmTag);
     return sphere;
 }
 
@@ -16,6 +20,10 @@ export function CreateSphereCustom(x: number, y: number, z: number, diameter: nu
     sphere.material = CreateMeshMaterial(new BABYLON.Color3(0.64, 0, 1));
     sphere.position = new BABYLON.Vector3(x, y, z);
     index++;
+    function rmTag(){
+        BABYLON.Tags.RemoveTagsFrom(sphere,'mark');
+    }
+    sphere.onAfterWorldMatrixUpdateObservable.add(rmTag);
     return sphere;
 }
 

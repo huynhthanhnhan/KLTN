@@ -32,6 +32,7 @@
             <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Line</button>
                 <div class="dropdown-menu" role="menu">
                     <a class="dropdown-item" role="presentation" id="line_click">By click</a>
+                    <a class="dropdown-item" role="presentation" id="line_click_on_mesh">By click on mesh</a>
                     <a class="dropdown-item" role="presentation" id="line_click_multi">By click multi line</a>
                     <a class="dropdown-item" role="presentation" id="line_input_point_vector">Input point and vector</a>
                     <a class="dropdown-item" role="presentation" id="line_input_2_point">Input 2 points</a>
@@ -54,7 +55,7 @@
         </div>
         <div class="col-auto">
             <div class="subnav">
-                <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" onclick="myFunction()" aria-expanded="false" type="button" id="mesh-tab">Mesh</button></div>
+                <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="mesh-tab">Mesh</button></div>
                 <div class="subnav-content">
                     <div class="dropdown"><button class="btn btn-primary-son dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Box&nbsp;</button>
                         <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="box_default">Defaut</a>
@@ -99,7 +100,7 @@
         </div>
         <div class="col-auto">
             <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Calculate</button>
-                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="caculate_distance_2_point">Distance of two points</a><a class="dropdown-item" role="presentation" id="caculate_distance_2_line">Distance of two diagonal straight lines</a>
+                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" id="caculate_distance_2_point">Distance of two points</a>
                     <a class="dropdown-item" role="presentation" id="caculate_distance_point_line">Distance between a point and a line</a><a class="dropdown-item" role="presentation" id="caculate_total_area">Total area</a></div>
             </div>
         </div>
@@ -107,8 +108,8 @@
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_edit_mode">Edit</button></div>
         <div class="col-auto"><button class="btn btn-primary" type="button" id="btn_view_intersect_mode">View Intersect</button></div>
         <div class="col-auto">
-            <label class="noticeLabel" style="border: 2px solid red;
-            border-radius: 6px; padding:4px;margin-left:50px;margin-top:5px;" id="notice">Let's Create Object</label></div>
+            <textarea class="noticeLabel" style="border: 2px solid red;
+            border-radius: 6px; margin-top: -4px; width: 300px;" readonly id="notice">Let's Create Object</textarea></div>
     </div>
 
     <div class="menu">
@@ -123,7 +124,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-9">
-                <canvas id="renderCanvas" style="width: 100%; margin-top: 0.1%;background-color:#D1D1FC; display: block; position: fixed;"></canvas>
+                <canvas id="renderCanvas" style="width: 100%; margin-top: 0.1%;background-color:#D1D1FC; display: block; position: fixed; margin-left: -1%;"></canvas>
             </div>
 
 
@@ -132,6 +133,13 @@
                     <form>
                         Select your favorite color:
                         <input type="color" name="favcolor" id="colorChoice" value="#ff0000">
+                    </form>
+                    <form>
+                        Change alpha of mesh:
+                        <div class="slidecontainer">
+                            <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="alpha" style="margin-bottom: 10px; margin-top: 5px;">
+                        </div>
+
                     </form>
                 </div>
                 <div class="ScrollStyle">

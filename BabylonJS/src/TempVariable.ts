@@ -17,11 +17,11 @@ export function getIsStartCreateLine() { return isStartCreateLine; }
 export function setIsStartCreateLine(b: boolean) { isStartCreateLine = b; }
 
 // System modes
-var sysMode: string = 'select' || 'line' || 'multiLine' || 'point' || 'edit' || 'intersect' || 'plane3Point' || 'plane2Line' || 'planePointLine' || 'distance2Point' || 'distance2Line' || 'distancePointLine' || 'totalArea' ||'spherePointPoint' || 'planeMidPointPoint' || 'planePlanePoint' || 'pointMidPointPoint';
+var sysMode: string = 'select' || 'line' || 'multiLine' || 'point' || 'edit' || 'intersect' || 'plane3Point' || 'plane2Line' || 'planePointLine' || 'distance2Point' || 'distance2Line' || 'distancePointLine' || 'totalArea' || 'spherePointPoint' || 'planeMidPointPoint' || 'planePlanePoint' || 'pointMidPointPoint';
 export function getSysMode() { return sysMode.valueOf(); }
-export function setSysMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect'|
- 'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea'| 'box-inputs' | 'cube-inputs' | 'sphere-inputs' | 'cone-inputs' |'pyramid-inputs' | 'prism-inputs'|
- 'spherePointPoint' | 'planeMidPointPoint' | 'planePlanePoint' | 'pointMidPointPoint') {
+export function setSysMode(mode: 'select' | 'line' | 'multiLine' | 'point' | 'edit' | 'intersect' |
+    'plane3Point' | 'plane2Line' | 'planePointLine' | 'distance2Point' | 'distance2Line' | 'distancePointLine' | 'totalArea' | 'box-inputs' | 'cube-inputs' | 'sphere-inputs' | 'cone-inputs' | 'pyramid-inputs' | 'prism-inputs' |
+    'spherePointPoint' | 'planeMidPointPoint' | 'planePlanePoint' | 'pointMidPointPoint') {
     sysMode = mode
 };
 
@@ -160,8 +160,8 @@ var meshesForCheckIntersect: BABYLON.Mesh[] = [];
 export function getMeshesForCheckIntersect() { return meshesForCheckIntersect; }
 export function resetMeshesForCheckIntersect() { meshesForCheckIntersect = []; }
 
-var inputObject: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plane-3-point' | 'plane-point-vector'|'box-inputs'| 'cone-inputs'|'sphere-inputs'|'cube-inputs'|'pyramid-inputs'|'prism-inputs';
-export function setInputObject(input: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plane-3-point' | 'plane-point-vector'|'box-inputs'| 'cone-inputs'|'sphere-inputs'|'cube-inputs'|'pyramid-inputs'|'prism-inputs') {
+var inputObject: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plane-3-point' | 'plane-point-vector' | 'box-inputs' | 'cone-inputs' | 'sphere-inputs' | 'cube-inputs' | 'pyramid-inputs' | 'prism-inputs';
+export function setInputObject(input: '' | 'point' | 'line-point-vector' | 'line-point-point' | 'plane-3-point' | 'plane-point-vector' | 'box-inputs' | 'cone-inputs' | 'sphere-inputs' | 'cube-inputs' | 'pyramid-inputs' | 'prism-inputs') {
     inputObject = input;
 }
 export function getInputObject() {
@@ -169,7 +169,7 @@ export function getInputObject() {
 }
 
 var content = document.getElementById('notice');
-export function setContent(text: string){
+export function setContent(text: string) {
     content.textContent = text;
 }
 
@@ -177,23 +177,24 @@ var spheres: BABYLON.Mesh[] = [];
 var cylinder;
 var offset = .5;
 
-export function resetSphereVerticleList(){
-    spheres.forEach(sphere =>{
-        sphere.dispose();
-    })
+export function resetSphereVerticleList() {
+    if (spheres.length > 0)
+        spheres.forEach(sphere => {
+            sphere.dispose();
+        })
 }
 
-var makeClickResponse = function(mesh:BABYLON.Mesh){
+var makeClickResponse = function (mesh: BABYLON.Mesh) {
     mesh.actionManager = new BABYLON.ActionManager(scene);
     mesh.actionManager.registerAction(
-        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function(m){
+        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function (m) {
             // console.log('In');
             m.meshUnderPointer.material.alpha = 1;
         })
     );
-    
+
     mesh.actionManager.registerAction(
-        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOutTrigger, function(m){
+        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOutTrigger, function (m) {
             // console.log('Out');
             m.meshUnderPointer.material.alpha = 0;
         })
@@ -201,18 +202,26 @@ var makeClickResponse = function(mesh:BABYLON.Mesh){
 }
 
 
-    var mat = new BABYLON.StandardMaterial("material", scene);
-    mat.emissiveColor  = new BABYLON.Color3(0, 0, 1);
-    mat.alpha = 0;
-   
-    var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.1 }, scene);
-    var pointMat = new BABYLON.StandardMaterial("pointMat", scene);
-    pointMat.diffuseColor = BABYLON.Color3.Blue();
-    pointMat.alpha = 0;
-    sphere.material = pointMat;
+var mat = new BABYLON.StandardMaterial("material", scene);
+mat.emissiveColor = new BABYLON.Color3(0, 0, 1);
+mat.alpha = 0;
+
+var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.1 }, scene);
+var pointMat = new BABYLON.StandardMaterial("pointMat", scene);
+pointMat.diffuseColor = BABYLON.Color3.Blue();
+pointMat.alpha = 0;
+sphere.material = pointMat;
+
+export var midPointList: BABYLON.Mesh[] =[];
+
+export function resetMidPointList(){
+    midPointList.forEach(point=>{
+        point.dispose();
+    })
+}
 
 
-export var createFacePoints = function(id,pos) {
+export var createFacePoints = function (id, pos) {
     spheres[id] = sphere.clone("helper");
     spheres[id].material = pointMat.clone("check");
     spheres[id].position = pos;
@@ -221,10 +230,10 @@ export var createFacePoints = function(id,pos) {
 
 
 export function getVertices(mesh: BABYLON.Mesh) {
-    if(!mesh){return;}
+    if (!mesh) { return; }
     var piv = mesh.getPivotPoint();
     var positions = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-    if(!positions){return;}
+    if (!positions) { return; }
     var numberOfPoints = positions.length / 3;
 
     var level = false;
@@ -241,7 +250,7 @@ export function getVertices(mesh: BABYLON.Mesh) {
             }
         }
         if (!found) {
-             array = [];
+            array = [];
             poGlob.push(BABYLON.Vector3.TransformCoordinates(p, mesh.getWorldMatrix()));
             array.push(p);
             map.push(array);

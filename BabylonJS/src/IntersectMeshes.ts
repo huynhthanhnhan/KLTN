@@ -15,28 +15,33 @@ export function GetIntersectMesh(mesh1: BABYLON.Mesh, mesh2: BABYLON.Mesh, name?
         var vertices = getVertices(mesh1);
         var shape = [vertices[0], vertices[1], vertices[2], vertices[3], vertices[0]];
         var tempMesh1 = BABYLON.MeshBuilder.ExtrudePolygon('tempMesh1', { shape: shape, depth: 0.02, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
-        tempMesh1.parent = mesh2;
-        tempMesh1.rotation.x = Math.PI/2;
+        tempMesh1.parent = mesh1;
+        tempMesh1.rotation.x = Math.PI / 2;
     }
     if (mesh2.name.split("_")[0] == "Plane") {
         var vertices = getVertices(mesh2);
         var shape = [vertices[0], vertices[1], vertices[2], vertices[3], vertices[0]];
-        var tempMesh2 = BABYLON.MeshBuilder.ExtrudePolygon('tempMesh1', { shape: shape, depth: 0.02, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
+        var tempMesh2 = BABYLON.MeshBuilder.ExtrudePolygon('tempMesh2', { shape: shape, depth: 0.02, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
         tempMesh2.parent = mesh2;
-        tempMesh2.rotation.x = Math.PI/2;
+        tempMesh2.rotation.x = Math.PI / 2;
     }
-    if (tempMesh1){
+    if (tempMesh1) {
         var mesh1CSG = BABYLON.CSG.FromMesh(tempMesh1);
         tempMesh1.dispose();
     }
     else
         var mesh1CSG = BABYLON.CSG.FromMesh(mesh1);
-    if (tempMesh2){
+    if (tempMesh2) {
         var mesh2CSG = BABYLON.CSG.FromMesh(tempMesh2);
         tempMesh2.dispose();
     }
     else
         var mesh2CSG = BABYLON.CSG.FromMesh(mesh2);
+    if (mesh1.name.split("_")[0] == "Plane" && mesh2.name.split("_")[0] != "Plane") {
+        var temp = mesh1CSG;
+        mesh1CSG = mesh2CSG;
+        mesh2CSG = temp;
+    }
     var intersectMaterial = CreateMeshMaterial(new BABYLON.Color3(0, 1, 1));
     var intersectMesh = mesh1CSG.intersect(mesh2CSG).toMesh("In_" + mesh1.name + "_" + mesh2.name, intersectMaterial, scene, true);
     BABYLON.Tags.AddTagsTo(intersectMesh, "intersectMesh");

@@ -1,13 +1,15 @@
 
 import * as BABYLON from '@babylonjs/core'
-import { scene, gizmoManager, removeFromGizmoManagerList } from './Enviroment'
-import { setMultiSelect, getSelectedMesh, setIsMoveZ, getSysMode, setSysMode, resetSphereVerticleList } from './TempVariable'
+import { scene, gizmoManager, removeFromGizmoManagerList, changeCamera } from './Enviroment'
+import { setMultiSelect, getSelectedMesh, setIsMoveZ, getSysMode, setSysMode, resetSphereVerticleList, resetMidPointList } from './TempVariable'
 import { pointMaster } from './Point'
 
 export function deleteFromSelectedMeshes() {
     resetSphereVerticleList();
     if (getSelectedMesh()) {
         getSelectedMesh().forEach(mesh => {
+            if (mesh.name.split('_')[0] != "Point" && mesh.name.split('_')[0] != "Line" && mesh.name.split('_')[0] != "Plane")
+                resetMidPointList();
             if (mesh.parent)
                 mesh.parent.dispose();
             removeFromGizmoManagerList(mesh);
@@ -22,7 +24,10 @@ export function KeyControl() {
     scene.onKeyboardObservable.add((keyInfo) => {
         switch (keyInfo.type) {
             case BABYLON.KeyboardEventTypes.KEYDOWN:
-                if (getSysMode()!='edit') {
+                if(keyInfo.event.key == "c" || keyInfo.event.key == "C"){
+                    changeCamera();
+                }
+                if (getSysMode() != 'edit') {
                     switch (keyInfo.event.key) {
                         case "x" || "X":
                             deleteFromSelectedMeshes();
@@ -48,7 +53,7 @@ export function KeyControl() {
                         case "z" || "Z":
                             setIsMoveZ(true);
                             break;
-                        case "i"||"I":
+                        case "i" || "I":
                             setSysMode('intersect');
                             break;
                     }
@@ -75,7 +80,7 @@ export function KeyControl() {
                                 gizmoManager.rotationGizmoEnabled = false;
                             }
                             break;
-                        case "b" ||"B":
+                        case "b" || "B":
                             gizmoManager.boundingBoxGizmoEnabled = !gizmoManager.boundingBoxGizmoEnabled;
                             break;
                         case "e" || "E":

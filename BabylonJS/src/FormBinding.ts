@@ -36,7 +36,7 @@ export function formBinding() {
                 setContent("Right-click object to show information, Press key X to remove object");
                 break;
             case 'point':
-                setContent('Double-click on the screen');
+                setContent('Double-click on the screen'); 
                 break;
             case 'line':
                 setContent('Double-click to create point');
@@ -59,7 +59,7 @@ export function formBinding() {
             case 'distance2Line':
                 break;
             case 'distancePointLine':
-                setContent('Select a Point and a Line');
+                setContent('Select a Point and a Line');    
                 break;
             case 'totalArea':
                 setContent('Double-click a mesh to get total area');
@@ -95,6 +95,10 @@ export function formBinding() {
     $("#line_click").on('click', function () {
         changeSystemMode('line');
         setIsPickableBasicScene(true);
+    })
+    $("#line_click_on_mesh").on('click', function () {
+        changeSystemMode('line');
+        setIsPickableBasicScene(false);
     })
     $("#line_click_multi").on('click', function () {
         changeSystemMode('multiLine');
@@ -247,6 +251,12 @@ export function formBinding() {
                 (mesh.material as BABYLON.StandardMaterial).diffuseColor = new BABYLON.Color3(color.r/255, color.g/255, color.b/255);
         })
       });
+      document.getElementById("alpha").oninput =function(){
+        getSelectedMesh().forEach(mesh=>{
+            if(mesh.material)
+                (mesh.material as BABYLON.StandardMaterial).alpha = parseFloat((this as HTMLInputElement).value);
+        })
+      }
     
 
 

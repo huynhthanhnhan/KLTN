@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import { scene, gizmoManager, engine, camera, canvas } from './Enviroment'
-import { getIsMoveZ, setIsDoubleClick, getIsDoubleClick, getVertices, createFacePoints } from './TempVariable'
+import { getIsMoveZ, setIsDoubleClick, getIsDoubleClick, getVertices, createFacePoints, resetSphereVerticleList } from './TempVariable'
 import { Point } from './Point'
 import { getSysMode } from './TempVariable'
 import { ProcessLineOrMultiline, ProcessPoint, ProcessSelectOrEdit, ProcessIntersect, ProcessPlane3Point, ProcessPlane2Line, ProcessPlanePointLine, ProcessDistance2Point, ProcessCaculateTotalArea, ProcessDistancePointLine, ProcessSphereCenterPoint, ProcessPlaneMidPointPoint, ProcessPlanePlanePoint, ProcessPointMidPointPoint } from "./MouseControl";
@@ -176,10 +176,13 @@ export function MouseControl() {
         var pickInfo = scene.pick(scene.pointerX, scene.pointerY, function (mesh) { return mesh !== scene.getMeshByName('groundx'); });
         if (pickInfo.hit) {
             var target = pickInfo.pickedMesh;
-            if (getSysMode().valueOf() == 'pointMidPointPoint' && target.name.split("_")[0] != "Point" && result.pickedMesh.name.split('_')[0] != "Point" && result.pickedMesh.name.split('_')[0] != "Line"
-            && result.pickedMesh.name.split('_')[0] != "Plane") {
+            if ((getSysMode().valueOf() == 'pointMidPointPoint' || getSysMode().valueOf() == 'line') && target.name.split("_")[0] != "Point") {
+                // resetSphereVerticleList();
+                console.log(target.name)
                 var result = scene.pick(scene.pointerX, scene.pointerY, null, null, camera);
                 if (result.hit && result.pickedMesh.name != 'helper' && !BABYLON.Tags.HasTags(result.pickedMesh)) {
+                    console.log(result.pickedMesh.name)
+                    resetSphereVerticleList();
                     BABYLON.Tags.AddTagsTo(result.pickedMesh, "mark");
                     vertInfo = getVertices(result.pickedMesh as BABYLON.Mesh);
                     for (var i = 0; i < vertInfo.length; i++) {
