@@ -261,7 +261,6 @@ export function formBinding() {
 
 
     $("#inputName").change(function () {
-        console.log('change')
         if (getSelectedMesh().length > 0) {
             if (getSelectedMesh()[0].name.split("_")[0] == "Point") {
                 if(BABYLON.Tags.MatchesQuery(getSelectedMesh()[0],'haveName')){
@@ -275,7 +274,6 @@ export function formBinding() {
 
                 var rect1 = new GUI.Rectangle();
                 var label = new GUI.TextBlock();
-                console.log(advancedTexture.name);
                 pointName.push(advancedTexture);
                 rect1.width = 0.2;
                 rect1.height = "60px";

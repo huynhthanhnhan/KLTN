@@ -178,10 +178,8 @@ export function MouseControl() {
             var target = pickInfo.pickedMesh;
             if ((getSysMode().valueOf() == 'pointMidPointPoint' || getSysMode().valueOf() == 'line') && target.name.split("_")[0] != "Point") {
                 // resetSphereVerticleList();
-                console.log(target.name)
                 var result = scene.pick(scene.pointerX, scene.pointerY, null, null, camera);
                 if (result.hit && result.pickedMesh.name != 'helper' && !BABYLON.Tags.HasTags(result.pickedMesh)) {
-                    console.log(result.pickedMesh.name)
                     resetSphereVerticleList();
                     BABYLON.Tags.AddTagsTo(result.pickedMesh, "mark");
                     vertInfo = getVertices(result.pickedMesh as BABYLON.Mesh);

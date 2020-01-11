@@ -30,7 +30,6 @@ export class Point {
             this.name = name;
         else
             this.name = "Point_" + getNewIndexPoint();
-        console.log(this.name)
         this.position = position;
         var mesh = CreatePoint(position, name);
         this.mesh = mesh;

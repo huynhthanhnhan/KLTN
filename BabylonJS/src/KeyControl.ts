@@ -18,7 +18,6 @@ export function deleteFromSelectedMeshes() {
                 var id = mesh.name.split("_")[1];
                 var name = "UI_" + id;
                 pointName.forEach(point => {
-                    console.log(point.name, name);
                     if (point.name == name) {
                         point.dispose();
                     }

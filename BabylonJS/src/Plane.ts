@@ -85,7 +85,6 @@ function CreatePlaneFrom3Point(p1: BABYLON.Vector3, p2: BABYLON.Vector3, p3: BAB
     var plane = BABYLON.MeshBuilder.CreatePlane("Plane_" + indexPlane, { height: height ? height : defaultHeight, width: width ? width : defaultWidth, sideOrientation: BABYLON.Mesh.DOUBLESIDE }, scene);
     plane.material = CreateMeshMaterial(BABYLON.Color3.Blue())
     plane.setDirection(sourcePlane.normal)
-    console.log('normal ', sourcePlane.normal)
     var vector = sourcePlane.normal;
     var point = p1;
 
@@ -167,7 +166,6 @@ function maxDistance(list: Array<BABYLON.Vector3>) {
     for (var i = 0; i < list.length - 1; i++) {
         var d = BABYLON.Vector3.Distance(list[i], list[i + 1]);
         if (d > maxD) maxD = d;
-        console.log(d)
     }
     var d = BABYLON.Vector3.Distance(list[0], list[list.length - 1])
     if (d > maxD) maxD = d;

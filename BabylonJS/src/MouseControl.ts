@@ -64,7 +64,6 @@ export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
 
 export function ProcessSelectOrEdit(pickResult: BABYLON.PickingInfo) {
     // setIsPickableBasicScene(false);
-    console.log(getSysMode())
     var target = (pickResult.pickedMesh) as BABYLON.Mesh;
     if (target.material)
         target.material.alpha = 1;
@@ -112,7 +111,6 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
                 setInterMesh(result);
                 var mesh1 = meshesForCheckIntersect[0];
                 var mesh2 = meshesForCheckIntersect[1];
-                console.log(meshesForCheckIntersect)
                 if (mesh1.name.split("_")[0] == "Line" && mesh2.name.split("_")[0] == "Plane") {
                     var line = getLineByName(mesh1.name);
                     var plane = getPlaneByName(mesh2.name);
@@ -143,7 +141,6 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
                 }
                 if (mesh1.name.split("_")[0] == "Line" && mesh2.name.split("_")[0] == "Line") {
                     if (getInterMesh()){
-                        console.log(result.position)
                         new Point(result.position, 'Point_' + getIndexPoint());
                         // getInterMesh().dispose();
                     }
@@ -228,7 +225,6 @@ var planeLine: Line[] = [];
 export function ProcessPlanePointLine(pickResult: BABYLON.PickingInfo) {
     if (pickResult.pickedMesh.name.split("_")[0] == "Point") {
         if (planePoint.length == 0) {
-            console.log('here')
             var result = pickResult.pickedMesh as BABYLON.Mesh;
             var point = getPointByName(result.name);
             if (point) {
@@ -245,7 +241,6 @@ export function ProcessPlanePointLine(pickResult: BABYLON.PickingInfo) {
         }
     }
     if (pickResult.pickedMesh.name.split("_")[0] == "Line" && planeLine.length == 0) {
-        console.log('here')
         var result = pickResult.pickedMesh as BABYLON.Mesh;
         var line = getLineByName(result.name);
         if (line) {
@@ -338,7 +333,6 @@ export function ProcessSphereCenterPoint(pickResult: BABYLON.PickingInfo) {
             setContent('Select another Point')
         }
         else {
-            console.log('create sphere')
             CreateSphereFromPointAndPoint(listSpherePoint[0].position, listSpherePoint[1].position);
             listSpherePoint.forEach(point => {
                 removeHLOfMesh(point);
@@ -442,10 +436,8 @@ export function onMouseOver(meshEvent: BABYLON.Mesh) {
     sty.left = scene.pointerX + "px";
     sty.cursor = "pointer";
     document.body.appendChild(but);
-    console.log(but)
 
     but.textContent = meshEvent.position.toString();
-    console.log('mouse over', meshEvent.name)
 };
 
 export function onMouseOut(meshEvent) {
