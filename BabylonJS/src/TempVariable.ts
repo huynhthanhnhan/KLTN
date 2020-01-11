@@ -4,6 +4,7 @@ import { Point, getIndexPoint, setIndexPoint } from './Point';
 import { Line } from './Line';
 import { Plane } from './Plane';
 import { scene } from './Enviroment'
+import * as GUI from '@babylonjs/gui'
 
 
 // Check is multi select mode (by holading Ctrl)
@@ -249,4 +250,4 @@ export function getVertices(mesh: BABYLON.Mesh) {
     }
     return poGlob;
 }
-
+export var pointName: GUI.AdvancedDynamicTexture[] = [];

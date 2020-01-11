@@ -11,10 +11,11 @@ import { CreateConeCustom } from './Objects/ConeObject'
 import { CreatePrismDefault } from './Objects/PrismObject'
 import { CreatePrismCustom } from './Objects/PrismObject'
 import $ from 'jquery'
-import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject, setContent, getSelectedMesh, resetSelectedMeshes } from './TempVariable'
+import { triggerStartPoint, setSysMode, setStartPoint, setIsStartCreateLine, setInputObject, getInputObject, setContent, getSelectedMesh, resetSelectedMeshes,pointName } from './TempVariable'
 import { setIsPickableBasicScene } from './BasicScreen'
-import { Point } from './Point'
+import { Point, getIndexPoint } from './Point'
 import * as BABYLON from '@babylonjs/core'
+import * as GUI from '@babylonjs/gui'
 import { Line } from './Line'
 import { Plane } from './Plane'
 import { gizmoManager, resetHL } from './Enviroment'
@@ -247,8 +248,33 @@ export function formBinding() {
                 (mesh.material as BABYLON.StandardMaterial).diffuseColor = new BABYLON.Color3(color.r/255, color.g/255, color.b/255);
         })
       });
-    
+      
+     
+      $("#inputName").change(function(){
+        const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI_"+getIndexPoint());
 
+        var rect1 = new GUI.Rectangle();
+        var label = new GUI.TextBlock();
+
+        pointName.push(advancedTexture);
+        rect1.width = 0.2;
+        rect1.height = "60px";
+        rect1.width = "60px";
+        rect1.cornerRadius = 0;
+        rect1.thickness = 0;
+        advancedTexture.addControl(rect1);
+    
+        label.fontFamily = 'arial';
+        label.text = $(this).val();
+        label.color = 'white';
+        label.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+        label.fontSize = 20;
+        rect1.addControl(label);
+        
+        getSelectedMesh().forEach(mesh=>{
+            rect1.linkWithMesh(mesh);   
+            rect1.linkOffsetY = -20;})
+      });
 
     function resetFormInput() {
         document.getElementsByName('div-form-input').forEach(e => {
