@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import { getNewIndexPoint, Point, getIndexPoint, setIndexPoint } from "./Point";
-import { getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine, addToListLine, getSysMode, getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getMeshesForCheckIntersect, getInterMesh, getDefaultMaterialAlpha, setInterMesh, resetMeshesForCheckIntersect, getLineByName, getPointByName, setContent, getPlaneByName, midPointList } from "./TempVariable";
+import { getIsStartCreateLine, setStartPoint, getStartPoint, setIsStartCreateLine, addToListLine, getSysMode, getMultiSelect, resetSelectedMeshes, addToSelectedMeshes, getMeshesForCheckIntersect, getInterMesh, getDefaultMaterialAlpha, setInterMesh, resetMeshesForCheckIntersect, getLineByName, getPointByName, setContent, getPlaneByName, midPointList, showMessage } from "./TempVariable";
 import { gizmoManager, scene, addHLToMesh, removeHLOfMesh } from "./Enviroment";
 import { Line } from "./Line";
 import { GetIntersectMesh } from "./IntersectMeshes";
@@ -170,7 +170,7 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
                                     new Point(newPos, 'Point_' + getIndexPoint());
                                 }
                                 else
-                                    alert('2 lines do not intersect!')
+                                    showMessage('Hai đường thẳng không cắt nhau', 'err');
                             }
                         }
                     }
@@ -313,7 +313,7 @@ export function ProcessDistance2Point(pickResult: BABYLON.PickingInfo) {
             })
             listPointDistance = [];
             setContent('Select 2 points exist')
-            alert('Distance 2 points: ' + distance);
+            showMessage('Khoảng cách 2 điểm: ' + distance, 'nor');
         }
     }
 }
@@ -323,7 +323,7 @@ export function ProcessCaculateTotalArea(pickResult: BABYLON.PickingInfo) {
         var mesh = pickResult.pickedMesh as BABYLON.Mesh;
         if (mesh.name.split("_")[0] != "Point" && mesh.name.split("_")[0] != "Line" && mesh.name.split("_")[0] != "Plane") {
             var total_area = totalArea(mesh);
-            alert('Total Area of mesh: ' + total_area);
+            showMessage('Diện tích toàn phần: '+ total_area, 'nor');
         }
 
     }
@@ -350,7 +350,7 @@ export function ProcessDistancePointLine(pickResult: BABYLON.PickingInfo) {
         setContent('Select a Line');
     if (distancePointLine_line.length == 1 && distancePointLine_point.length == 1) {
         var distance = distancePointLine(distancePointLine_point[0], distancePointLine_line[0]);
-        alert('Distance Point - Line: ' + distance);
+        showMessage('Khoảng cách điểm và đ.thẳng: '+ distance, 'nor');
         distancePointLine_point = [];
         distancePointLine_line = [];
         setContent('Select a Point and a Line');

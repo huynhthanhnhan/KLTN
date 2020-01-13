@@ -3,7 +3,7 @@ import { scene, resetHL } from './Enviroment'
 import { Line } from './Line'
 import { Point } from './Point'
 import { CreateMeshMaterial } from './MeshMaterial'
-import { addToListPlane } from './TempVariable'
+import { addToListPlane, showMessage } from './TempVariable'
 
 var indexPlane = 0;
 
@@ -125,14 +125,14 @@ function CreatePlaneFromTwoLine(line1: Line, line2: Line, width?: number, height
        return CreatePlaneFrom3Point(line1.pointA.position, line1.pointB.position, line2.pointA.position, width, height)
     }
     else{
-        alert("2 đoạn thẳng không cắt nhau");
+        showMessage('2 đoạn thẳng không cắt nhau', 'err');
         return;
     }
 }
 
 function CreatePlaneFromPointAndLine(point: Point, line: Line, width?: number, height?: number) {
     if (point.mesh.intersectsMesh(line.mesh)) {
-        alert("Điểm này thuộc đường thẳng");
+        showMessage('Điểm này thuộc đường thẳng', 'err');
         return;
     }
     else

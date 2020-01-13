@@ -1,7 +1,7 @@
 import * as BABYLON from "@babylonjs/core"
 
 import { scene, hl, gizmoManager } from './Enviroment'
-import { getListLine, getLineByName, addToListLine } from './TempVariable'
+import { getListLine, getLineByName, addToListLine, showMessage } from './TempVariable'
 import { LineActionManager } from "./ActionManager";
 import { Point, getNewIndexPoint } from "./Point";
 import { CreateMeshMaterial } from "./MeshMaterial";
@@ -132,7 +132,7 @@ function CreateLine(point1: Point, point2: Point, name: string) {
 
 function CreateLineFromEquation(point: BABYLON.Vector3, vector: BABYLON.Vector3, name: string) { // ax + by + c = 0
     if (vector.x * vector.y * vector.z == 0) {
-        alert("Phương trình không hợp lệ");
+        showMessage("Phương trình không hợp lệ", 'err');
         return;
     }
     var t = 10; //t thuoc R

@@ -215,7 +215,7 @@ export function formBinding() {
 
     $("#renderCanvas").on('click', function () {
         resetFormInput();
-        form_input.style.display = "none"
+        form_input.style.display = "none";
     })
 
     $("#box_default").on('click', function () {

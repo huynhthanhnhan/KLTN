@@ -5,6 +5,7 @@ import { Line } from './Line';
 import { Plane } from './Plane';
 import { scene } from './Enviroment'
 import * as GUI from '@babylonjs/gui'
+import $ from 'jquery'
 
 
 // Check is multi select mode (by holading Ctrl)
@@ -260,3 +261,26 @@ export function getVertices(mesh: BABYLON.Mesh) {
     return poGlob;
 }
 export var pointName: GUI.AdvancedDynamicTexture[] = [];
+
+export function showMessage(mes: string, type: 'nor' |'err'){
+    var div = document.getElementById('showResult');
+    var text = document.getElementById("textAlert");
+    text.innerText = mes;
+    // div.append(text)
+    // div.textContent = mes;
+    // document.getElementById('textAlert').style.display = "block";
+    switch(type){
+        case 'nor':
+            div.style.backgroundColor = "#109204";
+            break;
+        case 'err':
+            div.style.backgroundColor = "#f44336";
+            break;
+        default:
+            div.style.backgroundColor = "#109204";
+            break;
+    }
+    // document.getElementById('closeAlert').style.display = "block";
+    div.style.display = 'block';
+    // $("#showResult").children().css({"display": "block"});
+}
