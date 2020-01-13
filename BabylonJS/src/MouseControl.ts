@@ -10,7 +10,7 @@ import { CreateSphereFromPointAndPoint } from "./Objects/SphereObject";
 
 export function ProcessLineOrMultiline(pickResult: BABYLON.PickingInfo) {
     if (pickResult.pickedMesh.name.split("_")[0] != "Point") {
-        if(pickResult.pickedMesh.name == 'helper')
+        if (pickResult.pickedMesh.name == 'helper')
             var pt = new Point(pickResult.pickedMesh.position, 'Point_' + getNewIndexPoint());
         else
             var pt = new Point(pickResult.pickedPoint, 'Point_' + getNewIndexPoint());
@@ -77,9 +77,9 @@ export function ProcessSelectOrEdit(pickResult: BABYLON.PickingInfo) {
             gizmoManager.attachableMeshes.push(target);
         }
         else {
-            document.getElementById('colorpicker').style.display ="block";
-            document.getElementById('alpha').style.display ="block";
-            document.getElementById('pointName').style.display ="block"
+            document.getElementById('colorpicker').style.display = "block";
+            document.getElementById('alpha').style.display = "block";
+            document.getElementById('pointName').style.display = "block"
             if (getMultiSelect() == false)
                 resetSelectedMeshes();
             addHLToMesh(target, BABYLON.Color3.Green());
@@ -101,7 +101,7 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
             if (getInterMesh()) getInterMesh().dispose();
             meshesForCheckIntersect.push(target);
             setContent('Choose another mesh to see the intersect')
-            if(meshesForCheckIntersect.length == 2){
+            if (meshesForCheckIntersect.length == 2) {
                 target.material.alpha = getDefaultMaterialAlpha();
                 meshesForCheckIntersect[0].material.alpha = getDefaultMaterialAlpha();
                 removeHLOfMesh(target);
@@ -140,7 +140,41 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
                     if (getInterMesh()) getInterMesh().dispose();
                 }
                 if (mesh1.name.split("_")[0] == "Line" && mesh2.name.split("_")[0] == "Line") {
-                    if (getInterMesh()){
+                    if (getInterMesh()) getInterMesh().dispose();
+                    var line0 = getLineByName(mesh1.name);
+                    var line1 = getLineByName(mesh2.name);
+                    if (line0 && line1) {
+                        var line0V = line0.pointA.position.subtract(line0.pointB.position);
+                        var line0P = line0.pointA.position;
+                        var line1V = line1.pointA.position.subtract(line1.pointB.position);
+                        var line1P = line1.pointA.position;
+
+                        var t0 = (line0P.y - line1P.y - (line1V.y / line1V.x) * (line0P.x - line1P.x)) / (line0V.x / line1V.x * line1V.y - line0V.y);
+                        var t1 = (line0P.x - line1P.x) / line1V.x + line0V.x / line1V.x * t0;
+                        if (Math.abs(line0P.z + line0V.z * t0 - line1P.z + line1V.z * t1) < 0.00001) {
+                            var newPos = new BABYLON.Vector3(line0P.x + line0V.x * t0, line0P.y + line0V.y * t0, line0P.z + line0V.z * t0);
+                            new Point(newPos, 'Point_' + getIndexPoint());
+                        }
+                        else {
+                            var t0 = (line0P.z - line1P.z - (line1V.z / line1V.x) * (line0P.x - line1P.x)) / (line0V.x / line1V.x * line1V.z - line0V.z);
+                            var t1 = (line0P.x - line1P.x) / line1V.x + line0V.x / line1V.x * t0;
+                            if (Math.abs(line0P.y + line0V.y * t0 - line1P.y + line1V.y * t1) < 0.00001) {
+                                var newPos = new BABYLON.Vector3(line0P.x + line0V.x * t0, line0P.y + line0V.y * t0, line0P.z + line0V.z * t0);
+                                new Point(newPos, 'Point_' + getIndexPoint());
+                            }
+                            else {
+                                var t0 = (line0P.z - line1P.z - (line1V.z / line1V.y) * (line0P.y - line1P.y)) / (line0V.y / line1V.y * line1V.z - line0V.z);
+                                var t1 = (line0P.y - line1P.y) / line1V.y + line0V.y / line1V.y * t0;
+                                if (Math.abs(line0P.x + line0V.x * t0 - line1P.x + line1V.x * t1) < 0.00001) {
+                                    var newPos = new BABYLON.Vector3(line0P.x + line0V.x * t0, line0P.y + line0V.y * t0, line0P.z + line0V.z * t0);
+                                    new Point(newPos, 'Point_' + getIndexPoint());
+                                }
+                                else
+                                    alert('2 lines do not intersect!')
+                            }
+                        }
+                    }
+                    if (getInterMesh()) {
                         new Point(result.position, 'Point_' + getIndexPoint());
                         // getInterMesh().dispose();
                     }
@@ -151,7 +185,7 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
             }
         }
         // else {
-            
+
         // }
     }
 }
