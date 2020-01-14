@@ -28,7 +28,8 @@ export function formBinding() {
         'spherePointPoint' | 'planeMidPointPoint' | 'planePlanePoint' | 'pointMidPointPoint') {
         setIsStartCreateLine(true);
         resetSelectedMeshes();
-        document.getElementById('colorpicker').style.display = "none"
+        document.getElementById('colorpicker').style.display = "none";
+        document.getElementById('pointName').style.display = "none";
         switch (mode) {
             case 'edit':
                 setContent('Use Keys R / G / S / B to control');
@@ -262,7 +263,9 @@ export function formBinding() {
 
     $("#inputName").change(function () {
         if (getSelectedMesh().length > 0) {
-            if (getSelectedMesh()[0].name.split("_")[0] == "Point") {
+            console.log('change')
+            console.log(getSelectedMesh()[0].name)
+            if (getSelectedMesh()[0].name.split("_")[0] == "Point" || getSelectedMesh()[0].name == "helper") {
                 if(BABYLON.Tags.MatchesQuery(getSelectedMesh()[0],'haveName')){
                     pointName.forEach(point=>{
                         if(point.name == "UI_" + getSelectedMesh()[0].name.split("_")[1])

@@ -192,7 +192,12 @@ export function ProcessIntersect(pickResult: BABYLON.PickingInfo) {
 
 export function ProcessPoint(pickResult: BABYLON.PickingInfo) {
     // setIsPickableBasicScene(true);
-    new Point(pickResult.pickedPoint, "Point_" + getNewIndexPoint());
+    if (pickResult.pickedMesh.name == "helper"){
+        new Point(pickResult.pickedMesh.position, "Point_" + getNewIndexPoint());
+        pickResult.pickedMesh.dispose();
+    }
+    else
+        new Point(pickResult.pickedPoint, "Point_" + getNewIndexPoint());
 }
 
 var listPlanePoint: Point[] = [];
@@ -323,7 +328,7 @@ export function ProcessCaculateTotalArea(pickResult: BABYLON.PickingInfo) {
         var mesh = pickResult.pickedMesh as BABYLON.Mesh;
         if (mesh.name.split("_")[0] != "Point" && mesh.name.split("_")[0] != "Line" && mesh.name.split("_")[0] != "Plane") {
             var total_area = totalArea(mesh);
-            showMessage('Diện tích toàn phần: '+ total_area, 'nor');
+            showMessage('Diện tích toàn phần: ' + total_area, 'nor');
         }
 
     }
@@ -350,7 +355,7 @@ export function ProcessDistancePointLine(pickResult: BABYLON.PickingInfo) {
         setContent('Select a Line');
     if (distancePointLine_line.length == 1 && distancePointLine_point.length == 1) {
         var distance = distancePointLine(distancePointLine_point[0], distancePointLine_line[0]);
-        showMessage('Khoảng cách điểm và đ.thẳng: '+ distance, 'nor');
+        showMessage('Khoảng cách điểm và đ.thẳng: ' + distance, 'nor');
         distancePointLine_point = [];
         distancePointLine_line = [];
         setContent('Select a Point and a Line');

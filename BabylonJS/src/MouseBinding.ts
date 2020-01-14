@@ -176,7 +176,7 @@ export function MouseControl() {
         var pickInfo = scene.pick(scene.pointerX, scene.pointerY, function (mesh) { return mesh !== scene.getMeshByName('groundx'); });
         if (pickInfo.hit) {
             var target = pickInfo.pickedMesh;
-            if ((getSysMode().valueOf() == 'pointMidPointPoint' || getSysMode().valueOf() == 'line') && target.name.split("_")[0] != "Point") {
+            if ((getSysMode().valueOf() == 'pointMidPointPoint' || getSysMode().valueOf() == 'line' || getSysMode().valueOf() == 'point') && target.name.split("_")[0] != "Point") {
                 // resetSphereVerticleList();
                 var result = scene.pick(scene.pointerX, scene.pointerY, null, null, camera);
                 if (result.hit && result.pickedMesh.name != 'helper' && !BABYLON.Tags.HasTags(result.pickedMesh)) {
@@ -208,41 +208,41 @@ var pointer = new Point(new BABYLON.Vector3(0, 0, 0));
 
 /**************************** Mouse Control ******************************************************/
 
-scene.onPointerObservable.add((pointerInfo) => {
-    if (pointerInfo.event.button == 2) {
-        camera.attachControl(canvas);
-    }
-    switch (pointerInfo.type) {
-        // case BABYLON.PointerEventTypes.POINTERDOWN:
-        //     if(pointerInfo.pickInfo.hit) {
-        //         mode = "DRAG";
-        //         castRay();
-        //     }
-        // 	break;
-        case BABYLON.PointerEventTypes.POINTERMOVE:
-            pointer.position = pointerInfo.pickInfo.pickedPoint;
-            // console.log(pointerInfo.ray.origin);
-            // if(pickedMesh && mode === "DRAG"){
-            // dragMesh();
-            // }                
-            break;
-        case BABYLON.PointerEventTypes.POINTERUP:
-            // if (pickedMesh) 
-            {
-                // mode = "CAMERA";
-                // pickedMesh = null;
-                // camera.attachControl(canvas);
-            }
-            break;
-        case BABYLON.PointerEventTypes.POINTERTAP:
-            // if (pointerInfo.pickInfo.hit) {
-            //     // mode = "GIZMO";
-            //     // castRay();
-            //     if (selectedMeshes && selectedMeshes.length == 1) {
-            //         gizmoManager.attachToMesh(selectedMeshes[0]);
-            //     }
-            // }
-            break;
+// scene.onPointerObservable.add((pointerInfo) => {
+//     if (pointerInfo.event.button == 2) {
+//         camera.attachControl(canvas);
+//     }
+//     switch (pointerInfo.type) {
+//         // case BABYLON.PointerEventTypes.POINTERDOWN:
+//         //     if(pointerInfo.pickInfo.hit) {
+//         //         mode = "DRAG";
+//         //         castRay();
+//         //     }
+//         // 	break;
+//         case BABYLON.PointerEventTypes.POINTERMOVE:
+//             pointer.position = pointerInfo.pickInfo.pickedPoint;
+//             // console.log(pointerInfo.ray.origin);
+//             // if(pickedMesh && mode === "DRAG"){
+//             // dragMesh();
+//             // }                
+//             break;
+//         case BABYLON.PointerEventTypes.POINTERUP:
+//             // if (pickedMesh) 
+//             {
+//                 // mode = "CAMERA";
+//                 // pickedMesh = null;
+//                 // camera.attachControl(canvas);
+//             }
+//             break;
+//         case BABYLON.PointerEventTypes.POINTERTAP:
+//             // if (pointerInfo.pickInfo.hit) {
+//             //     // mode = "GIZMO";
+//             //     // castRay();
+//             //     if (selectedMeshes && selectedMeshes.length == 1) {
+//             //         gizmoManager.attachToMesh(selectedMeshes[0]);
+//             //     }
+//             // }
+//             break;
 
-    }
-});
+//     }
+// });
